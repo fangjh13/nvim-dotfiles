@@ -1,6 +1,8 @@
 -- [[ plugs.lua ]]
 
 return require('packer').startup({function(use)
+  use 'wbthomason/packer.nvim'                       -- manage itself
+
   -- [[ Plugins Go Here ]]
   use {                                              -- filesystem navigation
     'kyazdani42/nvim-tree.lua',
@@ -31,6 +33,7 @@ return require('packer').startup({function(use)
       'windwp/nvim-autopairs',                       -- auto insert pairs
       config = function() require('nvim-autopairs').setup{} end
   }  
+  use { 'neovim/nvim-lspconfig' }                    -- nvim buildin LSP
 
   -- [[ Completion ]]
   use {"hrsh7th/nvim-cmp"}
@@ -42,7 +45,6 @@ return require('packer').startup({function(use)
         end
   }
   
-
 end,
 config = {
     package_root = vim.fn.stdpath('config') .. '/site/pack'
