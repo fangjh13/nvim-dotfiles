@@ -35,8 +35,16 @@ return require('packer').startup({function(use)
   }  
   use { 'neovim/nvim-lspconfig' }                    -- nvim buildin LSP
 
+  use { 'tjdevries/nlua.nvim' }     -- Lua Development
+
   -- [[ Completion ]]
-  use {"hrsh7th/nvim-cmp"}
+  use {
+        {"hrsh7th/nvim-cmp"},
+        {"hrsh7th/cmp-nvim-lsp"},
+        {"hrsh7th/cmp-buffer"},
+        {"hrsh7th/cmp-path"},
+        {"hrsh7th/cmp-cmdline"}
+  }
   use {"SirVer/ultisnips"}
   use {
       "quangnguyen30192/cmp-nvim-ultisnips",
