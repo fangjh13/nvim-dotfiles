@@ -3,7 +3,6 @@
 return require('packer').startup({ function(use)
     use 'wbthomason/packer.nvim' -- manage itself
 
-    -- [[ Plugins Go Here ]]
     use { -- filesystem navigation
         'kyazdani42/nvim-tree.lua',
         requires = 'kyazdani42/nvim-web-devicons', -- filesystem icons
@@ -51,8 +50,28 @@ return require('packer').startup({ function(use)
             require("cmp_nvim_ultisnips").setup {}
         end
     }
+    -- [[ Github Copilot ]]
+    -- use { "github/copilot.vim" }   -- github copilot only used get auth_token
+    use {
+        requires = {
+            "zbirenbaum/copilot.lua",
+            event = { "VimEnter" },
+            config = function()
+                vim.defer_fn(function()
+                    require("copilot").setup {
+                        plugin_manager_path = vim.fn.stdpath("config") .. "/site/pack/packer"
+                    }
+                end, 100)
+            end,
+        },
+        "zbirenbaum/copilot-cmp", -- add copilot to cmp source
+        after = { "copilot.lua" },
+        config = function()
+            require("copilot_cmp").setup()
+        end
+    }
 
 end,
     config = {
-        package_root = vim.fn.stdpath('config') .. '/site/pack'
+        package_root = vim.fn.stdpath("config") .. "/site/pack"
     } })

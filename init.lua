@@ -27,8 +27,6 @@ require('lsp_config')
 require("lualine_config")
 
 utils.create_augroup({
-    { 'BufWritePre', '*.go', 'lua', 'vim.lsp.buf.formatting()' },
-    { 'BufWritePre', '*.go', 'lua', 'goimports(1000)' }
+    { 'BufWritePre', '*.go', 'lua', 'vim.lsp.buf.format { async = true }' },
+    { 'BufWritePre', '*.go', 'lua', 'go_org_imports(1000)' }
 }, 'lsp config')
-
-

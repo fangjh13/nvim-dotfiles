@@ -2,7 +2,7 @@
 local map = vim.api.nvim_set_keymap
 
 -- remap the key used to leave insert-- Toggle nvim-tree
-map('n', '<leader>n', [[:NvimTreeToggle<cr>]], {})
+map('n', '<leader>nf', [[:NvimTreeFindFile<cr>]], {})
 
 -- Toggle more plugins
 map('n', '<leader>l', [[:IndentLinesToggle<cr>]], {})
