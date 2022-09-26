@@ -17,6 +17,11 @@ return require('packer').startup({ function(use)
         requires = { 'kyazdani42/nvim-web-devicons',
             opt = true }
     }
+    use { 'nvim-treesitter/nvim-treesitter',
+        run = function()
+            require('nvim-treesitter.install').update({ with_sync = true })
+        end
+    } -- highlight preview
     use { 'Mofiqul/dracula.nvim' }
 
     -- [[ Dev ]]
@@ -48,7 +53,8 @@ return require('packer').startup({ function(use)
         "quangnguyen30192/cmp-nvim-ultisnips",
         config = function()
             require("cmp_nvim_ultisnips").setup {}
-        end
+        end,
+        requires = { "nvim-treesitter/nvim-treesitter" },
     }
     -- [[ Github Copilot ]]
     -- use { "github/copilot.vim" }   -- github copilot only used get auth_token

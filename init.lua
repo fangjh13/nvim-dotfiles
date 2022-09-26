@@ -18,15 +18,16 @@ local utils = require('utils')
 require('plugins') -- Plugins
 require('vars') -- Variables
 require('opts') -- Options
-require('keys') -- Keymaps
+require('maps') -- Keymaps
 
 
 -- PLUGINS setup
 require("nvim_cmp_config")
 require('lsp_config')
 require("lualine_config")
+require("treesitter_config")
 
 utils.create_augroup({
-    { 'BufWritePre', '*.go', 'lua', 'vim.lsp.buf.format { async = true }' },
+    { 'BufWritePre', '*.go,*.lua', 'lua', 'vim.lsp.buf.format()' },
     { 'BufWritePre', '*.go', 'lua', 'go_org_imports(1000)' }
 }, 'lsp config')
