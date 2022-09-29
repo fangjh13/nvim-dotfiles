@@ -56,6 +56,9 @@ return require('packer').startup({ function(use)
         end,
         requires = { "nvim-treesitter/nvim-treesitter" },
     }
+    -- cmp fuzzy path
+    use { 'romgrk/fzy-lua-native', run = 'make' }
+    use { 'tzachar/cmp-fuzzy-path', requires = { 'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim' } }
     -- [[ Github Copilot ]]
     -- use { "github/copilot.vim" }   -- github copilot only used get auth_token
     use {

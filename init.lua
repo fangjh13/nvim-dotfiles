@@ -31,3 +31,22 @@ utils.create_augroup({
     { 'BufWritePre', '*.go,*.lua', 'lua', 'vim.lsp.buf.format()' },
     { 'BufWritePre', '*.go', 'lua', 'go_org_imports(1000)' }
 }, 'lsp config')
+
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+    pattern = "*",
+    group = vim.api.nvim_create_augroup("auto_create_dir", { clear = true }),
+    desc = "auto create folder when not exists",
+    callback = function(ctx)
+        local dir = vim.fn.fnamemodify(ctx.file, ":p:h")
+        vim.fn.mkdir(dir, "p")
+    end
+})
+
+-- highlight yanked region, see `:h lua-highlight`
+vim.api.nvim_create_autocmd({ "TextYankPost" }, {
+    pattern = "*",
+    group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
+    callback = function()
+        vim.highlight.on_yank { timeout = 300, on_visual = false }
+    end
+})

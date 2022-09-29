@@ -17,11 +17,11 @@ function M.add_rtp(path)
     rtp = rtp .. ',' .. path
 end
 
+-- helper to create mappings with the noremap option set to true by default
 function M.map(mode, keys, action, options)
-    if options == nil then
-        options = {}
-    end
-    vim.api.nvim_set_keymap(mode, keys, action, options)
+    local opts = { noremap = true }
+    if options then opts = vim.tbl_extend('force', opts, options) end
+    vim.api.nvim_set_keymap(mode, keys, action, opts)
 end
 
 function M.map_lua(mode, keys, action, options)
