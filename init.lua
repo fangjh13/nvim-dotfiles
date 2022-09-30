@@ -27,6 +27,7 @@ require('lsp_config')
 require("lualine_config")
 require("treesitter_config")
 
+
 utils.create_augroup({
     { 'BufWritePre', '*.go,*.lua', 'lua', 'vim.lsp.buf.format()' },
     { 'BufWritePre', '*.go', 'lua', 'go_org_imports(1000)' }
@@ -50,3 +51,14 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
         vim.highlight.on_yank { timeout = 300, on_visual = false }
     end
 })
+
+-- show cursor line only in active window
+local cursorGrp = vim.api.nvim_create_augroup("CursorLine", { clear = true })
+vim.api.nvim_create_autocmd(
+    { "InsertLeave", "WinEnter", "BufWinEnter" },
+    { pattern = "*", command = "setlocal cursorline", group = cursorGrp }
+)
+vim.api.nvim_create_autocmd(
+    { "InsertEnter", "WinLeave" },
+    { pattern = "*", command = "setlocal nocursorline", group = cursorGrp }
+)
