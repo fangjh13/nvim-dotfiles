@@ -29,7 +29,7 @@ require("treesitter_config")
 
 
 utils.create_augroup({
-    { 'BufWritePre', '*.go,*.lua', 'lua', 'vim.lsp.buf.format()' },
+    { 'BufWritePre', '*.go,*.lua', 'lua', 'vim.lsp.buf.formatting_sync()' },
     { 'BufWritePre', '*.go', 'lua', 'go_org_imports(1000)' }
 }, 'lsp config')
 

@@ -57,7 +57,7 @@ cmp.setup({
         ---- { name = 'vsnip' }, -- For vsnip users.
         -- { name = 'luasnip' }, -- For luasnip users.
         { name = 'ultisnips' }, -- For ultisnips users.
-        { name = 'fuzzy_path', option = { fd_timeout_msec = 1500, fd_cmd = { 'fdfind', '-d', '20', '-p' } } }, -- fuzzy path
+        { name = 'fuzzy_path', option = { fd_timeout_msec = 1500, fd_cmd = { 'fd', '-d', '20', '-p' } } }, -- fuzzy path
         -- { name = 'snippy' }, -- For snippy users.
         { name = 'copilot' }, -- github copilot
     }, {
@@ -145,7 +145,7 @@ cmp.setup.cmdline(':', {
     sources = cmp.config.sources({
         { name = 'path' },
         { name = 'cmdline' },
-        { name = 'fuzzy_path', option = { fd_timeout_msec = 1500, fd_cmd = { 'fdfind', '-d', '20', '-p' } } }, -- fuzzy path
+        { name = 'fuzzy_path', option = { fd_timeout_msec = 1500, fd_cmd = { 'fd', '-d', '20', '-p' } } }, -- fuzzy path
     })
 })
 

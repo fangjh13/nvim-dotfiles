@@ -3,10 +3,32 @@ local map = require('utils').map
 local keymap = require('vim.keymap')
 
 map('n', '*', '*zz', { desc = 'Search and center screen' })
+-- map buffer
+map('n', '[b', ':bprevious <CR>', { silent = true, desc = 'buffer previous' })
+map('n', ']b', ':bnext <CR>', { silent = true, desc = 'buffer next' })
+map('n', '[B', ':bfirst <CR>', { silent = true, desc = 'buffer first' })
+map('n', ']B', ':blast <CR>', { silent = true, desc = 'buffer last' })
+-- map tabs
+map('n', '[t', ':tabprevious <CR>', { silent = true, desc = 'tab previous' })
+map('n', ']t', ':tabnext <CR>', { silent = true, desc = 'tab next' })
+map('n', '[T', ':tabfirst <CR>', { silent = true, desc = 'tab first' })
+map('n', ']T', ':tablast <CR>', { silent = true, desc = 'tab last' })
+-- map quickfix list
+map('n', '[c', ':cprevious <CR>', { silent = true, desc = 'quickfix previous' })
+map('n', ']c', ':cnext <CR>', { silent = true, desc = 'quickfix next' })
+map('n', '[C', ':cfirst <CR>', { silent = true, desc = 'quickfix first' })
+map('n', ']C', ':clast <CR>', { silent = true, desc = 'quickfix last' })
+map('n', 'cc', ':cclose <CR>', { silent = true, desc = 'quickfix close' })
+-- map location list
+map('n', '[l', ':lprevious <CR>', { silent = true, desc = 'location previous' })
+map('n', ']l', ':lnext <CR>', { silent = true, desc = 'location next' })
+map('n', '[L', ':lfirst <CR>', { silent = true, desc = 'location first' })
+map('n', ']L', ':llast <CR>', { silent = true, desc = 'location last' })
+map('n', 'lc', ':lclose <CR>', { silent = true, desc = 'location close' })
+-- highlighting current line and set mark `l`
+map('n', '<leader>l', [[ml:execute 'match Search /\%'.line('.').'l/'<CR>]], { silent = true, desc = 'location close' })
 
 map('n', '<leader>nf', [[:NvimTreeFindFile<cr>]])
-
-map('n', '<leader>l', [[:IndentLinesToggle<cr>]], {})
 
 map('n', '<leader>t', [[:TagbarToggle<cr>]], {})
 

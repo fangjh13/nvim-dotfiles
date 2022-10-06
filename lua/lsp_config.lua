@@ -94,8 +94,21 @@ function go_org_imports(wait_ms)
 end
 
 -- [[ Lua ]]
-local sumneko_root_path = "/usr/local/lua-language-server"
-local sumneko_binary = sumneko_root_path .. "/bin/lua-language-server"
+local sumneko_root_path = ""
+local sumneko_binary = ""
+
+
+if vim.fn.has("mac") == 1 then
+    local p = '/opt/homebrew/Cellar/lua-language-server/3.5.6'
+    sumneko_binary = p .. "/bin/lua-language-server"
+    sumneko_root_path = p .. '/libexec'
+elseif vim.fn.has("unix") == 1 then
+    sumneko_root_path = "/usr/local/lua-language-server"
+    sumneko_binary = sumneko_root_path .. "/bin/lua-language-server"
+else
+    print("Unsupported system for sumneko")
+end
+
 local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
