@@ -1,9 +1,9 @@
 local nvim_lsp = require('lspconfig')
 
-vim.lsp.set_log_level("debug")
+vim.lsp.set_log_level("warn")
 
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local on_attach = function(client, bufnr)
@@ -37,14 +37,13 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 
     -- Set some keybinds conditional on server capabilities
-    if client.server_capabilities.document_formatting then
-        buf_set_keymap("n", "fmt", "<cmd>vim.lsp.buf.format()<CR>", opts)
-    elseif client.server_capabilities.document_range_formatting then
-        buf_set_keymap("n", "fmt", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+    if client.server_capabilities.documentFormattingProvider then
+        buf_set_keymap("n", "fmt", "<cmd>lua vim.lsp.buf.format()<CR>", opts)
     end
 
     -- Set autocommands conditional on server_capabilities
-    if client.server_capabilities.document_highlight then
+    -- highlight the current variable and its usages in the buffer.
+    if client.server_capabilities.documentHighlightProvider then
         vim.api.nvim_exec([[
       hi LspReferenceRead cterm=bold ctermbg=DarkMagenta guibg=LightYellow
       hi LspReferenceText cterm=bold ctermbg=DarkMagenta guibg=LightYellow
@@ -52,6 +51,7 @@ local on_attach = function(client, bufnr)
       augroup lsp_document_highlight
         autocmd! * <buffer>
         autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
         autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
       augroup END
     ]]   , false)
@@ -149,4 +149,25 @@ nvim_lsp.sumneko_lua.setup {
             },
         },
     },
+}
+
+-- [[ Python ]]
+nvim_lsp.pylsp.setup {
+    on_attach = on_attach,
+    settings = {
+        pylsp = {
+            plugins = {
+                pylint = { enabled = true, executable = "pylint" },
+                pyflakes = { enabled = false },
+                pycodestyle = { enabled = false },
+                jedi_completion = { fuzzy = true },
+                pyls_isort = { enabled = true },
+                pylsp_mypy = { enabled = true },
+            },
+        },
+    },
+    flags = {
+        debounce_text_changes = 200,
+    },
+    capabilities = capabilities,
 }

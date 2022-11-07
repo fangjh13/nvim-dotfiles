@@ -29,9 +29,16 @@ require("treesitter_config")
 
 
 utils.create_augroup({
-    { 'BufWritePre', '*.go,*.lua', 'lua', 'vim.lsp.buf.formatting_sync()' },
+    { 'BufWritePre', '*.go,*.lua,*.py', 'lua', 'vim.lsp.buf.formatting_sync()' },
     { 'BufWritePre', '*.go', 'lua', 'go_org_imports(1000)' }
 }, 'lsp config')
+
+-- open termnial in insert mode and enter termnial save file
+utils.create_augroup({
+    { 'BufEnter', 'term://*', 'start' },
+    { 'TermEnter', '*', 'wall' }
+}, 'open termnial auto cmd')
+
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     pattern = "*",
@@ -62,3 +69,22 @@ vim.api.nvim_create_autocmd(
     { "InsertEnter", "WinLeave" },
     { pattern = "*", command = "setlocal nocursorline", group = cursorGrp }
 )
+
+-- run `:PackerCompile` automatically when `plugins.lua` file change
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+    pattern = "plugins.lua",
+    group = vim.api.nvim_create_augroup("packer_compile", { clear = true }),
+    desc = "auto compile packer",
+    callback = function()
+        vim.cmd [[PackerCompile]]
+    end
+})
+
+vim.cmd([[
+" need 'lyokha/vim-xkbswitch' installed
+" mac use vim-xkbswitch enable
+if has('mac')
+    let g:XkbSwitchEnabled = 1
+    autocmd BufEnter * let b:XkbSwitchILayout = 'us'
+endif
+]])

@@ -2,7 +2,6 @@
 local map = require('utils').map
 local keymap = require('vim.keymap')
 
-map('n', '*', '*zz', { desc = 'Search and center screen' })
 -- map buffer
 map('n', '[b', ':bprevious <CR>', { silent = true, desc = 'buffer previous' })
 map('n', ']b', ':bnext <CR>', { silent = true, desc = 'buffer next' })
@@ -18,17 +17,24 @@ map('n', '[c', ':cprevious <CR>', { silent = true, desc = 'quickfix previous' })
 map('n', ']c', ':cnext <CR>', { silent = true, desc = 'quickfix next' })
 map('n', '[C', ':cfirst <CR>', { silent = true, desc = 'quickfix first' })
 map('n', ']C', ':clast <CR>', { silent = true, desc = 'quickfix last' })
-map('n', 'cc', ':cclose <CR>', { silent = true, desc = 'quickfix close' })
+map('n', '<leader>cc', ':cclose <CR>', { silent = true, desc = 'quickfix close' })
 -- map location list
 map('n', '[l', ':lprevious <CR>', { silent = true, desc = 'location previous' })
 map('n', ']l', ':lnext <CR>', { silent = true, desc = 'location next' })
 map('n', '[L', ':lfirst <CR>', { silent = true, desc = 'location first' })
 map('n', ']L', ':llast <CR>', { silent = true, desc = 'location last' })
-map('n', 'lc', ':lclose <CR>', { silent = true, desc = 'location close' })
+map('n', '<leader>lc', ':lclose <CR>', { silent = true, desc = 'location close' })
 -- highlighting current line and set mark `l`
-map('n', '<leader>l', [[ml:execute 'match Search /\%'.line('.').'l/'<CR>]], { silent = true, desc = 'location close' })
+map('n', '<leader>ll', [[ml:execute 'match Search /\%'.line('.').'l/'<CR>]], { silent = true, desc = 'location close' })
+-- open terminal in bottom
+map('n', 't<Enter>', ':bo sp term://zsh|resize 5<CR>', { desc = 'open terminal in bottom' })
+-- open terminal in new tab
+map('n', 'T<Enter>', ':tabnew term://zsh<CR>', { desc = 'open terminal in new tab' })
+-- ESC enter normal mode when in terminal
+map('t', '<Esc>', [[<C-\><C-n>]], { desc = 'ESC enter normal mode when in terminal' })
 
 map('n', '<leader>nf', [[:NvimTreeFindFile<cr>]])
+map('n', '<leader>zz', [[:NvimTreeToggle<cr>]])
 
 map('n', '<leader>t', [[:TagbarToggle<cr>]], {})
 
@@ -47,6 +53,7 @@ keymap.set('c', '<C-f>', function() return '<Right>' end, { expr = true, desc = 
 keymap.set('c', '<C-b>', function() return '<Left>' end, { expr = true, desc = "cursor move left" })
 keymap.set('c', '<A-b>', function() return '<C-Left>' end, { expr = true, desc = "cursor move left one word" })
 keymap.set('c', '<A-f>', function() return '<C-Right>' end, { expr = true, desc = "cursor move right one word" })
+keymap.set('c', '<A-bs>', function() return '<C-w>' end, { expr = true, desc = "delete one word" })
 keymap.set('c', '<C-k>', function()
     return [[<c-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos()-2]<CR>]]
     --return [[<C-\>e(" ".getcmdline())[:getcmdpos()-1][1:]<CR>]]

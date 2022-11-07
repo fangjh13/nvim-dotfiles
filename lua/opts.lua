@@ -1,8 +1,8 @@
 --[[ opts.lua ]]
 
 local o = vim.o -- For the globals options `vim.api.nvim_set_option`
--- local w = vim.wo -- For the window local options `vim.api.nvim_win_set_option`
--- local b = vim.bo -- For the buffer local options `vim.api.nvim_buf_set_option`
+local w = vim.wo -- For the window local options `vim.api.nvim_win_set_option`
+local b = vim.bo -- For the buffer local options `vim.api.nvim_buf_set_option`
 
 local cmd = vim.api.nvim_command
 
@@ -39,3 +39,8 @@ o.tabstop = 4 -- num:  Number of spaces tabs count for
 -- [[ Splits ]]
 o.splitright = true -- bool: Place new window to right of current one
 o.splitbelow = true -- bool: Place new window below the current one
+
+-- [[ Spell Check ]]
+o.spell = false
+o.spelllang = "en_us,cjk"
+o.spellsuggest = "best,9"

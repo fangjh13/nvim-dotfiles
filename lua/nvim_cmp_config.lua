@@ -2,17 +2,19 @@
 local cmp = require 'cmp'
 local feedkeys = require('cmp.utils.feedkeys')
 local keymap = require('cmp.utils.keymap')
-local cmp_ultisnips_mappings = require("cmp_nvim_ultisnips.mappings")
+local luasnip = require("luasnip")
+local compare = require("cmp.config.compare")
+
+local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
 
 
 cmp.setup({
     snippet = {
-        -- REQUIRED - you must specify a snippet engine
         expand = function(args)
-            ---- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-            -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-            vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
         end,
     },
     window = {
@@ -28,41 +30,88 @@ cmp.setup({
     --  ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     --}),
 
-    -- recommended configuration for <Tab> people:
+    -- mapping = {
+    --     ['<Tab>'] = cmp.mapping(
+    --         function()
+    --             if cmp.visible() then
+    --                 cmp.select_next_item()
+    --             else
+    --                 feedkeys.call(keymap.t('<Tab>'), 'n')
+    --             end
+    --         end,
+    --         { "i", "s" }
+    --     ),
+
+    --     ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    -- },
+
     mapping = {
-        --["<Tab>"] = cmp.mapping(
-        --  function(fallback)
-        --    cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
-        --  end,
-        --  { "i", "s", --[[ "c" (to enable the mapping in command mode) ]] }
-        --),
-        ["<Tab>"] = cmp.mapping(
-            function(fallback)
-                cmp_ultisnips_mappings.compose { "expand", "select_next_item" } (fallback)
-            end,
-            { "i", "s", --[[ "c" (to enable the mapping in command mode) ]] }
-        ),
-        ["<S-Tab>"] = cmp.mapping(
-            function(fallback)
-                cmp_ultisnips_mappings.jump_backwards(fallback)
-            end,
-            { "i", "s", --[[ "c" (to enable the mapping in command mode) ]] }
-        ),
-        ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+
+        ["<C-p>"] = cmp.mapping.select_prev_item(),
+        ["<C-n>"] = cmp.mapping.select_next_item(),
+        ['<C-e>'] = cmp.mapping.abort(),
+
+        ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
+            elseif has_words_before() then
+                cmp.complete()
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
+
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
+
+        ['<CR>'] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = false,
+        }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     },
 
 
     sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        ---- { name = 'vsnip' }, -- For vsnip users.
-        -- { name = 'luasnip' }, -- For luasnip users.
-        { name = 'ultisnips' }, -- For ultisnips users.
+        { name = 'luasnip' }, -- For luasnip users.
+        { name = 'nvim_lsp', option = { use_show_condition = true } },
         { name = 'fuzzy_path', option = { fd_timeout_msec = 1500, fd_cmd = { 'fd', '-d', '20', '-p' } } }, -- fuzzy path
-        -- { name = 'snippy' }, -- For snippy users.
         { name = 'copilot' }, -- github copilot
     }, {
         { name = 'buffer' },
-    })
+    }),
+
+    preselect = cmp.PreselectMode.None,
+
+    sorting = {
+        priority_weight = 2,
+        -- comparators = {
+        --     compare.offset,
+        --     compare.exact,
+        --     compare.score,
+        --     compare.kind,
+        --     -- compare.sort_text,
+        --     compare.length,
+        --     compare.order,
+        -- },
+        comparators = {
+            compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
+            compare.offset,
+            --compare.order,
+            --compare.sort_text,
+            -- compare.exact,
+            -- compare.kind,
+            -- compare.length,
+        }
+    },
 })
 
 -- Set configuration for specific filetype.
@@ -106,23 +155,6 @@ cmp.setup.cmdline('/', {
 cmp.setup.cmdline(':', {
     --mapping = cmp.mapping.preset.cmdline(),
     mapping = {
-        --["<Tab>"] = cmp.mapping(
-        --    function(fallback)
-        --        cmp_ultisnips_mappings.compose { "expand", "select_next_item" } (fallback)
-        --    end,
-        --    { "c" }
-        --),
-        --["S-Tab"] = cmp.mapping(
-        --    function(fallback)
-        --        --cmp_ultisnips_mappings.compose { "select_prev_item" } (fallback)
-        --        if cmp.visible() then
-        --            cmp.select_next_item()
-        --        else
-        --            feedkeys.call(keymap.t('<C-z>'), 'n')
-        --        end
-        --    end,
-        --    { "c" }
-        --)
         ['<Tab>'] = {
             c = function()
                 if cmp.visible() then
@@ -148,10 +180,3 @@ cmp.setup.cmdline(':', {
         { name = 'fuzzy_path', option = { fd_timeout_msec = 1500, fd_cmd = { 'fd', '-d', '20', '-p' } } }, -- fuzzy path
     })
 })
-
---- -- Set up lspconfig.
---- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
---- -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
---- require('lspconfig')['gopls'].setup {
----   capabilities = capabilities
---- }

@@ -6,7 +6,15 @@ return require('packer').startup({ function(use)
     use { -- filesystem navigation
         'kyazdani42/nvim-tree.lua',
         requires = 'kyazdani42/nvim-web-devicons', -- filesystem icons
-        config = function() require('nvim-tree').setup {} end
+        config = function() require('nvim-tree').setup {
+                filters = {
+                    custom = { "^.git$" },
+                },
+                git = {
+                    ignore = false,
+                }
+            }
+        end
     }
 
     -- [[ Theme ]]
@@ -32,6 +40,11 @@ return require('packer').startup({ function(use)
     use { 'majutsushi/tagbar' } -- code structure
     use { 'Yggdroot/indentLine' } -- see indentation
     use { 'tpope/vim-fugitive' } -- git integration
+    use { 'lewis6991/gitsigns.nvim',
+        config = function()
+            require('gitsigns').setup()
+        end
+    } -- gitgutter
     use { 'junegunn/gv.vim' } -- commit history
     use {
         'windwp/nvim-autopairs', -- auto insert pairs
@@ -40,25 +53,26 @@ return require('packer').startup({ function(use)
     use { 'neovim/nvim-lspconfig' } -- nvim buildin LSP
 
 
+    -- [[ Snippets  ]]
+    use { "L3MON4D3/LuaSnip",
+        config = function()
+            require("luasnip.loaders.from_snipmate").lazy_load({ paths = "~/.config/nvim/snippets" })
+        end
+    }
+
     -- [[ Completion ]]
     use {
         { "hrsh7th/nvim-cmp" },
         { "hrsh7th/cmp-nvim-lsp" },
         { "hrsh7th/cmp-buffer" },
         { "hrsh7th/cmp-path" },
-        { "hrsh7th/cmp-cmdline" }
-    }
-    use { "SirVer/ultisnips" }
-    use {
-        "quangnguyen30192/cmp-nvim-ultisnips",
-        config = function()
-            require("cmp_nvim_ultisnips").setup {}
-        end,
-        requires = { "nvim-treesitter/nvim-treesitter" },
+        { "hrsh7th/cmp-cmdline" },
+        { 'saadparwaiz1/cmp_luasnip' }
     }
     -- cmp fuzzy path
     use { 'romgrk/fzy-lua-native', run = 'make' }
     use { 'tzachar/cmp-fuzzy-path', requires = { 'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim' } }
+
     -- [[ Github Copilot ]]
     -- use { "github/copilot.vim" }   -- github copilot only used get auth_token
     use {
@@ -79,6 +93,14 @@ return require('packer').startup({ function(use)
             require("copilot_cmp").setup()
         end
     }
+
+    -- [[ Comment ]]
+    use { 'tpope/vim-commentary' }
+
+    -- [[ Switch Keyboard Layout ]]
+    if vim.fn.has("mac") == 1 then
+        use { "lyokha/vim-xkbswitch" }
+    end
 
 end,
     config = {
