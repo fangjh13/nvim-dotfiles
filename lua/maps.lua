@@ -32,12 +32,20 @@ map('n', 't<Enter>', ':bo sp term://zsh|resize 5<CR>', { desc = 'open terminal i
 map('n', 'T<Enter>', ':tabnew term://zsh<CR>', { desc = 'open terminal in new tab' })
 -- ESC enter normal mode when in terminal
 map('t', '<Esc>', [[<C-\><C-n>]], { desc = 'ESC enter normal mode when in terminal' })
-
+-- visual line wraps
+map('n', "k", "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
+map('n', "j", "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = true, silent = true })
+-- better indent
+map("v", "<", "<gv", { noremap = true, silent = true })
+map("v", ">", ">gv", { noremap = true, silent = true })
+-- paste over currently selected text without yanking it
+map("v", "p", '"_dP', { noremap = true, silent = true })
+-- nvim-tree
 map('n', '<leader>nf', [[:NvimTreeFindFile<cr>]])
 map('n', '<leader>zz', [[:NvimTreeToggle<cr>]])
-
+-- tagbar
 map('n', '<leader>t', [[:TagbarToggle<cr>]], {})
-
+-- telescop
 map('n', '<leader>ff', [[:Telescope find_files<cr>]], {})
 map('n', '<leader>fg', [[:Telescope live_grep<cr>]], {})
 map('n', '<leader>fb', [[:Telescope buffers<cr>]], {})

@@ -1,11 +1,5 @@
 --[[ init.lua ]]
 
--- LEADER
--- These keybindings need to be defined before the first /
--- is called; otherwise, it will default to "\"
-vim.g.mapleader = ","
-vim.g.localleader = "\\"
-
 -- Update the packpath
 local packer_path = vim.fn.stdpath('config') .. '/site'
 vim.o.packpath = vim.o.packpath .. ',' .. packer_path
@@ -15,7 +9,7 @@ vim.o.packpath = vim.o.packpath .. ',' .. packer_path
 local utils = require('utils')
 
 -- IMPORTS
-require('plugins') -- Plugins
+require('plugins').setup() -- Plugins
 require('vars') -- Variables
 require('opts') -- Options
 require('maps') -- Keymaps
@@ -59,6 +53,11 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
     end
 })
 
+-- go to last location of buffer
+vim.api.nvim_create_autocmd("BufReadPost", {
+    command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]]
+})
+
 -- show cursor line only in active window
 local cursorGrp = vim.api.nvim_create_augroup("CursorLine", { clear = true })
 vim.api.nvim_create_autocmd(
@@ -70,16 +69,6 @@ vim.api.nvim_create_autocmd(
     { pattern = "*", command = "setlocal nocursorline", group = cursorGrp }
 )
 
--- run `:PackerCompile` automatically when `plugins.lua` file change
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-    pattern = "plugins.lua",
-    group = vim.api.nvim_create_augroup("packer_compile", { clear = true }),
-    desc = "auto compile packer",
-    callback = function()
-        vim.cmd [[PackerCompile]]
-    end
-})
-
 vim.cmd([[
 " need 'lyokha/vim-xkbswitch' installed
 " mac use vim-xkbswitch enable
@@ -87,4 +76,14 @@ if has('mac')
     let g:XkbSwitchEnabled = 1
     autocmd BufEnter * let b:XkbSwitchILayout = 'us'
 endif
+
+" -------------------------------------------------------------------------------------------------
+" vimspector debuger settings
+" -------------------------------------------------------------------------------------------------
+let g:vimspector_enable_mappings = 'HUMAN'
+" for normal mode - the word under the cursor
+nmap <Leader>di <Plug>VimspectorBalloonEval
+" for visual mode, the visually selected text
+xmap <Leader>di <Plug>VimspectorBalloonEval
+
 ]])

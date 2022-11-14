@@ -1,6 +1,6 @@
 --[[ opts.lua ]]
 
-local o = vim.o -- For the globals options `vim.api.nvim_set_option`
+local o = vim.opt -- For the globals options `vim.api.nvim_set_option`
 local w = vim.wo -- For the window local options `vim.api.nvim_win_set_option`
 local b = vim.bo -- For the buffer local options `vim.api.nvim_buf_set_option`
 
@@ -26,6 +26,8 @@ cmd('colorscheme dracula') -- cmd:  Set the colorscheme
 
 -- [[ Search ]]
 o.ignorecase = true -- bool: Ignore case in search patterns
+o.wildignorecase = true -- bool: Ignore case in search file names and directories.
+o.wildignore:append "**/.git/*"
 o.smartcase = true -- bool: Override ignorecase if search contains capitals
 o.incsearch = true -- bool: Use incremental search
 o.hlsearch = false -- bool: Highlight search matches
@@ -35,12 +37,24 @@ o.expandtab = true -- bool: Use spaces instead of tabs
 o.shiftwidth = 4 -- num:  Size of an indent
 o.softtabstop = 4 -- num:  Number of spaces tabs count for in insert mode
 o.tabstop = 4 -- num:  Number of spaces tabs count for
+o.textwidth = 120 -- num:  Maximum width of text
+
+-- [[ Indent ]]
+o.breakindent = true -- bool: Enable break indent
 
 -- [[ Splits ]]
 o.splitright = true -- bool: Place new window to right of current one
 o.splitbelow = true -- bool: Place new window below the current one
 
+-- [[ Edit ]]
+o.undofile = true -- bool: Save undo history
+o.updatetime = 1000 -- num: Decrease write to disk
+
 -- [[ Spell Check ]]
 o.spell = false
 o.spelllang = "en_us,cjk"
 o.spellsuggest = "best,9"
+
+-- [[ Path ]]
+o.path:remove "/usr/include"
+o.path:append "**"

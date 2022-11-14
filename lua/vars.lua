@@ -2,6 +2,12 @@
 
 local g = vim.g -- Set global variables. `vim.api.nvim_set_var`
 
+-- LEADER
+-- These keybindings need to be defined before the first /
+-- is called; otherwise, it will default to "\"
+g.mapleader = ","
+g.localleader = "\\"
+
 g.t_co = 256
 g.background = "dark"
 g.python3_host_prog = '~/.pyenv/versions/py310/bin/python'
