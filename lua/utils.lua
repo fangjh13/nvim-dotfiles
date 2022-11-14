@@ -1,7 +1,5 @@
 local M = {}
 local cmd = vim.cmd
-cmd [[packadd packer.nvim]]
-local packer = require('packer')
 
 function M.create_augroup(autocmds, name)
     cmd('augroup ' .. name)
@@ -48,9 +46,12 @@ function M.map_lua_buf(mode, keys, action, options, buf_nr)
 end
 
 function M.reload_plugins()
+  local ok, packer = pcall(require, 'packer')
+  if ok then
     cmd [[luafile ~/.config/nvim/lua/plugins.lua]]
     packer.sync()
     packer.compile()
+  end
 end
 
 local t = function(str)

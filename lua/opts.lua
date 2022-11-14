@@ -21,7 +21,7 @@ o.fileencoding = 'utf8' -- str:  File encoding to use
 -- [[ Theme ]]
 o.syntax = "ON" -- str:  Allow syntax highlighting
 o.termguicolors = true -- bool: If term supports ui color then enable
-cmd('colorscheme dracula') -- cmd:  Set the colorscheme
+-- cmd('colorscheme dracula') -- cmd:  Set the colorscheme
 
 
 -- [[ Search ]]

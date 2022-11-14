@@ -15,13 +15,6 @@ require('opts') -- Options
 require('maps') -- Keymaps
 
 
--- PLUGINS setup
-require("nvim_cmp_config")
-require('lsp_config')
-require("lualine_config")
-require("treesitter_config")
-
-
 utils.create_augroup({
     { 'BufWritePre', '*.go,*.lua,*.py', 'lua', 'vim.lsp.buf.formatting_sync()' },
     { 'BufWritePre', '*.go', 'lua', 'go_org_imports(1000)' }

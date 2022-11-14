@@ -47,7 +47,10 @@ function M.setup()
         use { -- filesystem navigation
             'kyazdani42/nvim-tree.lua',
             requires = 'kyazdani42/nvim-web-devicons', -- filesystem icons
-            config = function() require('nvim-tree').setup {
+            config = function()
+                require('nvim-tree').setup {
+                    disable_netrw = true,
+                    hijack_netrw = true,
                     filters = {
                         custom = { "^.git$" },
                     },
@@ -64,14 +67,31 @@ function M.setup()
         use {
             'nvim-lualine/lualine.nvim', -- statusline
             requires = { 'kyazdani42/nvim-web-devicons',
-                opt = true }
+                opt = true },
+            config = function()
+                require("config.lualine").setup()
+            end
         }
         use { 'nvim-treesitter/nvim-treesitter',
+            opt = true,
+            event = "BufRead",
+            requires = {
+                { "nvim-treesitter/nvim-treesitter-textobjects" },
+            },
             run = function()
                 require('nvim-treesitter.install').update({ with_sync = true })
-            end
+            end,
+            config = function()
+                require("config.treesitter").setup()
+            end,
         } -- highlight preview
-        use { 'Mofiqul/dracula.nvim' }
+        use {
+            'Mofiqul/dracula.nvim',
+            config = function()
+                vim.cmd [[colorscheme dracula]]
+            end,
+
+        }
 
         -- [[ Dev ]]
         use {
@@ -91,10 +111,15 @@ function M.setup()
             'windwp/nvim-autopairs', -- auto insert pairs
             config = function() require('nvim-autopairs').setup {} end
         }
-        use { 'neovim/nvim-lspconfig' } -- nvim buildin LSP
+        use {
+            'neovim/nvim-lspconfig',
+            config = function()
+                require("config.lsp").setup()
+            end
+        } -- nvim buildin LSP
 
         -- [[ Debug ]]
-        use { 'puremourning/vimspector' }
+        use { 'puremourning/vimspector', event = "VimEnter" }
 
         -- [[ Snippets  ]]
         use { "L3MON4D3/LuaSnip",
@@ -105,12 +130,18 @@ function M.setup()
 
         -- [[ Completion ]]
         use {
-            { "hrsh7th/nvim-cmp" },
-            { "hrsh7th/cmp-nvim-lsp" },
-            { "hrsh7th/cmp-buffer" },
-            { "hrsh7th/cmp-path" },
-            { "hrsh7th/cmp-cmdline" },
-            { 'saadparwaiz1/cmp_luasnip' }
+            "hrsh7th/nvim-cmp",
+            config = function()
+                require("config.nvim_cmp").setup()
+            end,
+            requires = {
+                { "hrsh7th/nvim-cmp" },
+                { "hrsh7th/cmp-nvim-lsp" },
+                { "hrsh7th/cmp-buffer" },
+                { "hrsh7th/cmp-path" },
+                { "hrsh7th/cmp-cmdline" },
+                { 'saadparwaiz1/cmp_luasnip' }
+            }
         }
         -- cmp fuzzy path
         use { 'romgrk/fzy-lua-native', run = 'make' }
@@ -144,10 +175,16 @@ function M.setup()
         if vim.fn.has("mac") == 1 then
             use { "lyokha/vim-xkbswitch" }
         end
+
+        if packer_bootstrap then
+            print "Restart Neovim required after installation!"
+            require("packer").sync()
+        end
     end
 
-    -- first init
+    -- install, if not exists install it
     packer_init()
+    -- config
     local packer = require("packer")
     packer.init(conf)
     packer.startup(plugins)
