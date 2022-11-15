@@ -19,37 +19,91 @@ function M.setup()
                 node_decremental = 'tnd', -- decrement to the previous node
             },
         },
-        textobjects = { -- syntax-aware textobjects
+
+        -- need install vim-matchup
+        matchup = {
             enable = true,
-            disable = {},
-            keymaps = {
-                ['iL'] = { -- you can define your own textobjects directly here
-                    python = '(function_definition) @function',
-                    cpp = '(function_definition) @function',
-                    c = '(function_definition) @function',
-                    java = '(method_declaration) @function',
+        },
+
+        -- nvim-treesitter-textobjects
+        textobjects = { -- syntax-aware textobjects
+            select = {
+                enable = true,
+
+                -- Automatically jump forward to textobj, similar to targets.vim
+                lookahead = true,
+
+                keymaps = {
+                    -- You can use the capture groups defined in textobjects.scm
+                    -- ['iL'] = { -- you can define your own textobjects directly here
+                    --     python = '(function_definition) @function',
+                    --     cpp = '(function_definition) @function',
+                    --     c = '(function_definition) @function',
+                    --     java = '(method_declaration) @function',
+                    -- },
+                    -- or you use the queries from supported languages with textobjects.scm
+                    ['af'] = '@function.outer',
+                    ['if'] = '@function.inner',
+                    ['ac'] = '@class.outer',
+                    ['ic'] = '@class.inner',
+                    ['aC'] = '@conditional.outer',
+                    ['iC'] = '@conditional.inner',
+                    ['ae'] = '@block.outer',
+                    ['ie'] = '@block.inner',
+                    ['al'] = '@loop.outer',
+                    ['il'] = '@loop.inner',
+                    ['is'] = '@statement.inner',
+                    ['as'] = '@statement.outer',
+                    ['ad'] = '@comment.outer',
+                    ['am'] = '@call.outer',
+                    ['im'] = '@call.inner',
                 },
-                -- or you use the queries from supported languages with textobjects.scm
-                ['af'] = '@function.outer',
-                ['if'] = '@function.inner',
-                ['aC'] = '@class.outer',
-                ['iC'] = '@class.inner',
-                ['ac'] = '@conditional.outer',
-                ['ic'] = '@conditional.inner',
-                ['ae'] = '@block.outer',
-                ['ie'] = '@block.inner',
-                ['al'] = '@loop.outer',
-                ['il'] = '@loop.inner',
-                ['is'] = '@statement.inner',
-                ['as'] = '@statement.outer',
-                ['ad'] = '@comment.outer',
-                ['am'] = '@call.outer',
-                ['im'] = '@call.inner',
+            },
+
+            swap = {
+                enable = true,
+                swap_next = {
+                    ["<leader>rx"] = "@parameter.inner",
+                },
+                swap_previous = {
+                    ["<leader>rX"] = "@parameter.inner",
+                },
+            },
+
+            move = {
+                enable = true,
+                set_jumps = true, -- whether to set jumps in the jumplist
+                goto_next_start = {
+                    ["]m"] = "@function.outer",
+                    ["]]"] = "@class.outer",
+                },
+                goto_next_end = {
+                    ["]M"] = "@function.outer",
+                    ["]["] = "@class.outer",
+                },
+                goto_previous_start = {
+                    ["[m"] = "@function.outer",
+                    ["[["] = "@class.outer",
+                },
+                goto_previous_end = {
+                    ["[M"] = "@function.outer",
+                    ["[]"] = "@class.outer",
+                },
+            },
+
+            lsp_interop = {
+                enable = true,
+                border = "none",
+                peek_definition_code = {
+                    ["<leader>df"] = "@function.outer",
+                    ["<leader>dF"] = "@class.outer",
+                },
             },
         },
         ensure_installed = {
             'bash',
             'c',
+            'cmake',
             'cpp',
             'css',
             'html',
@@ -57,14 +111,23 @@ function M.setup()
             'json',
             'jsonc',
             'latex',
+            'sql',
+            'diff',
+            'regex',
             'lua',
             'python',
             'toml',
+            'dockerfile',
             'typescript',
             'vue',
             'yaml',
-            'go'
-        }
+            'vim',
+            'go',
+            'gomod',
+            'gowork',
+            'rust',
+            'markdown',
+        },
     }
 end
 

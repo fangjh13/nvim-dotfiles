@@ -6,7 +6,7 @@ vim.o.packpath = vim.o.packpath .. ',' .. packer_path
 
 
 -- Utils libraries
-local utils = require('utils')
+-- local utils = require('utils')
 
 -- IMPORTS
 require('plugins').setup() -- Plugins

@@ -44,6 +44,7 @@ function M.setup()
 
         use 'wbthomason/packer.nvim' -- manage itself
 
+        -- [[ File Explorer ]]
         use { -- filesystem navigation
             'kyazdani42/nvim-tree.lua',
             requires = 'kyazdani42/nvim-web-devicons', -- filesystem icons
@@ -61,11 +62,15 @@ function M.setup()
             end
         }
 
+        -- [[ Motions ]]
+        use { "andymass/vim-matchup", event = "CursorMoved" }
+
         -- [[ Theme ]]
         use { 'mhinz/vim-startify' } -- start screen
         use { 'DanilaMihailov/beacon.nvim' } -- cursor jump
         use {
             'nvim-lualine/lualine.nvim', -- statusline
+            after = 'nvim-treesitter',
             requires = { 'kyazdani42/nvim-web-devicons',
                 opt = true },
             config = function()
@@ -79,7 +84,8 @@ function M.setup()
                 { "nvim-treesitter/nvim-treesitter-textobjects" },
             },
             run = function()
-                require('nvim-treesitter.install').update({ with_sync = true })
+                local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+                ts_update()
             end,
             config = function()
                 require("config.treesitter").setup()
@@ -150,6 +156,7 @@ function M.setup()
         -- [[ Github Copilot ]]
         -- use { "github/copilot.vim" }   -- github copilot only used get auth_token
         use {
+            "zbirenbaum/copilot-cmp", -- add copilot to cmp source
             requires = {
                 "zbirenbaum/copilot.lua",
                 event = { "VimEnter" },
@@ -161,7 +168,6 @@ function M.setup()
                     end, 100)
                 end,
             },
-            "zbirenbaum/copilot-cmp", -- add copilot to cmp source
             after = { "copilot.lua" },
             config = function()
                 require("copilot_cmp").setup()
@@ -169,7 +175,14 @@ function M.setup()
         }
 
         -- [[ Comment ]]
-        use { 'tpope/vim-commentary' }
+        use {
+            "numToStr/Comment.nvim",
+            opt = true,
+            keys = { "gc", "gcc", "gbc" },
+            config = function()
+                require("Comment").setup {}
+            end,
+        }
 
         -- [[ Switch Keyboard Layout ]]
         if vim.fn.has("mac") == 1 then
