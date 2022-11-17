@@ -119,6 +119,7 @@ function M.setup()
         }
         use {
             'neovim/nvim-lspconfig',
+            after = { "cmp-nvim-lsp" },
             config = function()
                 require("config.lsp").setup()
             end
@@ -127,31 +128,43 @@ function M.setup()
         -- [[ Debug ]]
         use { 'puremourning/vimspector', event = "VimEnter" }
 
-        -- [[ Snippets  ]]
-        use { "L3MON4D3/LuaSnip",
-            config = function()
-                require("luasnip.loaders.from_snipmate").lazy_load({ paths = "~/.config/nvim/snippets" })
-            end
-        }
-
         -- [[ Completion ]]
         use {
             "hrsh7th/nvim-cmp",
             config = function()
                 require("config.nvim_cmp").setup()
             end,
+            wants = { "LuaSnip" },
             requires = {
-                { "hrsh7th/nvim-cmp" },
-                { "hrsh7th/cmp-nvim-lsp" },
-                { "hrsh7th/cmp-buffer" },
-                { "hrsh7th/cmp-path" },
-                { "hrsh7th/cmp-cmdline" },
-                { 'saadparwaiz1/cmp_luasnip' }
+                "hrsh7th/cmp-buffer",
+                "hrsh7th/cmp-path",
+                "hrsh7th/cmp-nvim-lua",
+                "ray-x/cmp-treesitter",
+                "hrsh7th/cmp-cmdline",
+                'saadparwaiz1/cmp_luasnip',
+                "hrsh7th/cmp-calc",
+                "f3fora/cmp-spell",
+                "hrsh7th/cmp-emoji",
+                {
+                    "L3MON4D3/LuaSnip", -- [[ Snippets ]]
+                    wants = "friendly-snippets",
+                    config = function()
+                        -- require("luasnip.loaders.from_snipmate").lazy_load({ paths = "~/.config/nvim/snippets" })
+                        require("config.luasnip").setup()
+                    end
+                },
+                "rafamadriz/friendly-snippets",
+                -- cmp fuzzy path
+                "hrsh7th/cmp-nvim-lsp",
+                { 'romgrk/fzy-lua-native', run = 'make' },
+                { 'tzachar/cmp-fuzzy-path', requires = { 'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim' } },
             }
         }
-        -- cmp fuzzy path
-        use { 'romgrk/fzy-lua-native', run = 'make' }
-        use { 'tzachar/cmp-fuzzy-path', requires = { 'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim' } }
+
+        -- -- cmp fuzzy path
+        -- use { 'romgrk/fzy-lua-native', run = 'make'}
+        -- use { 'tzachar/cmp-fuzzy-path', requires = { 'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim' } }
+
 
         -- [[ Github Copilot ]]
         -- use { "github/copilot.vim" }   -- github copilot only used get auth_token

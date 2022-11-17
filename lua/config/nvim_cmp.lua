@@ -21,38 +21,30 @@ function M.setup()
             end,
         },
         window = {
+            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+            winhighlight = "NormalFloat:NormalFloat,FloatBorder:TelescopeBorder",
             -- completion = cmp.config.window.bordered(),
             -- documentation = cmp.config.window.bordered(),
         },
-        --mapping = cmp.mapping.preset.insert({
-        --  ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        --  ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        --  --['<C-Space>'] = cmp.mapping.complete(),
-        --  ['<Tab>'] = cmp.mapping.complete(),
-        --  ['<C-e>'] = cmp.mapping.abort(),
-        --  ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        --}),
-
-        -- mapping = {
-        --     ['<Tab>'] = cmp.mapping(
-        --         function()
-        --             if cmp.visible() then
-        --                 cmp.select_next_item()
-        --             else
-        --                 feedkeys.call(keymap.t('<Tab>'), 'n')
-        --             end
-        --         end,
-        --         { "i", "s" }
-        --     ),
-
-        --     ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        -- },
-
+        formatting = {
+            format = function(entry, vim_item)
+                vim_item.menu = ({
+                    buffer = "[Buffer]",
+                    luasnip = "[Snip]",
+                    nvim_lua = "[Lua]",
+                    treesitter = "[Treesitter]",
+                })[entry.source.name]
+                return vim_item
+            end,
+        },
         mapping = {
 
-            ["<C-p>"] = cmp.mapping.select_prev_item(),
-            ["<C-n>"] = cmp.mapping.select_next_item(),
-            ['<C-e>'] = cmp.mapping.abort(),
+            ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+            ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+            ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
+            ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
+            ['<C-e>'] = cmp.mapping(cmp.mapping.abort(), { "i", "c" }),
+            ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
 
             ["<Tab>"] = cmp.mapping(function(fallback)
                 if cmp.visible() then
@@ -64,7 +56,7 @@ function M.setup()
                 else
                     fallback()
                 end
-            end, { "i", "s" }),
+            end, { "i", "s", "c" }),
 
             ["<S-Tab>"] = cmp.mapping(function(fallback)
                 if cmp.visible() then
@@ -74,22 +66,33 @@ function M.setup()
                 else
                     fallback()
                 end
-            end, { "i", "s" }),
+            end, { "i", "s", "c" }),
 
-            ['<CR>'] = cmp.mapping.confirm({
-                behavior = cmp.ConfirmBehavior.Replace,
-                select = false,
-            }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+            ["<CR>"] = cmp.mapping {
+                i = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+                -- c = function(fallback)
+                --     if cmp.visible() then
+                --         cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }
+                --     else
+                --         fallback()
+                --     end
+                -- end,
+            },
         },
 
 
         sources = cmp.config.sources({
-            { name = 'luasnip' }, -- For luasnip users.
-            { name = 'nvim_lsp', option = { use_show_condition = true } },
-            { name = 'fuzzy_path', option = { fd_timeout_msec = 1500, fd_cmd = { 'fd', '-d', '20', '-p' } } }, -- fuzzy path
-            { name = 'copilot' }, -- github copilot
-        }, {
+            { name = "treesitter" },
             { name = 'buffer' },
+            { name = 'luasnip' },
+            { name = 'buffer' },
+            { name = "nvim_lua" },
+            { name = "path" },
+            { name = "spell" },
+            { name = "emoji" },
+            { name = "calc" },
+            { name = 'copilot' }, -- github copilot
+            { name = 'nvim_lsp', option = { use_show_condition = true } },
         }),
 
         preselect = cmp.PreselectMode.None,
@@ -128,27 +131,6 @@ function M.setup()
 
     -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
     cmp.setup.cmdline('/', {
-        -- mapping = cmp.mapping.preset.cmdline(),
-        mapping = {
-            ['<Tab>'] = {
-                c = function()
-                    if cmp.visible() then
-                        cmp.select_next_item()
-                    else
-                        feedkeys.call(keymap.t('<C-z>'), 'n')
-                    end
-                end,
-            },
-            ['<S-Tab>'] = {
-                c = function()
-                    if cmp.visible() then
-                        cmp.select_prev_item()
-                    else
-                        feedkeys.call(keymap.t('<C-z>'), 'n')
-                    end
-                end,
-            },
-        },
         sources = {
             { name = 'buffer' }
         }
@@ -156,29 +138,8 @@ function M.setup()
 
     -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
     cmp.setup.cmdline(':', {
-        --mapping = cmp.mapping.preset.cmdline(),
-        mapping = {
-            ['<Tab>'] = {
-                c = function()
-                    if cmp.visible() then
-                        cmp.select_next_item()
-                    else
-                        feedkeys.call(keymap.t('<C-z>'), 'n')
-                    end
-                end,
-            },
-            ['<S-Tab>'] = {
-                c = function()
-                    if cmp.visible() then
-                        cmp.select_prev_item()
-                    else
-                        feedkeys.call(keymap.t('<C-z>'), 'n')
-                    end
-                end,
-            },
-        },
         sources = cmp.config.sources({
-            { name = 'path' },
+            -- { name = 'path' },
             { name = 'cmdline' },
             { name = 'fuzzy_path', option = { fd_timeout_msec = 1500, fd_cmd = { 'fd', '-d', '20', '-p' } } }, -- fuzzy path
         })
