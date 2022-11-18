@@ -44,26 +44,23 @@ function M.setup()
 
         use 'wbthomason/packer.nvim' -- manage itself
 
-        -- [[ File Explorer ]]
-        use { -- filesystem navigation
-            'kyazdani42/nvim-tree.lua',
-            requires = 'kyazdani42/nvim-web-devicons', -- filesystem icons
+        use {
+            "kyazdani42/nvim-web-devicons", -- filesystem icons
+            module = "nvim-web-devicons",
             config = function()
-                require('nvim-tree').setup {
-                    disable_netrw = true,
-                    hijack_netrw = true,
-                    filters = {
-                        custom = { "^.git$" },
-                    },
-                    git = {
-                        ignore = false,
-                    }
-                }
-            end
+                require("nvim-web-devicons").setup { default = true }
+            end,
         }
 
-        -- [[ Motions ]]
-        use { "andymass/vim-matchup", event = "CursorMoved" }
+        -- [[ File Explorer ]]
+        use {
+            'kyazdani42/nvim-tree.lua', -- filesystem navigation
+            wants = 'nvim-web-devicons',
+            cmd = { "NvimTreeToggle", "NvimTreeClose", "NvimTreeFindFile", "NvimTreeRefresh" },
+            config = function()
+                require('config.nvimtree').setup()
+            end
+        }
 
         -- [[ Theme ]]
         use { 'mhinz/vim-startify' } -- start screen
@@ -71,8 +68,7 @@ function M.setup()
         use {
             'nvim-lualine/lualine.nvim', -- statusline
             after = 'nvim-treesitter',
-            requires = { 'kyazdani42/nvim-web-devicons',
-                opt = true },
+            wants = 'nvim-web-devicons',
             config = function()
                 require("config.lualine").setup()
             end
@@ -95,14 +91,16 @@ function M.setup()
             'Mofiqul/dracula.nvim',
             config = function()
                 vim.cmd [[colorscheme dracula]]
-            end,
-
+            end
         }
 
         -- [[ Dev ]]
         use {
             'nvim-telescope/telescope.nvim', -- fuzzy finder
-            requires = { { 'nvim-lua/plenary.nvim' } }
+            module = "telescope",
+            as = "telescope",
+            requires = { 'nvim-lua/plenary.nvim' },
+
         }
         use { 'majutsushi/tagbar' } -- code structure
         use { 'Yggdroot/indentLine' } -- see indentation
@@ -115,15 +113,29 @@ function M.setup()
         use { 'junegunn/gv.vim' } -- commit history
         use {
             'windwp/nvim-autopairs', -- auto insert pairs
-            config = function() require('nvim-autopairs').setup {} end
+            wants = "nvim-treesitter",
+            module = { "nvim-autopairs.completion.cmp", "nvim-autopairs" },
+            config = function()
+                require('config.autopairs').setup()
+            end
         }
         use {
             'neovim/nvim-lspconfig',
-            after = { "cmp-nvim-lsp" },
+            opt = true,
+            event = "BufReadPre",
+            -- wants = { "cmp-nvim-lsp", "nvim-lsp-installer", "lsp_signature.nvim" },
+            wants = { "cmp-nvim-lsp", "lsp_signature.nvim" },
             config = function()
                 require("config.lsp").setup()
-            end
+            end,
+            requires = {
+                --    "williamboman/nvim-lsp-installer",
+                "ray-x/lsp_signature.nvim",
+            },
         } -- nvim buildin LSP
+
+        -- [[ Motions ]]
+        use { "andymass/vim-matchup", event = "CursorMoved" }
 
         -- [[ Debug ]]
         use { 'puremourning/vimspector', event = "VimEnter" }
@@ -131,6 +143,8 @@ function M.setup()
         -- [[ Completion ]]
         use {
             "hrsh7th/nvim-cmp",
+            event = "InsertEnter",
+            opt = true,
             config = function()
                 require("config.nvim_cmp").setup()
             end,
@@ -154,10 +168,10 @@ function M.setup()
                     end
                 },
                 "rafamadriz/friendly-snippets",
-                -- cmp fuzzy path
                 "hrsh7th/cmp-nvim-lsp",
-                { 'romgrk/fzy-lua-native', run = 'make' },
-                { 'tzachar/cmp-fuzzy-path', requires = { 'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim' } },
+                -- cmp fuzzy path
+                -- { 'romgrk/fzy-lua-native', run = 'make' },
+                -- { 'tzachar/cmp-fuzzy-path', requires = { 'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim' } },
             }
         }
 
@@ -168,24 +182,24 @@ function M.setup()
 
         -- [[ Github Copilot ]]
         -- use { "github/copilot.vim" }   -- github copilot only used get auth_token
-        use {
-            "zbirenbaum/copilot-cmp", -- add copilot to cmp source
-            requires = {
-                "zbirenbaum/copilot.lua",
-                event = { "VimEnter" },
-                config = function()
-                    vim.defer_fn(function()
-                        require("copilot").setup {
-                            plugin_manager_path = vim.fn.stdpath("config") .. "/site/pack/packer"
-                        }
-                    end, 100)
-                end,
-            },
-            after = { "copilot.lua" },
-            config = function()
-                require("copilot_cmp").setup()
-            end
-        }
+        -- use {
+        --     "zbirenbaum/copilot-cmp", -- add copilot to cmp source
+        --     requires = {
+        --         "zbirenbaum/copilot.lua",
+        --         event = { "VimEnter" },
+        --         config = function()
+        --             vim.defer_fn(function()
+        --                 require("copilot").setup {
+        --                     plugin_manager_path = vim.fn.stdpath("config") .. "/site/pack/packer"
+        --                 }
+        --             end, 100)
+        --         end,
+        --     },
+        --     after = { "copilot.lua" },
+        --     config = function()
+        --         require("copilot_cmp").setup()
+        --     end
+        -- }
 
         -- [[ Comment ]]
         use {
@@ -196,6 +210,26 @@ function M.setup()
                 require("Comment").setup {}
             end,
         }
+
+
+        -- Auto tag
+        use {
+            "windwp/nvim-ts-autotag",
+            wants = "nvim-treesitter",
+            event = "InsertEnter",
+            config = function()
+                require("nvim-ts-autotag").setup { enable = true }
+            end,
+        }
+
+        -- End wise
+        use {
+            "RRethy/nvim-treesitter-endwise",
+            wants = "nvim-treesitter",
+            event = "InsertEnter",
+            disable = false,
+        }
+
 
         -- [[ Switch Keyboard Layout ]]
         if vim.fn.has("mac") == 1 then

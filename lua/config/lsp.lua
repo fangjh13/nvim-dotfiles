@@ -1,6 +1,15 @@
 local M = {}
 
 function M.setup()
+    -- need lsp_signature installed
+    local lsp_signature = require "lsp_signature"
+    lsp_signature.setup {
+        bind = true,
+        handler_opts = {
+            border = "rounded",
+        },
+    }
+
     local nvim_lsp = require('lspconfig')
 
     vim.lsp.set_log_level("warn")
@@ -43,6 +52,10 @@ function M.setup()
         if client.server_capabilities.documentFormattingProvider then
             buf_set_keymap("n", "fmt", "<cmd>lua vim.lsp.buf.format()<CR>", opts)
         end
+
+        -- Use LSP as the handler for formatexpr.
+        -- See `:help formatexpr` for more information.
+        vim.api.nvim_buf_set_option(0, "formatexpr", "v:lua.vim.lsp.formatexpr()")
 
         -- Set autocommands conditional on server_capabilities
         -- highlight the current variable and its usages in the buffer.

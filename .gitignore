@@ -2,3 +2,5 @@ site
 plugin
 .luarc.json
 snippets.backup
+install.sh
+lua/config/lsp-backup

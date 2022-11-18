@@ -128,6 +128,12 @@ function M.setup()
             'rust',
             'markdown',
         },
+
+        -- endwise need RRethy/nvim-treesitter-endwise installed
+        endwise = {
+            enable = true,
+        },
+
     }
 end
 

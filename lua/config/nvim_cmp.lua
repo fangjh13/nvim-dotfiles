@@ -29,10 +29,12 @@ function M.setup()
         formatting = {
             format = function(entry, vim_item)
                 vim_item.menu = ({
+                    nvim_lsp = "[LSP]",
                     buffer = "[Buffer]",
                     luasnip = "[Snip]",
                     nvim_lua = "[Lua]",
                     treesitter = "[Treesitter]",
+          	    path = "[Path]",
                 })[entry.source.name]
                 return vim_item
             end,
@@ -91,8 +93,8 @@ function M.setup()
             { name = "spell" },
             { name = "emoji" },
             { name = "calc" },
-            { name = 'copilot' }, -- github copilot
             { name = 'nvim_lsp', option = { use_show_condition = true } },
+            -- { name = 'copilot' }, -- github copilot
         }),
 
         preselect = cmp.PreselectMode.None,
@@ -139,11 +141,16 @@ function M.setup()
     -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
     cmp.setup.cmdline(':', {
         sources = cmp.config.sources({
-            -- { name = 'path' },
+            { name = 'path' },
             { name = 'cmdline' },
-            { name = 'fuzzy_path', option = { fd_timeout_msec = 1500, fd_cmd = { 'fd', '-d', '20', '-p' } } }, -- fuzzy path
+            -- { name = 'fuzzy_path', option = { fd_timeout_msec = 1500, fd_cmd = { 'fd', '-d', '20', '-p' } } }, -- fuzzy path
         })
     })
+
+    -- auto pairs need install nvim-autopairs
+    local cmp_autopairs = require "nvim-autopairs.completion.cmp"
+    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done { map_char = { tex = "" } })
+
 end
 
 return M
