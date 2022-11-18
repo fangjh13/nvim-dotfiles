@@ -34,7 +34,7 @@ function M.setup()
                     luasnip = "[Snip]",
                     nvim_lua = "[Lua]",
                     treesitter = "[Treesitter]",
-          	    path = "[Path]",
+                    path = "[Path]",
                 })[entry.source.name]
                 return vim_item
             end,

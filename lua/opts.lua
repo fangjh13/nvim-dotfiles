@@ -1,6 +1,6 @@
 --[[ opts.lua ]]
 
-local o = vim.o -- For the globals options `vim.api.nvim_set_option`
+local o = vim.opt -- For the globals options `vim.api.nvim_set_option`
 local w = vim.wo -- For the window local options `vim.api.nvim_win_set_option`
 local b = vim.bo -- For the buffer local options `vim.api.nvim_buf_set_option`
 
@@ -21,13 +21,12 @@ o.fileencoding = 'utf8' -- str:  File encoding to use
 -- [[ Theme ]]
 o.syntax = "ON" -- str:  Allow syntax highlighting
 o.termguicolors = true -- bool: If term supports ui color then enable
--- cmd('colorscheme dracula') -- cmd:  Set the colorscheme
 
 
 -- [[ Search ]]
 o.ignorecase = true -- bool: Ignore case in search patterns
-vim.opt.wildignorecase = true -- bool: Ignore case in search file names and directories.
-vim.opt.wildignore:append "**/.git/*"
+o.wildignorecase = true -- bool: Ignore case in search file names and directories.
+o.wildignore:append "**/.git/*"
 o.smartcase = true -- bool: Override ignorecase if search contains capitals
 o.incsearch = true -- bool: Use incremental search
 o.hlsearch = false -- bool: Highlight search matches
@@ -56,5 +55,5 @@ o.spelllang = "en_us,cjk"
 o.spellsuggest = "best,9"
 
 -- [[ Path ]]
-vim.opt.path:remove "/usr/include"
-vim.opt.path:append "**"
+o.path:remove "/usr/include"
+o.path:append "**"

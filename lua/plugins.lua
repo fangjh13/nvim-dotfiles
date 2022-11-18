@@ -4,7 +4,6 @@ local M = {}
 
 function M.setup()
     local conf = {
-        package_root = vim.fn.stdpath("config") .. "/site/pack",
         profile = {
             enable = true,
             threshold = 0, -- the amount in ms that a plugins load time must be over for it to be included in the profile
@@ -24,7 +23,7 @@ function M.setup()
     -- Run PackerCompile if there are changes in this file
     local function packer_init()
         local fn = vim.fn
-        local install_path = fn.stdpath("config") .. "/site/pack/packer/start/packer.nvim"
+        local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
         if fn.empty(fn.glob(install_path)) > 0 then
             packer_bootstrap = fn.system {
                 "git",
@@ -62,11 +61,11 @@ function M.setup()
             end
         }
 
-        -- [[ Theme ]]
         use { 'mhinz/vim-startify' } -- start screen
         use { 'DanilaMihailov/beacon.nvim' } -- cursor jump
+        --[[ Status Line ]]
         use {
-            'nvim-lualine/lualine.nvim', -- statusline
+            'nvim-lualine/lualine.nvim',
             after = 'nvim-treesitter',
             wants = 'nvim-web-devicons',
             config = function()
@@ -94,16 +93,21 @@ function M.setup()
             end
         }
 
-        -- [[ Dev ]]
         use {
             'nvim-telescope/telescope.nvim', -- fuzzy finder
             module = "telescope",
             as = "telescope",
-            requires = { 'nvim-lua/plenary.nvim' },
-
+            requires = { 'nvim-lua/plenary.nvim' }
         }
         use { 'majutsushi/tagbar' } -- code structure
-        use { 'Yggdroot/indentLine' } -- see indentation
+        --[[ Indent Line ]]
+        use {
+            "lukas-reineke/indent-blankline.nvim",
+            event = "BufReadPre",
+            config = function()
+                require("config.indentblankline").setup()
+            end,
+        }
         use { 'tpope/vim-fugitive' } -- git integration
         use { 'lewis6991/gitsigns.nvim',
             config = function()
@@ -175,9 +179,10 @@ function M.setup()
             }
         }
 
-        -- -- cmp fuzzy path
-        -- use { 'romgrk/fzy-lua-native', run = 'make'}
-        -- use { 'tzachar/cmp-fuzzy-path', requires = { 'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim' } }
+        -- cmp fuzzy path
+        -- use {'romgrk/fzy-lua-native', run = 'make'}
+        -- use "hrsh7th/nvim-cmp"
+        -- use {'tzachar/cmp-fuzzy-path', requires = {'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim'}}
 
 
         -- [[ Github Copilot ]]
@@ -190,7 +195,7 @@ function M.setup()
         --         config = function()
         --             vim.defer_fn(function()
         --                 require("copilot").setup {
-        --                     plugin_manager_path = vim.fn.stdpath("config") .. "/site/pack/packer"
+        --                     plugin_manager_path = vim.fn.stdpath("data") .. "/site/pack/packer"
         --                 }
         --             end, 100)
         --         end,
@@ -205,7 +210,7 @@ function M.setup()
         use {
             "numToStr/Comment.nvim",
             opt = true,
-            keys = { "gc", "gcc", "gbc" },
+            event = "BufEnter",
             config = function()
                 require("Comment").setup {}
             end,

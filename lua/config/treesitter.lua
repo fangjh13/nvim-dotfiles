@@ -133,7 +133,6 @@ function M.setup()
         endwise = {
             enable = true,
         },
-
     }
 end
 
