@@ -13,5 +13,5 @@ g.background = "dark"
 g.python3_host_prog = '~/.pyenv/versions/py310/bin/python'
 
 -- disable netrw use nvim-tree instead
-g.loaded = 1
-g.loaded_netrwPlugin = 1
+-- g.loaded = 1
+-- g.loaded_netrwPlugin = 1

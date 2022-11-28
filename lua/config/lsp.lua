@@ -60,17 +60,24 @@ function M.setup()
         -- Set autocommands conditional on server_capabilities
         -- highlight the current variable and its usages in the buffer.
         if client.server_capabilities.documentHighlightProvider then
-            vim.api.nvim_exec([[
-      hi LspReferenceRead cterm=bold ctermbg=DarkMagenta guibg=LightYellow
-      hi LspReferenceText cterm=bold ctermbg=DarkMagenta guibg=LightYellow
-      hi LspReferenceWrite cterm=bold ctermbg=DarkMagenta guibg=LightYellow
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]]       , false)
+            local present, illuminate = pcall(require, "illuminate")
+            if present then
+                illuminate.on_attach(client)
+            else
+                vim.api.nvim_exec([[
+                                " hi LspReferenceRead cterm=bold ctermbg=DarkMagenta guibg=LightYellow
+                                " hi LspReferenceText cterm=bold ctermbg=DarkMagenta guibg=LightYellow
+                                " hi LspReferenceWrite cterm=bold ctermbg=DarkMagenta guibg=LightYellow
+                                augroup lsp_document_highlight
+                                  autocmd! * <buffer>
+                                  autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+                                  autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
+                                  autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+                                augroup END
+                              ]],
+                    false)
+
+            end
         end
     end
 
@@ -128,6 +135,14 @@ function M.setup()
     local runtime_path = vim.split(package.path, ";")
     table.insert(runtime_path, "lua/?.lua")
     table.insert(runtime_path, "lua/?/init.lua")
+    local lib = vim.api.nvim_get_runtime_file("", true)
+    table.insert(lib, vim.fn.expand("$VIMRUNTIME/lua"))
+    table.insert(lib, vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"))
+
+    -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+    require("neodev").setup({
+        -- add any options here, or leave empty to use the default settings
+    })
 
     nvim_lsp.sumneko_lua.setup {
         cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" },
@@ -156,13 +171,17 @@ function M.setup()
                 },
                 workspace = {
                     -- Make the server aware of Neovim runtime files
-                    library = vim.api.nvim_get_runtime_file("", true),
+                    library = lib,
                     checkThirdParty = false,
                 },
                 -- Do not send telemetry data containing a randomized but unique identifier
                 telemetry = {
                     enable = false,
                 },
+                -- enable call snippets, neodev installed
+                completion = {
+                    callSnippet = "Replace"
+                }
             },
         },
     }

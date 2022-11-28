@@ -21,10 +21,8 @@ function M.setup()
             end,
         },
         window = {
-            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-            winhighlight = "NormalFloat:NormalFloat,FloatBorder:TelescopeBorder",
             -- completion = cmp.config.window.bordered(),
-            -- documentation = cmp.config.window.bordered(),
+            documentation = cmp.config.window.bordered(),
         },
         formatting = {
             format = function(entry, vim_item)
@@ -35,6 +33,7 @@ function M.setup()
                     nvim_lua = "[Lua]",
                     treesitter = "[Treesitter]",
                     path = "[Path]",
+                    nvim_lsp_signature_help = "[Signature]",
                 })[entry.source.name]
                 return vim_item
             end,
@@ -90,11 +89,13 @@ function M.setup()
             { name = 'buffer' },
             { name = "nvim_lua" },
             { name = "path" },
-            { name = "spell" },
-            { name = "emoji" },
-            { name = "calc" },
+            { name = "nvim_lsp_signature_help" },
+
+            -- { name = "spell" },
+            -- { name = "emoji" },
+            -- { name = "calc" },
             { name = 'nvim_lsp', option = { use_show_condition = true } },
-            -- { name = 'copilot' }, -- github copilot
+            { name = 'copilot' }, -- github copilot
         }),
 
         preselect = cmp.PreselectMode.None,

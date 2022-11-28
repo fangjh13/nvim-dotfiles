@@ -95,8 +95,7 @@ function M.setup()
 
         use {
             'nvim-telescope/telescope.nvim', -- fuzzy finder
-            module = "telescope",
-            as = "telescope",
+            event = "BufRead",
             requires = { 'nvim-lua/plenary.nvim' }
         }
         use { 'majutsushi/tagbar' } -- code structure
@@ -128,13 +127,15 @@ function M.setup()
             opt = true,
             event = "BufReadPre",
             -- wants = { "cmp-nvim-lsp", "nvim-lsp-installer", "lsp_signature.nvim" },
-            wants = { "cmp-nvim-lsp", "lsp_signature.nvim" },
+            wants = { "cmp-nvim-lsp", "lsp_signature.nvim", "lua-dev.nvim", "vim-illuminate" },
             config = function()
                 require("config.lsp").setup()
             end,
             requires = {
                 --    "williamboman/nvim-lsp-installer",
+                "RRethy/vim-illuminate",
                 "ray-x/lsp_signature.nvim",
+                "folke/lua-dev.nvim",
             },
         } -- nvim buildin LSP
 
@@ -160,9 +161,9 @@ function M.setup()
                 "ray-x/cmp-treesitter",
                 "hrsh7th/cmp-cmdline",
                 'saadparwaiz1/cmp_luasnip',
-                "hrsh7th/cmp-calc",
-                "f3fora/cmp-spell",
-                "hrsh7th/cmp-emoji",
+                -- "hrsh7th/cmp-calc",
+                -- "f3fora/cmp-spell",
+                -- "hrsh7th/cmp-emoji",
                 {
                     "L3MON4D3/LuaSnip", -- [[ Snippets ]]
                     wants = "friendly-snippets",
@@ -173,6 +174,8 @@ function M.setup()
                 },
                 "rafamadriz/friendly-snippets",
                 "hrsh7th/cmp-nvim-lsp",
+                "hrsh7th/cmp-nvim-lsp-signature-help",
+
                 -- cmp fuzzy path
                 -- { 'romgrk/fzy-lua-native', run = 'make' },
                 -- { 'tzachar/cmp-fuzzy-path', requires = { 'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim' } },
@@ -187,24 +190,24 @@ function M.setup()
 
         -- [[ Github Copilot ]]
         -- use { "github/copilot.vim" }   -- github copilot only used get auth_token
-        -- use {
-        --     "zbirenbaum/copilot-cmp", -- add copilot to cmp source
-        --     requires = {
-        --         "zbirenbaum/copilot.lua",
-        --         event = { "VimEnter" },
-        --         config = function()
-        --             vim.defer_fn(function()
-        --                 require("copilot").setup {
-        --                     plugin_manager_path = vim.fn.stdpath("data") .. "/site/pack/packer"
-        --                 }
-        --             end, 100)
-        --         end,
-        --     },
-        --     after = { "copilot.lua" },
-        --     config = function()
-        --         require("copilot_cmp").setup()
-        --     end
-        -- }
+        use {
+            "zbirenbaum/copilot-cmp", -- add copilot to cmp source
+            requires = {
+                "zbirenbaum/copilot.lua",
+                event = "InsertEnter",
+                config = function()
+                    vim.defer_fn(function()
+                        require("copilot").setup {
+                            plugin_manager_path = vim.fn.stdpath("data") .. "/site/pack/packer"
+                        }
+                    end, 100)
+                end,
+            },
+            after = { "copilot.lua" },
+            config = function()
+                require("copilot_cmp").setup()
+            end
+        }
 
         -- [[ Comment ]]
         use {

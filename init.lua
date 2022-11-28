@@ -12,7 +12,7 @@ require('plugins').setup() -- Plugins
 
 
 utils.create_augroup({
-    { 'BufWritePre', '*.go,*.lua,*.py', 'lua', 'vim.lsp.buf.formatting_sync()' },
+    { 'BufWritePre', '*.go,*.lua,*.py', 'lua', 'vim.lsp.buf.format{ async=false }' },
     { 'BufWritePre', '*.go', 'lua', 'go_org_imports(1000)' }
 }, 'lsp config')
 
