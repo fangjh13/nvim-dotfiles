@@ -1,22 +1,22 @@
 local M = {}
 
 function M.setup()
-    require('nvim-treesitter.configs').setup {
+    require("nvim-treesitter.configs").setup {
         highlight = {
             enable = true, -- false will disable the whole extension
         },
 
         indent = {
-            enable = true
+            enable = true,
         },
 
         incremental_selection = {
             enable = true,
             keymaps = { -- mappings for incremental selection (visual mappings)
-                init_selection = 'tnn', -- maps in normal mode to init the node/scope selection
-                node_incremental = 'tni', -- increment to the upper named parent
-                scope_incremental = 'tsi', -- increment to the upper scope
-                node_decremental = 'tnd', -- decrement to the previous node
+                init_selection = "tnn", -- maps in normal mode to init the node/scope selection
+                node_incremental = "tni", -- increment to the upper named parent
+                scope_incremental = "tsi", -- increment to the upper scope
+                node_decremental = "tnd", -- decrement to the previous node
             },
         },
 
@@ -42,31 +42,31 @@ function M.setup()
                     --     java = '(method_declaration) @function',
                     -- },
                     -- or you use the queries from supported languages with textobjects.scm
-                    ['af'] = '@function.outer',
-                    ['if'] = '@function.inner',
-                    ['ac'] = '@class.outer',
-                    ['ic'] = '@class.inner',
-                    ['aC'] = '@conditional.outer',
-                    ['iC'] = '@conditional.inner',
-                    ['ae'] = '@block.outer',
-                    ['ie'] = '@block.inner',
-                    ['al'] = '@loop.outer',
-                    ['il'] = '@loop.inner',
-                    ['is'] = '@statement.inner',
-                    ['as'] = '@statement.outer',
-                    ['ad'] = '@comment.outer',
-                    ['am'] = '@call.outer',
-                    ['im'] = '@call.inner',
+                    ["af"] = "@function.outer",
+                    ["if"] = "@function.inner",
+                    ["ac"] = "@class.outer",
+                    ["ic"] = "@class.inner",
+                    ["aC"] = "@conditional.outer",
+                    ["iC"] = "@conditional.inner",
+                    ["ae"] = "@block.outer",
+                    ["ie"] = "@block.inner",
+                    ["al"] = "@loop.outer",
+                    ["il"] = "@loop.inner",
+                    ["is"] = "@statement.inner",
+                    ["as"] = "@statement.outer",
+                    ["ad"] = "@comment.outer",
+                    ["am"] = "@call.outer",
+                    ["im"] = "@call.inner",
                 },
             },
 
             swap = {
                 enable = true,
                 swap_next = {
-                    ["<leader>rx"] = "@parameter.inner",
+                    ["<leader>sx"] = "@parameter.inner",
                 },
                 swap_previous = {
-                    ["<leader>rX"] = "@parameter.inner",
+                    ["<leader>sX"] = "@parameter.inner",
                 },
             },
 
@@ -101,32 +101,32 @@ function M.setup()
             },
         },
         ensure_installed = {
-            'bash',
-            'c',
-            'cmake',
-            'cpp',
-            'css',
-            'html',
-            'javascript',
-            'json',
-            'jsonc',
-            'latex',
-            'sql',
-            'diff',
-            'regex',
-            'lua',
-            'python',
-            'toml',
-            'dockerfile',
-            'typescript',
-            'vue',
-            'yaml',
-            'vim',
-            'go',
-            'gomod',
-            'gowork',
-            'rust',
-            'markdown',
+            "bash",
+            "c",
+            "cmake",
+            "cpp",
+            "css",
+            "html",
+            "javascript",
+            "json",
+            "jsonc",
+            "latex",
+            "sql",
+            "diff",
+            "regex",
+            "lua",
+            "python",
+            "toml",
+            "dockerfile",
+            "typescript",
+            "vue",
+            "yaml",
+            "vim",
+            "go",
+            "gomod",
+            "gowork",
+            "rust",
+            "markdown",
         },
 
         -- endwise need RRethy/nvim-treesitter-endwise installed

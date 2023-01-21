@@ -1,27 +1,25 @@
 -- [[ init.lua ]]
 
 -- Utils libraries
-local utils = require('utils')
+local utils = require "utils"
 
 -- IMPORTS
-require('vars') -- Variables
-require('opts') -- Options
-require('maps') -- Keymaps
+require "vars" -- Variables
+require "opts" -- Options
+require "maps" -- Keymaps
 
-require('plugins').setup() -- Plugins
-
+require("plugins").setup() -- Plugins
 
 utils.create_augroup({
-    { 'BufWritePre', '*.go,*.lua,*.py', 'lua', 'vim.lsp.buf.format{ async=false }' },
-    { 'BufWritePre', '*.go', 'lua', 'go_org_imports(1000)' }
-}, 'lsp config')
+    -- { 'BufWritePre', '*.go,*.lua,*.py', 'lua', 'vim.lsp.buf.format{ async=false }' },
+    { "BufWritePre", "*.go", "lua", "go_org_imports(1000)" },
+}, "lsp config")
 
 -- open termnial in insert mode and enter termnial save file
 utils.create_augroup({
-    { 'BufEnter', 'term://*', 'start' },
-    { 'TermEnter', '*', 'wall' }
-}, 'open termnial auto cmd')
-
+    { "BufEnter", "term://*", "start" },
+    { "TermEnter", "*", "wall" },
+}, "open termnial auto cmd")
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     pattern = "*",
@@ -30,7 +28,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     callback = function(ctx)
         local dir = vim.fn.fnamemodify(ctx.file, ":p:h")
         vim.fn.mkdir(dir, "p")
-    end
+    end,
 })
 
 -- highlight yanked region, see `:h lua-highlight`
@@ -39,12 +37,12 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
     group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
     callback = function()
         vim.highlight.on_yank { timeout = 300, on_visual = false }
-    end
+    end,
 })
 
 -- go to last location of buffer
 vim.api.nvim_create_autocmd("BufReadPost", {
-    command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]]
+    command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]],
 })
 
 -- show cursor line only in active window
@@ -58,7 +56,7 @@ vim.api.nvim_create_autocmd(
     { pattern = "*", command = "setlocal nocursorline", group = cursorGrp }
 )
 
-vim.cmd([[
+vim.cmd [[
 " need 'lyokha/vim-xkbswitch' installed
 " mac use vim-xkbswitch enable
 if has('mac')
@@ -75,4 +73,4 @@ nmap <Leader>di <Plug>VimspectorBalloonEval
 " for visual mode, the visually selected text
 xmap <Leader>di <Plug>VimspectorBalloonEval
 
-]])
+]]
