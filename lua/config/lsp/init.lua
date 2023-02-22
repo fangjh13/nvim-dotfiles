@@ -99,7 +99,7 @@ function M.setup()
         -- add any options here, or leave empty to use the default settings
     }
 
-    nvim_lsp.sumneko_lua.setup {
+    nvim_lsp.lua_ls.setup {
         cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" },
         capabilities = capabilities,
         on_attach = on_attach,

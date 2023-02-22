@@ -2,22 +2,21 @@ local M = {}
 
 function M.setup()
     -- Set up nvim-cmp.
-    local cmp = require 'cmp'
-    local feedkeys = require('cmp.utils.feedkeys')
-    local keymap = require('cmp.utils.keymap')
-    local luasnip = require("luasnip")
-    local compare = require("cmp.config.compare")
+    local cmp = require "cmp"
+    local feedkeys = require "cmp.utils.feedkeys"
+    local keymap = require "cmp.utils.keymap"
+    local luasnip = require "luasnip"
+    local compare = require "cmp.config.compare"
 
     local has_words_before = function()
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
     end
 
-
-    cmp.setup({
+    cmp.setup {
         snippet = {
             expand = function(args)
-                require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+                require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
             end,
         },
         window = {
@@ -44,7 +43,7 @@ function M.setup()
             ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
             ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
             ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
-            ['<C-e>'] = cmp.mapping(cmp.mapping.abort(), { "i", "c" }),
+            ["<C-e>"] = cmp.mapping(cmp.mapping.abort(), { "i", "c" }),
             ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
 
             ["<Tab>"] = cmp.mapping(function(fallback)
@@ -81,12 +80,11 @@ function M.setup()
             },
         },
 
-
-        sources = cmp.config.sources({
-            { name = "treesitter" },
-            { name = 'buffer' },
-            { name = 'luasnip' },
-            { name = 'buffer' },
+        sources = cmp.config.sources {
+            { name = "treesitter", max_item_count = 10 },
+            { name = "buffer" },
+            { name = "luasnip" },
+            { name = "buffer" },
             { name = "nvim_lua" },
             { name = "path" },
             { name = "nvim_lsp_signature_help" },
@@ -94,9 +92,9 @@ function M.setup()
             -- { name = "spell" },
             -- { name = "emoji" },
             -- { name = "calc" },
-            { name = 'nvim_lsp', option = { use_show_condition = true } },
-            { name = 'copilot' }, -- github copilot
-        }),
+            { name = "nvim_lsp", option = { use_show_condition = true } },
+            { name = "copilot" }, -- github copilot
+        },
 
         preselect = cmp.PreselectMode.None,
 
@@ -119,39 +117,38 @@ function M.setup()
                 -- compare.exact,
                 -- compare.kind,
                 -- compare.length,
-            }
+            },
         },
-    })
+    }
 
     -- Set configuration for specific filetype.
-    cmp.setup.filetype('gitcommit', {
+    cmp.setup.filetype("gitcommit", {
         sources = cmp.config.sources({
-            { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+            { name = "cmp_git" }, -- You can specify the `cmp_git` source if you were installed it.
         }, {
-            { name = 'buffer' },
-        })
+            { name = "buffer" },
+        }),
     })
 
     -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-    cmp.setup.cmdline('/', {
+    cmp.setup.cmdline("/", {
         sources = {
-            { name = 'buffer' }
-        }
+            { name = "buffer" },
+        },
     })
 
     -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-    cmp.setup.cmdline(':', {
-        sources = cmp.config.sources({
-            { name = 'path' },
-            { name = 'cmdline' },
+    cmp.setup.cmdline(":", {
+        sources = cmp.config.sources {
+            { name = "path" },
+            { name = "cmdline" },
             -- { name = 'fuzzy_path', option = { fd_timeout_msec = 1500, fd_cmd = { 'fd', '-d', '20', '-p' } } }, -- fuzzy path
-        })
+        },
     })
 
     -- auto pairs need install nvim-autopairs
     local cmp_autopairs = require "nvim-autopairs.completion.cmp"
     cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done { map_char = { tex = "" } })
-
 end
 
 return M

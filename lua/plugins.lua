@@ -70,12 +70,19 @@ function M.setup()
                 require("config.lualine").setup()
             end,
         }
+
+        -- [[ Better Netrw ]]
+        use { "tpope/vim-vinegar" }
+
+        -- [[ treesitter ]]
         use {
             "nvim-treesitter/nvim-treesitter",
             opt = true,
             event = "BufRead",
             requires = {
                 { "nvim-treesitter/nvim-treesitter-textobjects" },
+                "windwp/nvim-ts-autotag",
+                "JoosepAlviste/nvim-ts-context-commentstring",
             },
             run = function()
                 local ts_update = require("nvim-treesitter.install").update { with_sync = true }
@@ -85,6 +92,39 @@ function M.setup()
                 require("config.treesitter").setup()
             end,
         } -- highlight preview
+
+        -- Auto tag
+        use {
+            "windwp/nvim-ts-autotag",
+            wants = "nvim-treesitter",
+            event = "InsertEnter",
+            config = function()
+                require("nvim-ts-autotag").setup { enable = true }
+            end,
+        }
+
+        -- End wise
+        use {
+            "RRethy/nvim-treesitter-endwise",
+            wants = "nvim-treesitter",
+            event = "InsertEnter",
+            disable = false,
+        }
+
+        -- [[ User interface ]]
+        use {
+            "stevearc/dressing.nvim",
+            event = "BufEnter",
+            config = function()
+                require("dressing").setup {
+                    select = {
+                        backend = { "telescope", "fzf", "builtin" },
+                    },
+                }
+            end,
+            disable = true,
+        }
+
         use {
             "Mofiqul/dracula.nvim",
             config = function()
@@ -175,21 +215,20 @@ function M.setup()
                 "ray-x/cmp-treesitter",
                 "hrsh7th/cmp-cmdline",
                 "saadparwaiz1/cmp_luasnip",
-                -- "hrsh7th/cmp-calc",
-                -- "f3fora/cmp-spell",
-                -- "hrsh7th/cmp-emoji",
                 {
                     "L3MON4D3/LuaSnip", -- [[ Snippets ]]
-                    wants = "friendly-snippets",
+                    wants = { "friendly-snippets", "vim-snippets" },
                     config = function()
-                        -- require("luasnip.loaders.from_snipmate").lazy_load({ paths = "~/.config/nvim/snippets" })
                         require("config.luasnip").setup()
                     end,
                 },
                 "rafamadriz/friendly-snippets",
+                "honza/vim-snippets",
                 "hrsh7th/cmp-nvim-lsp",
                 "hrsh7th/cmp-nvim-lsp-signature-help",
-
+                -- "hrsh7th/cmp-calc",
+                -- "f3fora/cmp-spell",
+                -- "hrsh7th/cmp-emoji",
                 -- cmp fuzzy path
                 -- { 'romgrk/fzy-lua-native', run = 'make' },
                 -- { 'tzachar/cmp-fuzzy-path', requires = { 'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim' } },
@@ -230,24 +269,6 @@ function M.setup()
             config = function()
                 require("Comment").setup {}
             end,
-        }
-
-        -- Auto tag
-        use {
-            "windwp/nvim-ts-autotag",
-            wants = "nvim-treesitter",
-            event = "InsertEnter",
-            config = function()
-                require("nvim-ts-autotag").setup { enable = true }
-            end,
-        }
-
-        -- End wise
-        use {
-            "RRethy/nvim-treesitter-endwise",
-            wants = "nvim-treesitter",
-            event = "InsertEnter",
-            disable = false,
         }
 
         -- [[ Switch Keyboard Layout ]]

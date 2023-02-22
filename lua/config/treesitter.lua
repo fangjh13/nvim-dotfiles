@@ -15,8 +15,8 @@ function M.setup()
             keymaps = { -- mappings for incremental selection (visual mappings)
                 init_selection = "tnn", -- maps in normal mode to init the node/scope selection
                 node_incremental = "tni", -- increment to the upper named parent
-                scope_incremental = "tsi", -- increment to the upper scope
                 node_decremental = "tnd", -- decrement to the previous node
+                scope_incremental = "tsi", -- increment to the upper scope
             },
         },
 
@@ -60,6 +60,7 @@ function M.setup()
                 },
             },
 
+            -- parameter swapping
             swap = {
                 enable = true,
                 swap_next = {
@@ -74,11 +75,11 @@ function M.setup()
                 enable = true,
                 set_jumps = true, -- whether to set jumps in the jumplist
                 goto_next_start = {
-                    ["]m"] = "@function.outer",
+                    ["]M"] = "@function.outer",
                     ["]]"] = "@class.outer",
                 },
                 goto_next_end = {
-                    ["]M"] = "@function.outer",
+                    ["]m"] = "@function.outer",
                     ["]["] = "@class.outer",
                 },
                 goto_previous_start = {
@@ -132,6 +133,17 @@ function M.setup()
         -- endwise need RRethy/nvim-treesitter-endwise installed
         endwise = {
             enable = true,
+        },
+
+        -- autotag need windwp/nvim-ts-autotag installed
+        autotag = {
+            enable = true,
+        },
+
+        -- context_commentstring need nvim-ts-context-commentstring installed
+        context_commentstring = {
+            enable = true,
+            enable_autocmd = false,
         },
     }
 end
