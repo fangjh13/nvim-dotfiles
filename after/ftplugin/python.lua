@@ -7,5 +7,5 @@ vim.bo.autoindent = true
 vim.bo.smartindent = true
 
 vim.cmd [[
-    compiler python
+  compiler python
 ]]

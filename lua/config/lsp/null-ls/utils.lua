@@ -14,4 +14,3 @@ function M.list_registered_providers_names(filetype)
 end
 
 return M
-
