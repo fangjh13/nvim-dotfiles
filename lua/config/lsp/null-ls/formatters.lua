@@ -55,6 +55,12 @@ function M.setup(client, bufnr)
   client.server_capabilities.documentFormattingProvder = enable
   client.server_capabilities.documentRangeFormattingProvider = enable
   if client.server_capabilities.documentFormattingProvider then
+    -- vim.cmd [[
+    --   augroup LspFormat
+    --     autocmd! * <buffer>
+    --     autocmd BufWritePre <buffer> lua require("config.lsp.null-ls.formatters").format()
+    --   augroup END
+    -- ]]
     local lsp_format_grp = api.nvim_create_augroup("LspFormat", { clear = true })
     api.nvim_create_autocmd("BufWritePre", {
       callback = function()

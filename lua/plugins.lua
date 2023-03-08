@@ -165,14 +165,12 @@ function M.setup()
         require("config.autopairs").setup()
       end,
     }
+
+    -- [[ LSP ]]
     use {
       "neovim/nvim-lspconfig",
-      opt = true,
-      event = "BufReadPre",
-      -- wants = { "cmp-nvim-lsp", "nvim-lsp-installer", "lsp_signature.nvim" },
       wants = {
-        "cmp-nvim-lsp",
-        "lua-dev.nvim",
+        "cmp_nvim_lsp",
         "vim-illuminate",
         "null-ls.nvim",
       },
@@ -180,9 +178,12 @@ function M.setup()
         require("config.lsp").setup()
       end,
       requires = {
-        --    "williamboman/nvim-lsp-installer",
+        "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim",
+        "WhoIsSethDaniel/mason-tool-installer.nvim",
+        { "jayp0521/mason-null-ls.nvim" },
+        "folke/neodev.nvim",
         "RRethy/vim-illuminate",
-        "folke/lua-dev.nvim",
         "jose-elias-alvarez/null-ls.nvim",
         {
           "j-hui/fidget.nvim", -- display the LSP progress
@@ -190,8 +191,24 @@ function M.setup()
             require("fidget").setup {}
           end,
         },
+        { "b0o/schemastore.nvim", module = { "schemastore" } },
+        { "jose-elias-alvarez/typescript.nvim", module = { "typescript" } },
+        {
+          "SmiteshP/nvim-navic",
+          -- "alpha2phi/nvim-navic",
+          config = function()
+            require("nvim-navic").setup {}
+          end,
+          module = { "nvim-navic" },
+        },
+        {
+          "simrat39/inlay-hints.nvim",
+          config = function()
+            require("inlay-hints").setup()
+          end,
+        },
       },
-    } -- nvim buildin LSP
+    }
 
     -- [[ Motions ]]
     use { "andymass/vim-matchup", event = "CursorMoved" }
@@ -231,7 +248,7 @@ function M.setup()
         },
         "rafamadriz/friendly-snippets",
         "honza/vim-snippets",
-        "hrsh7th/cmp-nvim-lsp",
+        {"hrsh7th/cmp-nvim-lsp", module={"cmp_nvim_lsp"}},
         "hrsh7th/cmp-nvim-lsp-signature-help",
         -- "hrsh7th/cmp-calc",
         -- "f3fora/cmp-spell",

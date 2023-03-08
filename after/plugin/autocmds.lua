@@ -3,13 +3,13 @@ local utils = require "utils"
 
 utils.create_augroup({
   -- { 'BufWritePre', '*.go,*.lua,*.py', 'lua', 'vim.lsp.buf.format{ async=false }' },
-  { "BufWritePre", "*.go", "lua", "go_org_imports(1000)" },
+  { "BufWritePre", "*.go", "lua", [[ require("config.lsp").go_org_imports(1000) ]] },
 }, "lsp config")
 
 -- open termnial in insert mode and enter termnial save file
 utils.create_augroup({
-  { "BufEnter", "term://*", "start" },
-  { "TermEnter", "*", "wall" },
+  { "BufEnter",  "term://*", "start" },
+  { "TermEnter", "*",        "wall" },
 }, "open termnial auto cmd")
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {

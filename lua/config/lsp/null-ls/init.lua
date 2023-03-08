@@ -20,12 +20,12 @@ end
 
 local sources = {
   -- formatting
-  b.formatting.prettierd, -- markdown
-  b.formatting.shfmt, -- shell script
+  b.formatting.prettierd,   -- markdown
+  b.formatting.shfmt,       -- shell script
   b.formatting.fixjson,
   b.formatting.black.with { extra_args = { "--fast" } },
   b.formatting.isort,
-  b.formatting.stylua, -- lua
+  b.formatting.stylua,   -- lua
   -- with_root_file(b.formatting.stylua, "stylua.toml"),
 
   -- diagnostics
@@ -34,7 +34,7 @@ local sources = {
   b.diagnostics.eslint_d,
   b.diagnostics.flake8,
   b.diagnostics.tsc,
-  b.diagnostics.selene, -- lua
+  b.diagnostics.selene,   -- lua
   -- with_root_file(b.diagnostics.selene, "selene.toml"),
   with_diagnostics_code(b.diagnostics.shellcheck),
 
@@ -42,6 +42,7 @@ local sources = {
   b.code_actions.gitsigns,
   b.code_actions.eslint_d,
   b.code_actions.gitrebase,
+  b.code_actions.gomodifytags,
 
   -- hover
   b.hover.dictionary,
@@ -54,7 +55,7 @@ function M.setup(opts)
     save_after_format = false,
     sources = sources,
     on_attach = opts.on_attach,
-    root_dir = nls_utils.root_pattern ".git",
+    root_dir = nls_utils.root_pattern(".null-ls-root", "Makefile", ".git"),
   }
 end
 
