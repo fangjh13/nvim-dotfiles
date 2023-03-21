@@ -1,22 +1,52 @@
 local M = {}
 
+local swap_next, swap_prev = (function()
+  local swap_objects = {
+    p = "@parameter.inner",
+    f = "@function.outer",
+    c = "@class.outer",
+  }
+
+  local n, p = {}, {}
+  for key, obj in pairs(swap_objects) do
+    n[string.format("<Leader>sw%s", key)] = obj
+    p[string.format("<Leader>sW%s", key)] = obj
+  end
+
+  return n, p
+end)()
+
 function M.setup()
   require("nvim-treesitter.configs").setup {
+    -- One of "all", "maintained" (parsers with maintainers), or a list of languages
+    ensure_installed = "all",
+
+    -- Install languages synchronously (only applied to `ensure_installed`)
+    sync_install = false,
+
     highlight = {
-      enable = true, -- false will disable the whole extension
+      enable = true,       -- false will disable the whole extension
+    },
+
+    rainbow = {
+      enable = true,
+      extended_mode = true,
+      max_file_lines = nil,
     },
 
     indent = {
       enable = true,
+      disable = { "python", "java", "rust", "lua", "go" },
     },
 
     incremental_selection = {
       enable = true,
-      keymaps = { -- mappings for incremental selection (visual mappings)
-        init_selection = "tnn", -- maps in normal mode to init the node/scope selection
-        node_incremental = "tni", -- increment to the upper named parent
-        node_decremental = "tnd", -- decrement to the previous node
-        scope_incremental = "tsi", -- increment to the upper scope
+      keymaps = {
+        -- mappings for incremental selection (visual mappings)
+        init_selection = "tnn",            -- maps in normal mode to init the node/scope selection
+        node_incremental = "tni",          -- increment to the upper named parent
+        node_decremental = "tnd",          -- decrement to the previous node
+        scope_incremental = "tsi",         -- increment to the upper scope
       },
     },
 
@@ -25,14 +55,24 @@ function M.setup()
       enable = true,
     },
 
+    -- nvim-treesitter-textsubjects
+    textsubjects = {
+      enable = true,
+      prev_selection = ",",       -- (Optional) keymap to select the previous selection
+      keymaps = {
+        ["."] = "textsubjects-smart",
+        [";"] = "textsubjects-container-outer",
+        ["i;"] = "textsubjects-container-inner",
+      },
+    },
+
     -- nvim-treesitter-textobjects
-    textobjects = { -- syntax-aware textobjects
+    textobjects = {
+      -- syntax-aware textobjects
       select = {
         enable = true,
-
         -- Automatically jump forward to textobj, similar to targets.vim
         lookahead = true,
-
         keymaps = {
           -- You can use the capture groups defined in textobjects.scm
           -- ['iL'] = { -- you can define your own textobjects directly here
@@ -45,7 +85,7 @@ function M.setup()
           ["af"] = "@function.outer",
           ["if"] = "@function.inner",
           ["ac"] = "@class.outer",
-          ["ic"] = "@class.inner",
+          ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
           ["aC"] = "@conditional.outer",
           ["iC"] = "@conditional.inner",
           ["ae"] = "@block.outer",
@@ -58,22 +98,21 @@ function M.setup()
           ["am"] = "@call.outer",
           ["im"] = "@call.inner",
         },
+        selection_modes = {
+          ["@parameter.outer"] = "v",           -- charwise
+          ["@function.outer"] = "V",            -- linewise
+          ["@class.outer"] = "<c-v>",           -- blockwise
+        },
       },
-
       -- parameter swapping
       swap = {
         enable = true,
-        swap_next = {
-          ["<leader>sx"] = "@parameter.inner",
-        },
-        swap_previous = {
-          ["<leader>sX"] = "@parameter.inner",
-        },
+        swap_next = swap_next,
+        swap_previous = swap_prev,
       },
-
       move = {
         enable = true,
-        set_jumps = true, -- whether to set jumps in the jumplist
+        set_jumps = true,         -- whether to set jumps in the jumplist
         goto_next_start = {
           ["]M"] = "@function.outer",
           ["]]"] = "@class.outer",
@@ -91,7 +130,6 @@ function M.setup()
           ["[]"] = "@class.outer",
         },
       },
-
       lsp_interop = {
         enable = true,
         border = "none",
@@ -100,34 +138,6 @@ function M.setup()
           ["<leader>dF"] = "@class.outer",
         },
       },
-    },
-    ensure_installed = {
-      "bash",
-      "c",
-      "cmake",
-      "cpp",
-      "css",
-      "html",
-      "javascript",
-      "json",
-      "jsonc",
-      "latex",
-      "sql",
-      "diff",
-      "regex",
-      "lua",
-      "python",
-      "toml",
-      "dockerfile",
-      "typescript",
-      "vue",
-      "yaml",
-      "vim",
-      "go",
-      "gomod",
-      "gowork",
-      "rust",
-      "markdown",
     },
 
     -- endwise need RRethy/nvim-treesitter-endwise installed
@@ -143,7 +153,6 @@ function M.setup()
     -- context_commentstring need nvim-ts-context-commentstring installed
     context_commentstring = {
       enable = true,
-      enable_autocmd = false,
     },
   }
 end

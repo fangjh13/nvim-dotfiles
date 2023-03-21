@@ -53,6 +53,8 @@ map("n", "<leader>fh", [[:Telescope help_tags<cr>]], {})
 
 -- map %% expand current direcotry
 map("c", "%%", "getcmdtype() == ':' ? expand('%:h').'/' : '%%'", { expr = true, desc = "expand current direcotry" })
+-- map @% expand current file name
+map("c", "@%", "getcmdtype() == ':' ? expand('%') : '@%'", { expr = true, desc = "expand current file name" })
 
 -- cursor movement like termnial in command mode
 keymap.set("c", "<C-a>", function()

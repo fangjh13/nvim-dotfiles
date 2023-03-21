@@ -59,7 +59,7 @@ function M.setup()
       end,
     }
 
-    use { "mhinz/vim-startify" } -- start screen
+    use { "mhinz/vim-startify" }         -- start screen
     use { "DanilaMihailov/beacon.nvim" } -- cursor jump
     --[[ Status Line ]]
     use {
@@ -155,8 +155,8 @@ function M.setup()
       config = function()
         require("gitsigns").setup()
       end,
-    } -- gitgutter
-    use { "junegunn/gv.vim" } -- commit history
+    }                          -- gitgutter
+    use { "junegunn/gv.vim" }  -- commit history
     use {
       "windwp/nvim-autopairs", -- auto insert pairs
       wants = "nvim-treesitter",
@@ -191,7 +191,7 @@ function M.setup()
             require("fidget").setup {}
           end,
         },
-        { "b0o/schemastore.nvim", module = { "schemastore" } },
+        { "b0o/schemastore.nvim",               module = { "schemastore" } },
         { "jose-elias-alvarez/typescript.nvim", module = { "typescript" } },
         {
           "SmiteshP/nvim-navic",
@@ -200,12 +200,6 @@ function M.setup()
             require("nvim-navic").setup {}
           end,
           module = { "nvim-navic" },
-        },
-        {
-          "simrat39/inlay-hints.nvim",
-          config = function()
-            require("inlay-hints").setup()
-          end,
         },
       },
     }
@@ -248,8 +242,26 @@ function M.setup()
         },
         "rafamadriz/friendly-snippets",
         "honza/vim-snippets",
-        {"hrsh7th/cmp-nvim-lsp", module={"cmp_nvim_lsp"}},
+        { "hrsh7th/cmp-nvim-lsp", module = { "cmp_nvim_lsp" } },
         "hrsh7th/cmp-nvim-lsp-signature-help",
+        { "onsails/lspkind-nvim", module = { "lspkind" } },
+        {
+          "zbirenbaum/copilot.lua",
+          -- event = "InsertEnter",
+          config = function()
+            require("copilot").setup {
+              suggestion = { enabled = false },
+              panel = { enabled = false },
+            }
+          end,
+        },
+        {
+          "zbirenbaum/copilot-cmp", -- add copilot to cmp source
+          -- after = { "copilot.lua" },
+          config = function()
+            require("copilot_cmp").setup()
+          end,
+        },
         -- "hrsh7th/cmp-calc",
         -- "f3fora/cmp-spell",
         -- "hrsh7th/cmp-emoji",
@@ -257,32 +269,6 @@ function M.setup()
         -- { 'romgrk/fzy-lua-native', run = 'make' },
         -- { 'tzachar/cmp-fuzzy-path', requires = { 'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim' } },
       },
-    }
-
-    -- cmp fuzzy path
-    -- use {'romgrk/fzy-lua-native', run = 'make'}
-    -- use "hrsh7th/nvim-cmp"
-    -- use {'tzachar/cmp-fuzzy-path', requires = {'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim'}}
-
-    -- [[ Github Copilot ]]
-    -- use { "github/copilot.vim" }   -- github copilot only used get auth_token
-    use {
-      "zbirenbaum/copilot-cmp", -- add copilot to cmp source
-      requires = {
-        "zbirenbaum/copilot.lua",
-        event = "InsertEnter",
-        config = function()
-          vim.defer_fn(function()
-            require("copilot").setup {
-              plugin_manager_path = vim.fn.stdpath "data" .. "/site/pack/packer",
-            }
-          end, 100)
-        end,
-      },
-      after = { "copilot.lua" },
-      config = function()
-        require("copilot_cmp").setup()
-      end,
     }
 
     -- [[ Comment ]]
