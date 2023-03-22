@@ -6,7 +6,7 @@ function M.setup()
   local conf = {
     profile = {
       enable = true,
-      threshold = 0, -- the amount in ms that a plugins load time must be over for it to be included in the profile
+      threshold = 0,       -- the amount in ms that a plugins load time must be over for it to be included in the profile
     },
     display = {
       open_fn = function()
@@ -39,10 +39,10 @@ function M.setup()
 
   -- Plugins
   local function plugins(use)
-    use "wbthomason/packer.nvim" -- manage itself
+    use "wbthomason/packer.nvim"     -- manage itself
 
     use {
-      "kyazdani42/nvim-web-devicons", -- filesystem icons
+      "kyazdani42/nvim-web-devicons",       -- filesystem icons
       module = "nvim-web-devicons",
       config = function()
         require("nvim-web-devicons").setup { default = true }
@@ -51,7 +51,7 @@ function M.setup()
 
     -- [[ File Explorer ]]
     use {
-      "kyazdani42/nvim-tree.lua", -- filesystem navigation
+      "kyazdani42/nvim-tree.lua",       -- filesystem navigation
       wants = "nvim-web-devicons",
       cmd = { "NvimTreeToggle", "NvimTreeClose", "NvimTreeFindFile", "NvimTreeRefresh" },
       config = function()
@@ -59,8 +59,8 @@ function M.setup()
       end,
     }
 
-    use { "mhinz/vim-startify" }         -- start screen
-    use { "DanilaMihailov/beacon.nvim" } -- cursor jump
+    use { "mhinz/vim-startify" }             -- start screen
+    use { "DanilaMihailov/beacon.nvim" }     -- cursor jump
     --[[ Status Line ]]
     use {
       "nvim-lualine/lualine.nvim",
@@ -91,7 +91,7 @@ function M.setup()
       config = function()
         require("config.treesitter").setup()
       end,
-    } -- highlight preview
+    }     -- highlight preview
 
     -- Auto tag
     use {
@@ -133,11 +133,11 @@ function M.setup()
     }
 
     use {
-      "nvim-telescope/telescope.nvim", -- fuzzy finder
+      "nvim-telescope/telescope.nvim",       -- fuzzy finder
       event = "BufRead",
       requires = { "nvim-lua/plenary.nvim" },
     }
-    use { "majutsushi/tagbar" } -- code structure
+    use { "majutsushi/tagbar" }     -- code structure
     --[[ Indent Line ]]
     use {
       "lukas-reineke/indent-blankline.nvim",
@@ -146,7 +146,7 @@ function M.setup()
         require("config.indentblankline").setup()
       end,
     }
-    use { "tpope/vim-fugitive" } -- git integration
+    use { "tpope/vim-fugitive" }     -- git integration
     use {
       "lewis6991/gitsigns.nvim",
       event = "BufReadPre",
@@ -155,10 +155,10 @@ function M.setup()
       config = function()
         require("gitsigns").setup()
       end,
-    }                          -- gitgutter
-    use { "junegunn/gv.vim" }  -- commit history
+    }                                -- gitgutter
+    use { "junegunn/gv.vim" }        -- commit history
     use {
-      "windwp/nvim-autopairs", -- auto insert pairs
+      "windwp/nvim-autopairs",       -- auto insert pairs
       wants = "nvim-treesitter",
       module = { "nvim-autopairs.completion.cmp", "nvim-autopairs" },
       config = function()
@@ -186,7 +186,7 @@ function M.setup()
         "RRethy/vim-illuminate",
         "jose-elias-alvarez/null-ls.nvim",
         {
-          "j-hui/fidget.nvim", -- display the LSP progress
+          "j-hui/fidget.nvim",           -- display the LSP progress
           config = function()
             require("fidget").setup {}
           end,
@@ -202,6 +202,18 @@ function M.setup()
           module = { "nvim-navic" },
         },
       },
+    }
+
+    -- [[ Surround ]]
+    use {
+      "kylechui/nvim-surround",
+      tag = "*",       -- Use for stability; omit to use `main` branch for the latest features
+      event = "BufReadPre",
+      config = function()
+        require("nvim-surround").setup {
+          -- Configuration here, or leave empty to use defaults
+        }
+      end,
     }
 
     -- [[ Motions ]]
@@ -234,7 +246,7 @@ function M.setup()
         "hrsh7th/cmp-cmdline",
         "saadparwaiz1/cmp_luasnip",
         {
-          "L3MON4D3/LuaSnip", -- [[ Snippets ]]
+          "L3MON4D3/LuaSnip",           -- [[ Snippets ]]
           wants = { "friendly-snippets", "vim-snippets" },
           config = function()
             require("config.luasnip").setup()
@@ -256,7 +268,7 @@ function M.setup()
           end,
         },
         {
-          "zbirenbaum/copilot-cmp", -- add copilot to cmp source
+          "zbirenbaum/copilot-cmp",           -- add copilot to cmp source
           -- after = { "copilot.lua" },
           config = function()
             require("copilot_cmp").setup()
