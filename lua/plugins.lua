@@ -219,6 +219,16 @@ function M.setup()
     -- [[ Motions ]]
     use { "andymass/vim-matchup", event = "CursorMoved" }
 
+    -- [[ Jumps ]]
+    use {
+      "ggandor/leap.nvim",
+      keys = { "s", "S" },
+      config = function()
+        local leap = require "leap"
+        leap.add_default_mappings()
+      end,
+    }
+
     -- [[ Debug ]]
     use {
       "puremourning/vimspector",

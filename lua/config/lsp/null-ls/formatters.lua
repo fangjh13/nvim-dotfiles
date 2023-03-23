@@ -55,7 +55,6 @@ function M.setup(client, bufnr)
   client.server_capabilities.documentFormattingProvder = enable
   client.server_capabilities.documentRangeFormattingProvider = enable
   if client.server_capabilities.documentFormattingProvider then
-    vim.notify("formatting client name " .. client.name)
     vim.cmd [[
       augroup LspFormat
         autocmd! * <buffer>
