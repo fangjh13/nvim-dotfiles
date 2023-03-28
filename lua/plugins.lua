@@ -117,12 +117,13 @@ function M.setup()
       event = "BufEnter",
       config = function()
         require("dressing").setup {
+          input = { relative = "editor" },
           select = {
             backend = { "telescope", "fzf", "builtin" },
           },
         }
       end,
-      disable = true,
+      disable = false,
     }
 
     use {
@@ -132,10 +133,23 @@ function M.setup()
       end,
     }
 
+    -- [[ Better quickfix window ]]
+    use {
+      "kevinhwang91/nvim-bqf",
+      ft = "qf",
+      disable = false,
+      config = function()
+        require("bqf").setup()
+      end,
+    }
+
     use {
       "nvim-telescope/telescope.nvim",       -- fuzzy finder
       event = "BufRead",
-      requires = { "nvim-lua/plenary.nvim" },
+      requires = {
+        "nvim-lua/plenary.nvim",
+        "nvim-lua/popup.nvim",
+      },
     }
     use { "majutsushi/tagbar" }     -- code structure
     --[[ Indent Line ]]
@@ -211,7 +225,9 @@ function M.setup()
       event = "BufReadPre",
       config = function()
         require("nvim-surround").setup {
-          -- Configuration here, or leave empty to use defaults
+          keymaps = {
+            visual = "R",
+          },
         }
       end,
     }
