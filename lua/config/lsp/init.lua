@@ -220,7 +220,7 @@ local opts = {
 }
 
 function M.setup()
-  vim.lsp.set_log_level "warn"
+  vim.lsp.set_log_level "error"
 
   -- null-ls
   require("config.lsp.null-ls").setup(opts)

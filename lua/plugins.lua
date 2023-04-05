@@ -59,6 +59,14 @@ function M.setup()
       end,
     }
 
+    -- [[ Keymap ]]
+    use {
+      "folke/which-key.nvim",
+      config = function()
+        require("config.whichkey").setup()
+      end,
+    }
+
     use { "mhinz/vim-startify" }             -- start screen
     use { "DanilaMihailov/beacon.nvim" }     -- cursor jump
     --[[ Status Line ]]
@@ -143,12 +151,19 @@ function M.setup()
       end,
     }
 
+    -- [[ Fuzzy finder ]]
     use {
-      "nvim-telescope/telescope.nvim",       -- fuzzy finder
+      "nvim-telescope/telescope.nvim",
       event = "BufRead",
       requires = {
+        { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
         "nvim-lua/plenary.nvim",
         "nvim-lua/popup.nvim",
+      },
+      wants = {
+        "telescope-fzf-native.nvim",
+        "plenary.nvim",
+        "popup.nvim",
       },
     }
     use { "majutsushi/tagbar" }     -- code structure
@@ -160,7 +175,11 @@ function M.setup()
         require("config.indentblankline").setup()
       end,
     }
-    use { "tpope/vim-fugitive" }     -- git integration
+    -- [[ Git ]]
+    use {
+      "tpope/vim-fugitive",       -- git wrapper
+      cmd = { "Git", "G", "Ggrep", "Gdiffsplit", "Gvdiffsplit" },
+    }
     use {
       "lewis6991/gitsigns.nvim",
       event = "BufReadPre",
@@ -169,8 +188,9 @@ function M.setup()
       config = function()
         require("gitsigns").setup()
       end,
-    }                                -- gitgutter
-    use { "junegunn/gv.vim" }        -- commit history
+    }                             -- gitgutter
+    use { "junegunn/gv.vim" }     -- commit history
+
     use {
       "windwp/nvim-autopairs",       -- auto insert pairs
       wants = "nvim-treesitter",

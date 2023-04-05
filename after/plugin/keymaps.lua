@@ -43,8 +43,6 @@ map("v", "p", '"_dP', { noremap = true, silent = true })
 -- nvim-tree
 map("n", "<leader>nf", [[:NvimTreeFindFile<cr>]])
 map("n", "<leader>zz", [[:NvimTreeToggle<cr>]])
--- tagbar
-map("n", "<leader>t", [[:TagbarToggle<cr>]], {})
 -- telescop
 map("n", "<leader>ff", [[:Telescope find_files<cr>]], {})
 map("n", "<leader>fg", [[:Telescope live_grep<cr>]], {})
