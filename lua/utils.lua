@@ -146,6 +146,12 @@ function M.info(msg, name)
   vim.notify(msg, vim.log.levels.INFO, { title = name })
 end
 
+function M.is_file_exists(path)
+  -- local stat = vim.loop.fs_stat(path)
+  -- return stat and stat.type == "file"
+  return vim.fn.filereadable(path) == 1
+end
+
 -- Global Access
 _G.utils = M
 

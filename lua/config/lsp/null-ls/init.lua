@@ -10,20 +10,12 @@ local with_diagnostics_code = function(builtin)
   }
 end
 
-local with_root_file = function(builtin, file)
-  return builtin.with {
-    condition = function(utils)
-      return utils.root_has_file(file)
-    end,
-  }
-end
-
 local sources = {
   -- formatting
   b.formatting.prettierd,   -- markdown
   b.formatting.shfmt,       -- shell script
   b.formatting.fixjson,
-  b.formatting.black.with { extra_args = { "--fast" } },
+  b.formatting.black.with { extra_args = { "--fast", "--line-length", "79", "--preview" } },
   b.formatting.isort,
   b.formatting.stylua,   -- lua
   -- with_root_file(b.formatting.stylua, "stylua.toml"),
@@ -32,7 +24,7 @@ local sources = {
   b.diagnostics.write_good,
   -- b.diagnostics.markdownlint,
   b.diagnostics.eslint_d,
-  b.diagnostics.flake8,
+  b.diagnostics.flake8.with { extra_args = { "--ignore=E203" } },
   b.diagnostics.tsc,
   b.diagnostics.selene,   -- lua
   -- with_root_file(b.diagnostics.selene, "selene.toml"),

@@ -48,10 +48,10 @@ vim.api.nvim_create_autocmd(
 )
 
 -- don't auto comment new line
-vim.api.nvim_create_autocmd("BufEnter", {
-  command = [[set formatoptions-=cro]],
-  desc = "don't auto comment new line",
-})
+-- vim.api.nvim_create_autocmd("BufEnter", {
+--   command = [[set formatoptions-=cro]],
+--   desc = "don't auto comment new line",
+-- })
 
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd("FocusGained", { command = [[:checktime]] })

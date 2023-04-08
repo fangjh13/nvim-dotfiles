@@ -48,8 +48,8 @@ local vimspector_go = [[
 
 local function debuggers()
   vim.g.vimspector_install_gadgets = {
-    "debugpy", -- Python
-    "delve", -- Go
+    "debugpy",     -- Python
+    "delve",       -- Go
   }
 end
 
@@ -70,18 +70,24 @@ function M.generate_debug_profile()
     utils.info("Unsupported language - " .. ft, "Generate Debug Profile")
   end
 
-  -- Generate debug profile in a new window
-  vim.api.nvim_exec("vsp", true)
-  local win = vim.api.nvim_get_current_win()
-  local bufNew = vim.api.nvim_create_buf(true, false)
-  vim.api.nvim_buf_set_name(bufNew, ".vimspector.json")
-  vim.api.nvim_win_set_buf(win, bufNew)
+  local file_name = ".vimspector.json"
+  if utils.is_file_exists(file_name) then
+    -- open file in a new window
+    vim.api.nvim_command("vsplit " .. vim.fn.fnameescape(file_name))
+  else
+    -- Generate debug profile in a new window
+    vim.api.nvim_exec("vsp", true)
+    local win = vim.api.nvim_get_current_win()
+    local bufNew = vim.api.nvim_create_buf(true, false)
+    vim.api.nvim_buf_set_name(bufNew, file_name)
+    vim.api.nvim_win_set_buf(win, bufNew)
 
-  local lines = {}
-  for s in debugProfile:gmatch "[^\r\n]+" do
-    table.insert(lines, s)
+    local lines = {}
+    for s in debugProfile:gmatch "[^\r\n]+" do
+      table.insert(lines, s)
+    end
+    vim.api.nvim_buf_set_lines(bufNew, 0, -1, false, lines)
   end
-  vim.api.nvim_buf_set_lines(bufNew, 0, -1, false, lines)
 end
 
 function M.toggle_human_mode()
@@ -95,8 +101,8 @@ function M.toggle_human_mode()
 end
 
 function M.setup()
-  vim.cmd [[packadd! vimspector]] -- Load vimspector
-  debuggers() -- Configure debuggers
+  vim.cmd [[packadd! vimspector]]   -- Load vimspector
+  debuggers()                       -- Configure debuggers
 end
 
 return M

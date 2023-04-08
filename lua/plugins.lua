@@ -188,8 +188,15 @@ function M.setup()
       config = function()
         require("gitsigns").setup()
       end,
-    }                             -- gitgutter
-    use { "junegunn/gv.vim" }     -- commit history
+    }     -- gitgutter
+    use {
+      "junegunn/gv.vim",
+      cmd = { "GV" },
+      config = function()
+        -- add vim-fugitive first
+        vim.cmd [[packadd vim-fugitive]]
+      end,
+    }     -- commit history
 
     use {
       "windwp/nvim-autopairs",       -- auto insert pairs
