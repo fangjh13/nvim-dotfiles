@@ -30,7 +30,7 @@ function M.setup()
 
     snippet = {
       expand = function(args)
-        require("luasnip").lsp_expand(args.body)         -- For `luasnip` users.
+        require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
       end,
     },
     window = {
@@ -39,9 +39,9 @@ function M.setup()
     },
     formatting = {
       format = lspkind.cmp_format {
-        mode = "symbol_text",          -- show symbol and text annotations
-        maxwidth = 40,                 -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-        ellipsis_char = "...",         -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+        mode = "symbol_text", -- show symbol and text annotations
+        maxwidth = 40, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
         symbol_map = { Copilot = "" },
       },
     },
@@ -73,7 +73,7 @@ function M.setup()
         end
       end, { "i", "s", "c" }),
       ["<CR>"] = cmp.mapping {
-        i = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false },         -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        i = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         -- c = function(fallback)
         --     if cmp.visible() then
         --         cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }
@@ -85,14 +85,14 @@ function M.setup()
     },
 
     sources = cmp.config.sources {
-      { name = "nvim_lsp",                max_item_count = 15 },
+      { name = "nvim_lsp", max_item_count = 15 },
       { name = "nvim_lsp_signature_help", max_item_count = 5 },
-      { name = "luasnip",                 max_item_count = 5 },
-      { name = "treesitter",              max_item_count = 5 },
-      { name = "buffer",                  max_item_count = 5 },
+      { name = "luasnip", max_item_count = 5 },
+      { name = "treesitter", max_item_count = 5 },
+      { name = "buffer", max_item_count = 5 },
       { name = "nvim_lua" },
       { name = "path" },
-      { name = "copilot" },       -- github copilot
+      { name = "copilot" }, -- github copilot
     },
 
     preselect = cmp.PreselectMode.None,
@@ -100,7 +100,7 @@ function M.setup()
     sorting = {
       priority_weight = 2,
       comparators = {
-        compare.score,         -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
+        compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
         compare.recently_used,
         compare.offset,
         compare.exact,
@@ -115,7 +115,7 @@ function M.setup()
   -- Set configuration for specific filetype.
   cmp.setup.filetype("gitcommit", {
     sources = cmp.config.sources({
-      { name = "cmp_git" },       -- You can specify the `cmp_git` source if you were installed it.
+      { name = "cmp_git" }, -- You can specify the `cmp_git` source if you were installed it.
     }, {
       { name = "buffer" },
     }),

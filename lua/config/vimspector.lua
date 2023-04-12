@@ -48,8 +48,8 @@ local vimspector_go = [[
 
 local function debuggers()
   vim.g.vimspector_install_gadgets = {
-    "debugpy",     -- Python
-    "delve",       -- Go
+    "debugpy", -- Python
+    "delve", -- Go
   }
 end
 
@@ -101,8 +101,8 @@ function M.toggle_human_mode()
 end
 
 function M.setup()
-  vim.cmd [[packadd! vimspector]]   -- Load vimspector
-  debuggers()                       -- Configure debuggers
+  vim.cmd [[packadd! vimspector]] -- Load vimspector
+  debuggers() -- Configure debuggers
 end
 
 return M

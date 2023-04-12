@@ -71,6 +71,10 @@ local servers = {
         hint = {
           enable = false,
         },
+        format = {
+          -- disable lua_ls format use null-ls stylua instead
+          enable = false,
+        },
       },
     },
   },

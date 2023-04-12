@@ -26,7 +26,7 @@ function M.setup()
     sync_install = false,
 
     highlight = {
-      enable = true,       -- false will disable the whole extension
+      enable = true, -- false will disable the whole extension
     },
 
     rainbow = {
@@ -44,10 +44,10 @@ function M.setup()
       enable = true,
       keymaps = {
         -- mappings for incremental selection (visual mappings)
-        init_selection = "tnn",            -- maps in normal mode to init the node/scope selection
-        node_incremental = "tni",          -- increment to the upper named parent
-        node_decremental = "tnd",          -- decrement to the previous node
-        scope_incremental = "tsi",         -- increment to the upper scope
+        init_selection = "tnn", -- maps in normal mode to init the node/scope selection
+        node_incremental = "tni", -- increment to the upper named parent
+        node_decremental = "tnd", -- decrement to the previous node
+        scope_incremental = "tsi", -- increment to the upper scope
       },
     },
 
@@ -59,7 +59,7 @@ function M.setup()
     -- nvim-treesitter-textsubjects
     textsubjects = {
       enable = true,
-      prev_selection = ",",       -- (Optional) keymap to select the previous selection
+      prev_selection = ",", -- (Optional) keymap to select the previous selection
       keymaps = {
         ["."] = "textsubjects-smart",
         [";"] = "textsubjects-container-outer",
@@ -100,9 +100,9 @@ function M.setup()
           ["im"] = "@call.inner",
         },
         selection_modes = {
-          ["@parameter.outer"] = "v",           -- charwise
-          ["@function.outer"] = "V",            -- linewise
-          ["@class.outer"] = "<c-v>",           -- blockwise
+          ["@parameter.outer"] = "v", -- charwise
+          ["@function.outer"] = "V", -- linewise
+          ["@class.outer"] = "<c-v>", -- blockwise
         },
       },
       -- parameter swapping
@@ -113,7 +113,7 @@ function M.setup()
       },
       move = {
         enable = true,
-        set_jumps = true,         -- whether to set jumps in the jumplist
+        set_jumps = true, -- whether to set jumps in the jumplist
         goto_next_start = {
           ["]M"] = "@function.outer",
           ["]]"] = "@class.outer",

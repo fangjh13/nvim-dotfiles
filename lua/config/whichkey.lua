@@ -5,26 +5,26 @@ function M.setup()
 
   local conf = {
     window = {
-      border = "single",         -- none, single, double, shadow
-      position = "bottom",       -- bottom, top
+      border = "single", -- none, single, double, shadow
+      position = "bottom", -- bottom, top
     },
     plugins = {
-      marks = false,           -- shows a list of your marks on ' and `
-      registers = false,       -- shows your registers on " in NORMAL or <C-r> in INSERT mode
+      marks = false, -- shows a list of your marks on ' and `
+      registers = false, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
       -- the presets plugin, adds help for a bunch of default keybindings in Neovim
       -- No actual key bindings are created
       spelling = {
-        enabled = true,           -- enabling this will show WhichKey when pressing z= to select spelling suggestions
-        suggestions = 20,         -- how many suggestions should be shown in the list?
+        enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+        suggestions = 20, -- how many suggestions should be shown in the list?
       },
       presets = {
-        operators = false,            -- adds help for operators like d, y, ...
-        motions = false,              -- adds help for motions
-        text_objects = false,         -- help for text objects triggered after entering an operator
-        windows = false,              -- default bindings on <c-w>
-        nav = false,                  -- misc bindings to work with windows
-        z = true,                     -- bindings for folds, spelling and others prefixed with z
-        g = false,                    -- bindings for prefixed with g
+        operators = false, -- adds help for operators like d, y, ...
+        motions = false, -- adds help for motions
+        text_objects = false, -- help for text objects triggered after entering an operator
+        windows = false, -- default bindings on <c-w>
+        nav = false, -- misc bindings to work with windows
+        z = true, -- bindings for folds, spelling and others prefixed with z
+        g = false, -- bindings for prefixed with g
       },
     },
     triggers_blacklist = {
@@ -37,12 +37,12 @@ function M.setup()
   }
 
   local opts = {
-    mode = "n",         -- Normal mode
-    prefix = " ",       -- Space
-    buffer = nil,       -- Global mappings. Specify a buffer number for buffer local mappings
-    silent = true,      -- use `silent` when creating keymaps
-    noremap = true,     -- use `noremap` when creating keymaps
-    nowait = false,     -- use `nowait` when creating keymaps
+    mode = "n", -- Normal mode
+    prefix = " ", -- Space
+    buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
+    silent = true, -- use `silent` when creating keymaps
+    noremap = true, -- use `noremap` when creating keymaps
+    nowait = false, -- use `nowait` when creating keymaps
   }
 
   local mappings = {

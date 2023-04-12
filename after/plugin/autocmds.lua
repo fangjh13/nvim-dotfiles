@@ -8,8 +8,8 @@ utils.create_augroup({
 
 -- open termnial in insert mode and enter termnial save file
 utils.create_augroup({
-  { "BufEnter",  "term://*", "start" },
-  { "TermEnter", "*",        "wall" },
+  { "BufEnter", "term://*", "start" },
+  { "TermEnter", "*", "wall" },
 }, "open termnial auto cmd")
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {

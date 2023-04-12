@@ -12,12 +12,12 @@ end
 
 local sources = {
   -- formatting
-  b.formatting.prettierd,   -- markdown
-  b.formatting.shfmt,       -- shell script
+  b.formatting.prettierd, -- markdown
+  b.formatting.shfmt, -- shell script
   b.formatting.fixjson,
   b.formatting.black.with { extra_args = { "--fast", "--line-length", "79", "--preview" } },
   b.formatting.isort,
-  b.formatting.stylua,   -- lua
+  b.formatting.stylua, -- lua
   -- with_root_file(b.formatting.stylua, "stylua.toml"),
 
   -- diagnostics
@@ -26,7 +26,7 @@ local sources = {
   b.diagnostics.eslint_d,
   b.diagnostics.flake8.with { extra_args = { "--ignore=E203" } },
   b.diagnostics.tsc,
-  b.diagnostics.selene,   -- lua
+  b.diagnostics.selene, -- lua
   -- with_root_file(b.diagnostics.selene, "selene.toml"),
   with_diagnostics_code(b.diagnostics.shellcheck),
 
