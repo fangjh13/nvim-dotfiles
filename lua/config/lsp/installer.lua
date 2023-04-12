@@ -16,7 +16,6 @@ function M.setup(servers, server_options)
   require("mason-null-ls").setup {
     automatic_setup = true,
   }
-  require("mason-null-ls").setup_handlers()
 
   require("mason-tool-installer").setup {
     ensure_installed = { "codelldb", "stylua", "shfmt", "shellcheck", "prettierd" },
@@ -40,7 +39,7 @@ function M.setup(servers, server_options)
     -- ["jdtls"] = function()
     --   -- print "jdtls is handled by nvim-jdtls"
     -- end,
-        ["lua_ls"] = function()
+    ["lua_ls"] = function()
       local opts = vim.tbl_deep_extend("force", server_options, servers["lua_ls"] or {})
       -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
       require("neodev").setup {}

@@ -229,6 +229,18 @@ function M.setup()
   require("config.lsp.installer").setup(servers, opts)
 end
 
+local diagnostics_active = true
+
+function M.toggle_diagnostics()
+  diagnostics_active = not diagnostics_active
+  if diagnostics_active then
+    vim.diagnostic.show()
+  else
+    vim.diagnostic.hide()
+  end
+end
+
+-- Go auto imports
 function M.go_org_imports(wait_ms)
   local params = vim.lsp.util.make_range_params()
   params.context = { only = { "source.organizeImports" } }

@@ -66,7 +66,6 @@ function M.setup()
         require("config.whichkey").setup()
       end,
     }
-
     use { "mhinz/vim-startify" }             -- start screen
     use { "DanilaMihailov/beacon.nvim" }     -- cursor jump
     --[[ Status Line ]]
@@ -145,7 +144,6 @@ function M.setup()
     use {
       "kevinhwang91/nvim-bqf",
       ft = "qf",
-      disable = false,
       config = function()
         require("bqf").setup()
       end,
@@ -260,7 +258,10 @@ function M.setup()
     }
 
     -- [[ Motions ]]
-    use { "andymass/vim-matchup", event = "CursorMoved" }
+    use {
+      "andymass/vim-matchup",
+      event = "CursorMoved",
+    }
 
     -- [[ Jumps ]]
     use {

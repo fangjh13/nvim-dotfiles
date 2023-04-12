@@ -78,4 +78,4 @@ o.path:remove "/usr/include"
 o.path:append "**"
 
 -- Time in milliseconds to wait for a mapped sequence to complete.
-o.timeoutlen = 300
+o.timeoutlen = 900
