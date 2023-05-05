@@ -4,6 +4,9 @@ local servers = {
   gopls = {
     settings = {
       gopls = {
+        analyses = {
+          unusedparams = true,
+        },
         hints = {
           assignVariableTypes = true,
           compositeLiteralFields = true,
@@ -14,6 +17,7 @@ local servers = {
           rangeVariableTypes = true,
         },
         semanticTokens = true,
+        staticcheck = true,
       },
     },
   },
@@ -120,10 +124,11 @@ local servers = {
       },
     },
   },
+  sqlls = {},
   -- jdtls = {},
-  -- dockerls = {},
+  dockerls = {},
   -- graphql = {},
-  -- bashls = {},
+  bashls = {},
   -- taplo = {},
   -- omnisharp = {},
   -- kotlin_language_server = {},
@@ -167,7 +172,7 @@ function M.on_attach(client, bufnr)
   require("config.lsp.keymaps").setup(client, bufnr)
 
   -- Configure highlighting
-  require("config.lsp.highlighter").setup(client, bufnr)
+  require("config.lsp.highlighter").setup(client)
 
   -- Configure formatting
   require("config.lsp.null-ls.formatters").setup(client, bufnr)
@@ -194,6 +199,23 @@ function M.on_attach(client, bufnr)
     local navic = require "nvim-navic"
     navic.attach(client, bufnr)
   end
+
+  -- display diagnostic in floating window on CursorHold
+  vim.api.nvim_create_autocmd("CursorHold", {
+    buffer = bufnr,
+    callback = function()
+      local opts = {
+        focusable = false,
+        close_events = { "CursorMoved", "InsertEnter", "User ShowHover" },
+        border = "rounded",
+        source = "always",
+        prefix = " ",
+        scope = "cursor",
+      }
+      vim.diagnostic.open_float(nil, opts)
+    end,
+    desc = "Display diagnostic window on CursorHold",
+  })
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -220,6 +242,9 @@ local opts = {
   capabilities = M.capabilities,
   flags = {
     debounce_text_changes = 150,
+  },
+  init_options = {
+    usePlaceholders = true,
   },
 }
 

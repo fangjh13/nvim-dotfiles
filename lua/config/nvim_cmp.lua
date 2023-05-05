@@ -26,7 +26,10 @@ function M.setup()
   end
 
   cmp.setup {
-    completion = { completeopt = "menu,menuone,noinsert", keyword_length = 1 },
+    completion = {
+      completeopt = "menu,menuone,noselect",
+      keyword_length = 1,
+    },
 
     snippet = {
       expand = function(args)
@@ -73,7 +76,7 @@ function M.setup()
         end
       end, { "i", "s", "c" }),
       ["<CR>"] = cmp.mapping {
-        i = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        i = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         -- c = function(fallback)
         --     if cmp.visible() then
         --         cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }

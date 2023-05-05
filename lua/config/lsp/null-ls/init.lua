@@ -15,9 +15,14 @@ local sources = {
   b.formatting.prettierd, -- markdown
   b.formatting.shfmt, -- shell script
   b.formatting.fixjson,
-  b.formatting.black.with { extra_args = { "--fast", "--line-length", "79", "--preview" } },
+  b.formatting.black.with {
+    extra_args = { "--fast", "--line-length", "79", "--preview" },
+  },
   b.formatting.isort,
-  b.formatting.stylua, -- lua
+  -- lua
+  b.formatting.stylua.with {
+    extra_args = { "--indent-type", "Spaces", "--indent-width", "2" },
+  },
   -- with_root_file(b.formatting.stylua, "stylua.toml"),
 
   -- diagnostics
