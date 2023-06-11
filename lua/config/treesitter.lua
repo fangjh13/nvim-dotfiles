@@ -16,6 +16,10 @@ local swap_next, swap_prev = (function()
   return n, p
 end)()
 
+local function ts_disable(_, bufnr)
+  return vim.api.nvim_buf_line_count(bufnr) > 5000
+end
+
 function M.setup()
   require("nvim-treesitter.configs").setup {
     -- One of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -27,6 +31,12 @@ function M.setup()
 
     highlight = {
       enable = true, -- false will disable the whole extension
+      -- disable in large file
+      -- from https://github.com/nvim-treesitter/nvim-treesitter/issues/556
+      disable = function(lang, bufnr)
+        return lang == "cmake" or ts_disable(lang, bufnr)
+      end,
+      additional_vim_regex_highlighting = { "latex" },
     },
 
     rainbow = {
