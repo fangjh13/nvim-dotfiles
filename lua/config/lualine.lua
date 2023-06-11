@@ -89,7 +89,7 @@ function M.setup()
       },
     },
     options = {
-      theme = "dracula-nvim",
+      theme = "dracula",
     },
   }
 end

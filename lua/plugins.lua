@@ -226,6 +226,7 @@ function M.setup()
         "jose-elias-alvarez/null-ls.nvim",
         {
           "j-hui/fidget.nvim", -- display the LSP progress
+          tag = "legacy",
           config = function()
             require("fidget").setup {}
           end,
