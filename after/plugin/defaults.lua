@@ -22,6 +22,8 @@ o.relativenumber = true -- bool: Show relative line numbers
 o.scrolloff = 4 -- int:  Min num lines of context
 o.signcolumn = "yes" -- str:  Show the sign column
 o.completeopt = "menu,menuone,noselect" -- str: insert mode completion
+o.cpoptions:append ">" -- when appending to a register, put a line break before the appended text.
+o.listchars = "eol:⏎,tab:␉·,trail:␠,nbsp:⎵,extends:»,precedes:«"
 
 -- [[ Filetypes ]]
 o.encoding = "utf8" -- str:  String encoding to use
