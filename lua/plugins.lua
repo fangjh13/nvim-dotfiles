@@ -348,6 +348,17 @@ function M.setup()
       end,
     }
 
+    -- [[ Session ]]
+    use {
+      "rmagatti/auto-session",
+      config = function()
+        require("auto-session").setup {
+          log_level = "error",
+          auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+        }
+      end,
+    }
+
     -- [[ Switch Keyboard Layout ]]
     if vim.fn.has "mac" == 1 then
       use { "lyokha/vim-xkbswitch" }
