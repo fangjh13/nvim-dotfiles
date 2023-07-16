@@ -55,8 +55,8 @@ function M.setup()
       keymaps = {
         -- mappings for incremental selection (visual mappings)
         init_selection = "tnn", -- maps in normal mode to init the node/scope selection
-        node_incremental = "tni", -- increment to the upper named parent
-        node_decremental = "tnd", -- decrement to the previous node
+        node_incremental = "v", -- increment to the upper named parent
+        node_decremental = "<BS>", -- decrement to the previous node
         scope_incremental = "tsi", -- increment to the upper scope
       },
     },
@@ -108,11 +108,8 @@ function M.setup()
           ["ad"] = "@comment.outer",
           ["am"] = "@call.outer",
           ["im"] = "@call.inner",
-        },
-        selection_modes = {
-          ["@parameter.outer"] = "v", -- charwise
-          ["@function.outer"] = "V", -- linewise
-          ["@class.outer"] = "<c-v>", -- blockwise
+          ["aa"] = "@parameter.outer",
+          ["ia"] = "@parameter.inner",
         },
       },
       -- parameter swapping
