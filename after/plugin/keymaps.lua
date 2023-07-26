@@ -43,11 +43,6 @@ map("v", "p", '"_dP', { noremap = true, silent = true })
 -- nvim-tree
 map("n", "<leader>nf", [[:NvimTreeFindFile<cr>]])
 map("n", "<leader>zz", [[:NvimTreeToggle<cr>]])
--- telescop
-map("n", "<leader>ff", [[:Telescope find_files<cr>]], {})
-map("n", "<leader>fg", [[:Telescope live_grep<cr>]], {})
-map("n", "<leader>fb", [[:Telescope buffers<cr>]], {})
-map("n", "<leader>fh", [[:Telescope help_tags<cr>]], {})
 
 -- map %% expand current direcotry
 map("c", "%%", "getcmdtype() == ':' ? expand('%:h').'/' : '%%'", { expr = true, desc = "expand current direcotry" })

@@ -163,6 +163,9 @@ function M.setup()
         "plenary.nvim",
         "popup.nvim",
       },
+      config = function()
+        require("config.telescope").setup()
+      end,
     }
     use { "majutsushi/tagbar" } -- code structure
     --[[ Indent Line ]]
