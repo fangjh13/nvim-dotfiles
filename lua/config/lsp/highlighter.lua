@@ -29,9 +29,15 @@ function M.highlight(client)
             " hi LspReferenceWrite cterm=bold ctermbg=DarkMagenta guibg=LightYellow
             augroup lsp_document_highlight
               autocmd! * <buffer>
+              " 光标不动时高亮变量名
               autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
               autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
+              " 移动光标时清除高亮
               autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+              autocmd CursorMoveI <buffer> lua vim.lsp.buf.clear_references()
+              " 输入时显示函数签名提示
+              " autocmd TextChangedI <buffer> lua vim.lsp.buf.signature_help()
+              " autocmd TextChangedP <buffer> lua vim.lsp.buf.signature_help()
             augroup END
           ]],
           false
