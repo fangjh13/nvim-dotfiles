@@ -43,6 +43,10 @@ map("v", "p", '"_dP', { noremap = true, silent = true })
 -- nvim-tree
 map("n", "<leader>nf", [[:NvimTreeFindFile<cr>]])
 map("n", "<leader>zz", [[:NvimTreeToggle<cr>]])
+-- easier copy and paste
+map("v", "<C-c>", '"+y')
+map("v", "<C-v>", '"+p')
+map({ "i", "c" }, "<C-v>", "<C-r>+")
 
 -- map %% expand current direcotry
 map("c", "%%", "getcmdtype() == ':' ? expand('%:h').'/' : '%%'", { expr = true, desc = "expand current direcotry" })

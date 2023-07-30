@@ -21,7 +21,8 @@ function M.map(mode, keys, action, options)
   if options then
     opts = vim.tbl_extend("force", opts, options)
   end
-  vim.api.nvim_set_keymap(mode, keys, action, opts)
+  -- vim.api.nvim_set_keymap(mode, keys, action, opts)
+  vim.keymap.set(mode, keys, action, opts)
 end
 
 function M.map_lua(mode, keys, action, options)
