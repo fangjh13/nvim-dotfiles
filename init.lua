@@ -18,6 +18,14 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup "plugins"
 
 vim.cmd [[
+" use fcitx5-remote auto switching input method
+if executable('fcitx5-remote')
+    autocmd InsertLeave * :silent !fcitx5-remote -c
+    autocmd BufCreate *  :silent !fcitx5-remote -c
+    autocmd BufEnter *  :silent !fcitx5-remote -c
+    autocmd BufLeave *  :silent !fcitx5-remote -c
+endif
+
 " need 'lyokha/vim-xkbswitch' installed
 " mac use vim-xkbswitch enable
 if has('mac')
