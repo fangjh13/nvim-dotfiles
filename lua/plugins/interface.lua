@@ -6,6 +6,7 @@ return {
 
   {
     "kyazdani42/nvim-web-devicons", -- filesystem icons
+    lazy = true,
     config = function()
       require("nvim-web-devicons").setup { default = true }
     end,
@@ -23,7 +24,7 @@ return {
   -- [[ User interface ]]
   {
     "stevearc/dressing.nvim",
-    event = "BufEnter",
+    event = "VeryLazy",
     config = function()
       require("dressing").setup {
         input = { relative = "editor" },
