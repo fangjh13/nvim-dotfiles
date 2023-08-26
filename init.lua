@@ -26,13 +26,6 @@ if executable('fcitx5-remote')
     autocmd BufLeave *  :silent !fcitx5-remote -c
 endif
 
-" need 'lyokha/vim-xkbswitch' installed
-" mac use vim-xkbswitch enable
-if has('mac')
-    let g:XkbSwitchEnabled = 1
-    autocmd BufEnter * let b:XkbSwitchILayout = 'us'
-endif
-
 " -------------------------------------------------------------------------------------------------
 " vimspector debuger settings
 " -------------------------------------------------------------------------------------------------
