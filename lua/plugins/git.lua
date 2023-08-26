@@ -21,4 +21,9 @@ return {
       vim.cmd [[packadd vim-fugitive]]
     end,
   }, -- commit history
+  {
+    "rhysd/conflict-marker.vim",
+    event = "VeryLazy",
+    Lazy = true,
+  },
 }
