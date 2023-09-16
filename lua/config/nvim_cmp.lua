@@ -95,7 +95,7 @@ function M.setup()
       { name = "buffer", max_item_count = 5 },
       { name = "nvim_lua" },
       { name = "path" },
-      { name = "copilot" }, -- github copilot
+      -- { name = "copilot" }, -- github copilot
     },
 
     preselect = cmp.PreselectMode.None,

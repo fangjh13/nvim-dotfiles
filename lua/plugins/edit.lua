@@ -50,12 +50,14 @@ return {
             panel = { enabled = false },
           }
         end,
+        enabled = false,
       },
       {
         "zbirenbaum/copilot-cmp", -- add copilot to cmp source
         config = function()
           require("copilot_cmp").setup()
         end,
+        enabled = false,
       },
       -- "hrsh7th/cmp-calc",
       -- "f3fora/cmp-spell",
