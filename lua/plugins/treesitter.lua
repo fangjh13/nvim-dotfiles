@@ -10,7 +10,6 @@ return {
       "windwp/nvim-ts-autotag",
       "andymass/vim-matchup",
       "RRethy/nvim-treesitter-endwise",
-      "JoosepAlviste/nvim-ts-context-commentstring",
     },
     build = function()
       local ts_update = require("nvim-treesitter.install").update { with_sync = true }
@@ -32,5 +31,15 @@ return {
   {
     "RRethy/nvim-treesitter-endwise",
     event = "InsertEnter",
+  },
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    lazy = true,
+    config = function()
+      require("ts_context_commentstring").setup {
+        enable_autocmd = false,
+      }
+      vim.g.skip_ts_context_commentstring_module = true
+    end,
   },
 }

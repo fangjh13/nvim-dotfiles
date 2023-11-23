@@ -35,4 +35,14 @@ nmap <Leader>di <Plug>VimspectorBalloonEval
 " for visual mode, the visually selected text
 xmap <Leader>di <Plug>VimspectorBalloonEval
 
+" reopen the most recently closed buffer
+augroup bufclosetrack
+  au!
+  autocmd WinLeave * let g:lastWinName = @%
+augroup END
+function! LastWindow()
+  exe "vsplit " . g:lastWinName
+endfunction
+command -nargs=0 LastWindow call LastWindow()
+
 ]]

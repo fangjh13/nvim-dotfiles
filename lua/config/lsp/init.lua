@@ -206,7 +206,7 @@ function M.on_attach(client, bufnr)
     callback = function()
       local opts = {
         focusable = false,
-        close_events = { "CursorMoved", "InsertEnter", "User ShowHover" },
+        close_events = { "CursorMoved", "InsertEnter" },
         border = "rounded",
         source = "always",
         prefix = " ",

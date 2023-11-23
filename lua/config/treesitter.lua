@@ -170,11 +170,6 @@ function M.setup()
     autotag = {
       enable = true,
     },
-
-    -- context_commentstring need nvim-ts-context-commentstring installed
-    context_commentstring = {
-      enable = true,
-    },
   }
 end
 
