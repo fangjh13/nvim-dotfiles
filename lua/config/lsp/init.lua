@@ -33,14 +33,18 @@ local servers = {
     settings = {
       python = {
         analysis = {
+          autoImportCompletions = true,
           typeCheckingMode = "off",
           autoSearchPaths = true,
           useLibraryCodeForTypes = true,
           diagnosticMode = "workspace",
+          -- diagnosticMode = "openFilesOnly",
+          -- stubPath = vim.fn.stdpath "data" .. "/lazy/python-type-stubs/stubs",
         },
       },
     },
   },
+  ruff_lsp = {},
   -- pylsp = {}, -- Integration with rope for refactoring - https://github.com/python-rope/pylsp-rope
   -- rust_analyzer = {
   --   settings = {
@@ -180,6 +184,32 @@ function M.on_attach(client, bufnr)
   -- tagfunc
   if caps.definitionProvider then
     buf_set_option("tagfunc", "v:lua.vim.lsp.tagfunc")
+  end
+
+  -- pyright
+  if client.name == "pyright" then
+    -- local utils = require "utils"
+    -- utils.map_buf(
+    --   "n",
+    --   "<leader>lo",
+    --   "<cmd>PyrightOrganizeImports<cr>",
+    --   { silent = true, desc = "Organize Imports", noremap = true },
+    --   bufnr
+    -- )
+    -- utils.map("n", "<leader>lC", function()
+    --   require("dap-python").test_class()
+    -- end, { silent = true, desc = "Debug Class", noremap = true, buffer = bufnr })
+    -- utils.map("n", "<leader>lM", function()
+    --   require("dap-python").test_method()
+    -- end, { silent = true, desc = "Debug Method", noremap = true, buffer = bufnr })
+    -- utils.map("v", "<leader>lE", function()
+    --   require("dap-python").debug_selection()
+    -- end, { silent = true, desc = "Debug Selection", noremap = true, buffer = bufnr })
+  end
+
+  -- ruff_lsp
+  if client.name == "ruff_lsp" then
+    client.server_capabilities.hoverProvider = false
   end
 
   -- sqls

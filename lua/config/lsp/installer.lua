@@ -24,6 +24,7 @@ function M.setup(servers, server_options)
   }
 
   require("mason-lspconfig").setup {
+    -- vim.tbl_deep_extend("force", servers, "ruff")
     ensure_installed = vim.tbl_keys(servers),
   }
 
@@ -44,6 +45,10 @@ function M.setup(servers, server_options)
       -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
       require("neodev").setup {}
       lspconfig.lua_ls.setup(opts)
+    end,
+    ["pyright"] = function()
+      local opts = vim.tbl_deep_extend("force", server_options, servers["pyright"] or {})
+      lspconfig.pyright.setup(opts)
     end,
     -- ["rust_analyzer"] = function()
     --   local opts = vim.tbl_deep_extend("force", server_options, servers["rust_analyzer"] or {})

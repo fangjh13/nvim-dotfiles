@@ -29,7 +29,8 @@ local sources = {
   b.diagnostics.write_good,
   -- b.diagnostics.markdownlint,
   b.diagnostics.eslint_d,
-  b.diagnostics.flake8.with { extra_args = { "--ignore=E203" } },
+  -- b.diagnostics.flake8.with { extra_args = { "--ignore=E203,E501,E401,E221,E302,E262,E261,E226,W504,E128,E402" } },
+  -- b.diagnostics.ruff,
   b.diagnostics.tsc,
   b.diagnostics.selene, -- lua
   -- with_root_file(b.diagnostics.selene, "selene.toml"),
