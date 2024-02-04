@@ -52,6 +52,7 @@ return {
         end,
         enabled = false,
       },
+      -- AI Coding with Github copilot
       {
         "zbirenbaum/copilot-cmp", -- add copilot to cmp source
         config = function()
@@ -59,13 +60,30 @@ return {
         end,
         enabled = false,
       },
-      -- "hrsh7th/cmp-calc",
-      -- "f3fora/cmp-spell",
-      -- "hrsh7th/cmp-emoji",
-      -- cmp fuzzy path
-      -- { 'romgrk/fzy-lua-native', build = 'make' },
-      -- { 'tzachar/cmp-fuzzy-path', dependencies = { 'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim' } },
+      -- AI Coding with codeium.nvim
+      {
+        "Exafunction/codeium.nvim",
+        config = function()
+          require("codeium").setup {}
+        end,
+        enabled = true,
+      },
     },
+  },
+  -- AI Coding For Code Generation With codeium.vim
+  {
+    "Exafunction/codeium.vim",
+    enabled = true,
+    event = "InsertEnter",
+    -- stylua: ignore
+    config = function ()
+      vim.g.codeium_disable_bindings = 1
+      vim.keymap.set("i", "<C-f>", function() return vim.fn["codeium#Accept"]() end, { expr = true })
+      vim.keymap.set("i", "<A-]>", function() return vim.fn["codeium#CycleCompletions"](1) end, { expr = true })
+      vim.keymap.set("i", "<A-[>", function() return vim.fn["codeium#CycleCompletions"](-1) end, { expr = true })
+      vim.keymap.set("i", "<C-x>", function() return vim.fn["codeium#Clear"]() end, { expr = true })
+      vim.keymap.set("i", "<A-Bslash>", function() return vim.fn["codeium#Complete"]() end, { expr = true })
+    end,
   },
 
   -- [[ Comment ]]

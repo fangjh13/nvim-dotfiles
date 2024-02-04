@@ -7,17 +7,6 @@ local luasnip = require "luasnip"
 local compare = require "cmp.config.compare"
 local lspkind = require "lspkind"
 
-local source_mapping = {
-  nvim_lsp = "[Lsp]",
-  luasnip = "[Snip]",
-  buffer = "[Buffer]",
-  nvim_lua = "[Lua]",
-  treesitter = "[Tree]",
-  path = "[Path]",
-  nvim_lsp_signature_help = "[Sig]",
-  copilot = "[Copilot]",
-}
-
 -- Set up nvim-cmp.
 function M.setup()
   local has_words_before = function()
@@ -45,16 +34,19 @@ function M.setup()
         mode = "symbol_text", -- show symbol and text annotations
         maxwidth = 40, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
         ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-        symbol_map = { Copilot = "" },
+        symbol_map = {
+          Copilot = "",
+          Codeium = "",
+        },
       },
     },
     mapping = {
-      ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
-      ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+      -- ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+      -- ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
       ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
       ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
       ["<C-e>"] = cmp.mapping(cmp.mapping.abort(), { "i", "c" }),
-      ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+      -- ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
       ["<Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
@@ -96,6 +88,7 @@ function M.setup()
       { name = "nvim_lua" },
       { name = "path" },
       -- { name = "copilot" }, -- github copilot
+      { name = "codeium", group_index = 1 }, -- ai coding codeium
     },
 
     preselect = cmp.PreselectMode.None,
