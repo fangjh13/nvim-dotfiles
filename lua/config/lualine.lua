@@ -21,7 +21,7 @@ end
 
 local function lsp_client(msg)
   msg = msg or ""
-  local buf_clients = vim.lsp.buf_get_clients()
+  local buf_clients = vim.lsp.get_active_clients()
   if next(buf_clients) == nil then
     if type(msg) == "boolean" or #msg == 0 then
       return ""
@@ -80,16 +80,37 @@ local function lsp_progress(_, is_active)
 end
 
 function M.setup()
-  require("lualine").setup {
-    sections = {
-      lualine_z = {
-        -- { lsp_progress },
-        { lsp_client, icon = " ", color = { gui = "bold" } },
-        { "location", icon = " " },
-      },
+  local sections = {
+    lualine_y = {},
+    lualine_z = {
+      -- { lsp_progress },
+      { lsp_client, icon = " ", color = { gui = "bold" } },
+      { "location", icon = " " },
     },
+  }
+  table.insert(sections.lualine_y, {
+    function()
+      local venv = require("venv-selector").get_active_venv()
+      if venv ~= nil then
+        local name = nil
+        for word in string.gmatch(venv, "[^/]+") do
+          name = word
+        end
+        if name ~= nil then
+          venv = name
+        end
+        return " " .. venv
+      end
+      return " " .. "System"
+    end,
+    cond = function()
+      return vim.bo.filetype == "python"
+    end,
+  })
+  require("lualine").setup {
+    sections = sections,
     options = {
-      theme = "dracula",
+      theme = "auto",
     },
   }
 end
