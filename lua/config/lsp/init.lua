@@ -284,7 +284,7 @@ function M.setup()
   -- null-ls
   require("config.lsp.null-ls").setup(opts)
 
-  -- Installer
+  -- Install dependencies and set up servers via lspconfig
   require("config.lsp.installer").setup(servers, opts)
 end
 

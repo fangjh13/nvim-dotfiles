@@ -48,6 +48,26 @@ function M.setup()
   vim.keymap.set("n", "<leader>fg", function()
     builtin.live_grep(live_grep_opts {})
   end)
+
+  M.default()
+end
+
+function M.default()
+  require("telescope").setup {
+    defaults = {
+      -- Default configuration for telescope goes here:
+      -- config_key = value,
+      mappings = {
+        n = {
+          ["<c-d>"] = require("telescope.actions").delete_buffer,
+        }, -- n
+        i = {
+          ["<C-h>"] = "which_key",
+          ["<c-d>"] = require("telescope.actions").delete_buffer,
+        }, -- i
+      }, -- mappings
+    }, -- defaults
+  } -- telescope setup
 end
 
 return M

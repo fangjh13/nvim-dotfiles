@@ -47,6 +47,8 @@ map("n", "<leader>zz", [[:NvimTreeToggle<cr>]])
 map("v", "<C-c>", '"+y')
 map("v", "<C-v>", '"+p')
 map({ "i", "c" }, "<C-v>", "<C-r>+")
+-- close all buffers and open last buffer
+map("n", "<leader>bd", ":%bd|e# <CR>")
 
 -- map %% expand current direcotry
 map("c", "%%", "getcmdtype() == ':' ? expand('%:h').'/' : '%%'", { expr = true, desc = "expand current direcotry" })
