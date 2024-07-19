@@ -165,11 +165,6 @@ function M.setup()
     endwise = {
       enable = true,
     },
-
-    -- autotag need windwp/nvim-ts-autotag installed
-    autotag = {
-      enable = true,
-    },
   }
 end
 

@@ -1,11 +1,11 @@
 return {
   "linux-cultist/venv-selector.nvim",
-  opts = {
-    -- Your options go here
-    -- name = "venv",
-    -- auto_refresh = false
-  },
+  lazy = true,
   cmd = "VenvSelect",
+  branch = "regexp", -- This is the regexp branch, use this for the new version
+  config = function()
+    require("venv-selector").setup()
+  end,
   keys = {
     -- Keymap to open VenvSelector to pick a venv.
     { "<leader>vs", "<cmd>VenvSelect<cr>" },

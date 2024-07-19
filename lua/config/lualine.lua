@@ -90,7 +90,7 @@ function M.setup()
   }
   table.insert(sections.lualine_y, {
     function()
-      local venv = require("venv-selector").get_active_venv()
+      local venv = require("venv-selector").venv()
       if venv ~= nil then
         local name = nil
         for word in string.gmatch(venv, "[^/]+") do

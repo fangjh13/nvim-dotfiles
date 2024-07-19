@@ -69,16 +69,3 @@ vim.api.nvim_create_autocmd("BufEnter", {
 
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd("FocusGained", { command = [[:checktime]] })
-
--- Auto active python virtualenv
-vim.api.nvim_create_autocmd("InsertEnter", { -- I don't know why use `VimEnter` failure, so use `InsertEnter`
-  pattern = { "*.py" },
-  group = vim.api.nvim_create_augroup("auto_python_venv", { clear = true }),
-  callback = function()
-    local venv = vim.fn.findfile("pyproject.toml", vim.fn.getcwd() .. ";")
-    if venv ~= "" then
-      require("venv-selector").retrieve_from_cache()
-    end
-  end,
-  once = true,
-})

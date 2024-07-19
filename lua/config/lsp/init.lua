@@ -44,7 +44,14 @@ local servers = {
       },
     },
   },
-  ruff_lsp = {},
+  ruff = {
+    cmd_env = { RUFF_TRACE = "messages" },
+    init_options = {
+      settings = {
+        logLevel = "debug",
+      },
+    },
+  },
   -- pylsp = {}, -- Integration with rope for refactoring - https://github.com/python-rope/pylsp-rope
   -- rust_analyzer = {
   --   settings = {
@@ -208,7 +215,7 @@ function M.on_attach(client, bufnr)
   end
 
   -- ruff_lsp
-  if client.name == "ruff_lsp" then
+  if client.name == "ruff" then
     client.server_capabilities.hoverProvider = false
   end
 
