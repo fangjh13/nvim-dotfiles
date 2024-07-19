@@ -16,10 +16,7 @@ return {
   {
     "junegunn/gv.vim",
     cmd = { "GV" },
-    config = function()
-      -- add vim-fugitive first
-      vim.cmd [[packadd vim-fugitive]]
-    end,
+    dependencies = { "tpope/vim-fugitive" },
   }, -- commit history
   {
     "rhysd/conflict-marker.vim",
