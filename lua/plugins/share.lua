@@ -4,6 +4,7 @@ return {
   config = function()
     require("silicon").setup {
       font = "Hack Nerd Font=26",
+      -- font = "HarmonyOS Sans SC=26", -- 支持中文
       background = "#87f",
       theme = "Monokai Extended",
       watermark = {
