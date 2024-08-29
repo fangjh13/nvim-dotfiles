@@ -36,10 +36,56 @@ return {
   },
 
   -- [[ Colorscheme ]
+  -- choose your favorite colorscheme in https://dotfyle.com/neovim/colorscheme/top
+
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    config = function()
+      -- use this colorscheme
+      -- catppuccin, catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+      vim.cmd [[colorscheme catppuccin]]
+    end,
+  },
+
   {
     "Mofiqul/dracula.nvim",
+    -- use this colorscheme
+    -- config = function()
+    --   vim.cmd [[colorscheme dracula]]
+    -- end,
+  },
+
+  {
+    "EdenEast/nightfox.nvim",
     config = function()
-      vim.cmd [[colorscheme dracula]]
+      require("nightfox").setup {
+        options = {
+          styles = {
+            comments = "italic",
+            -- keywords = "bold",
+            -- types = "italic,bold",
+          },
+        },
+      }
+      -- use this colorscheme
+      -- vim.cmd [[colorscheme nightfox]]
+    end,
+  },
+
+  {
+    "shaunsingh/nord.nvim",
+    config = function()
+      vim.g.nord_contrast = true
+      vim.g.nord_borders = false
+      vim.g.nord_disable_background = false
+      vim.g.nord_italic = false
+      vim.g.nord_uniform_diff_background = true
+      vim.g.nord_bold = false
+
+      -- Load the colorscheme
+      -- require("nord").set()
     end,
   },
 
