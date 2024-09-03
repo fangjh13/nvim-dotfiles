@@ -24,6 +24,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 
 -- highlight yanked region, see `:h lua-highlight`
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
+  desc = "Highlight when yanking (copying) text",
   pattern = "*",
   group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
   callback = function()

@@ -66,6 +66,7 @@ o.undofile = true -- bool: Save undo history
 o.updatetime = 1000 -- num: Decrease write to disk
 o.scrolloff = 8 -- Lines of context
 -- o.clipboard = "unnamedplus" -- str: uses the clipboard register "+"
+o.inccommand = "split" -- preview substitutions live, as you type
 
 -- [[ Theme ]]
 o.termguicolors = true -- bool: If term supports ui color then enable
