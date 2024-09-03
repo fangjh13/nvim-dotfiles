@@ -32,6 +32,16 @@ local function keymappings(client, bufnr)
     buf_set_keymap("n", "fmt", "<cmd>lua vim.lsp.buf.format()<CR>", opts)
   end
 
+  -- Toggle inlay hints in your
+  -- code, if the language server you are using supports them
+  if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+    vim.keymap.set("n", "<leader>th", function()
+      vim.lsp.inlay_hint.enable(
+        not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr, desc = "LSP: [T]oggle Inlay [H]ints" }
+      )
+    end)
+  end
+
   -- Register Whichkey
   local keymap_l = {
     l = {

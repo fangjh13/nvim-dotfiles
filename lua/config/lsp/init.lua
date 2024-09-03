@@ -64,28 +64,26 @@ local servers = {
   --     },
   --   },
   -- },
+
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
   lua_ls = {
     settings = {
       Lua = {
+        completion = {
+          callSnippet = "Replace",
+        },
         runtime = {
           -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
           version = "LuaJIT",
           -- Setup your lua path
           path = vim.split(package.path, ";"),
         },
-        diagnostics = {
-          -- Get the language server to recognize the `vim` global
-          globals = { "vim", "describe", "it", "before_each", "after_each", "packer_plugins", "MiniTest" },
-          -- disable = { "lowercase-global", "undefined-global", "unused-local", "unused-vararg", "trailing-space" },
-        },
-        workspace = {
-          checkThirdParty = false,
-        },
-        completion = { callSnippet = "Replace" },
-        telemetry = { enable = false },
-        hint = {
-          enable = false,
-        },
+        -- diagnostics = {
+        --   -- Get the language server to recognize the `vim` global
+        --   globals = { "vim", "describe", "it", "before_each", "after_each", "packer_plugins", "MiniTest" },
+        --   -- ignore Lua_LS's diagnostics
+        --   -- disable = { "missing-fields", "lowercase-global", "undefined-global", "unused-local", "unused-vararg", "trailing-space" },
+        -- },
         format = {
           -- disable lua_ls format use null-ls stylua instead
           enable = false,
@@ -183,7 +181,7 @@ function M.on_attach(client, bufnr)
   require("config.lsp.keymaps").setup(client, bufnr)
 
   -- Configure highlighting
-  require("config.lsp.highlighter").setup(client)
+  require("config.lsp.highlighter").setup(client, bufnr)
 
   -- Configure formatting
   require("config.lsp.null-ls.formatters").setup(client, bufnr)
@@ -231,12 +229,6 @@ function M.on_attach(client, bufnr)
   --   vim.lsp.codelens.refresh()
   -- end
 
-  -- nvim-navic
-  if caps.documentSymbolProvider then
-    local navic = require "nvim-navic"
-    navic.attach(client, bufnr)
-  end
-
   -- display diagnostic in floating window on CursorHold
   vim.api.nvim_create_autocmd("CursorHold", {
     buffer = bufnr,
@@ -268,8 +260,8 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
     "additionalTextEdits",
   },
 }
--- M.capabilities = capabilities
-M.capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities) -- for nvim-cmp
+-- for nvim-cmp
+M.capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
 -- Setup LSP handlers
 require("config.lsp.handlers").setup()

@@ -19,7 +19,7 @@ local sources = {
 
   -- diagnostics
   b.diagnostics.write_good,
-  b.diagnostics.selene, -- lua
+  -- b.diagnostics.selene, -- lua
   b.diagnostics.buf, -- Protocol Buffers
   b.diagnostics.yamllint, -- YAML files
 

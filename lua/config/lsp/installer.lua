@@ -55,8 +55,6 @@ function M.setup(servers, server_options)
     -- Next, you can provide a dedicated handler for specific servers.
     ["lua_ls"] = function()
       local opts = vim.tbl_deep_extend("force", server_options, servers["lua_ls"] or {})
-      -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-      require("neodev").setup {}
       lspconfig.lua_ls.setup(opts)
     end,
     ["pyright"] = function()
