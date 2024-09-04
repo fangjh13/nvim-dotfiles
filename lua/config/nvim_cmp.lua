@@ -3,9 +3,10 @@ local M = {}
 local cmp = require "cmp"
 local feedkeys = require "cmp.utils.feedkeys"
 local keymap = require "cmp.utils.keymap"
-local luasnip = require "luasnip"
 local compare = require "cmp.config.compare"
 local lspkind = require "lspkind"
+local luasnip = require "luasnip"
+luasnip.config.setup {}
 
 -- Set up nvim-cmp.
 function M.setup()
@@ -22,18 +23,20 @@ function M.setup()
 
     snippet = {
       expand = function(args)
-        require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
+        luasnip.lsp_expand(args.body) -- For `luasnip` users.
       end,
     },
     window = {
       -- completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
     },
+    ---@diagnostic disable: missing-fields
     formatting = {
       format = lspkind.cmp_format {
         mode = "symbol_text", -- show symbol and text annotations
-        maxwidth = 40, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
         ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+        show_labelDetails = true, -- show labelDetails in menu. Disabled by default
         symbol_map = {
           Copilot = "",
           Codeium = "",
@@ -41,12 +44,16 @@ function M.setup()
       },
     },
     mapping = {
+      -- Scroll the documentation window [b]ack / [f]orward
       -- ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
       -- ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+
+      -- Select the [p]revious item
       ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
+      -- Select the [n]ext item
       ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
       ["<C-e>"] = cmp.mapping(cmp.mapping.abort(), { "i", "c" }),
-      -- ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+
       ["<Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
@@ -67,19 +74,29 @@ function M.setup()
           fallback()
         end
       end, { "i", "s", "c" }),
+
+      -- Accept currently selected item.
       ["<CR>"] = cmp.mapping {
-        i = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        -- c = function(fallback)
-        --     if cmp.visible() then
-        --         cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }
-        --     else
-        --         fallback()
-        --     end
-        -- end,
+        i = function(fallback)
+          if cmp.visible() then
+            if luasnip.expand_or_jumpable() then
+              luasnip.expand_or_jump()
+            else
+              cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true } -- Set `select` to `false` to only confirm explicitly selected items.
+            end
+          else
+            fallback()
+          end
+        end,
       },
     },
 
     sources = cmp.config.sources {
+      {
+        name = "lazydev",
+        -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
+        group_index = 0,
+      },
       { name = "nvim_lsp", max_item_count = 15 },
       { name = "nvim_lsp_signature_help", max_item_count = 5 },
       { name = "luasnip", max_item_count = 5 },

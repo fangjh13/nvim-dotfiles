@@ -2,7 +2,7 @@ return {
 
   { "mhinz/vim-startify" }, -- start screen
 
-  { "DanilaMihailov/beacon.nvim" }, -- cursor jump
+  { "DanilaMihailov/beacon.nvim", lazy = true }, -- cursor jump
 
   {
     "kyazdani42/nvim-web-devicons", -- filesystem icons

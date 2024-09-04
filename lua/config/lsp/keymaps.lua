@@ -61,6 +61,7 @@ local function keymappings(client, bufnr)
       h = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help [<C-k>]" },
       I = { "<cmd>Telescope lsp_implementations<CR>", "Goto Implementation" },
       b = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Goto Type Definition" },
+      q = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Open diagnostic [Q]uickfix list" },
     },
   }
   if client.server_capabilities.documentFormattingProvider then
