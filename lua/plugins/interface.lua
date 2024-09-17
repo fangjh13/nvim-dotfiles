@@ -15,9 +15,10 @@ return {
   --[[ Indent Blankline ]]
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = "BufReadPre",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = { "hiphish/rainbow-delimiters.nvim" },
     config = function()
-      require("config.indentblankline").setup()
+      require("config.indent_blankline").setup()
     end,
   },
 

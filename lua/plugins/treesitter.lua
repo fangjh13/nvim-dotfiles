@@ -4,12 +4,32 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     lazy = true,
-    event = "BufRead",
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = {
+      -- Rainbow parentheses by using tree-sitter
+      "hiphish/rainbow-delimiters.nvim",
+      -- Additional textobjects for treesitter
       "nvim-treesitter/nvim-treesitter-textobjects",
+      -- Autocreate/update html tags
       "windwp/nvim-ts-autotag",
       "andymass/vim-matchup",
       "RRethy/nvim-treesitter-endwise",
+      -- Show context of the current function
+      {
+        "nvim-treesitter/nvim-treesitter-context",
+        enabled = true,
+        opts = { enable = { "lua" }, mode = "cursor", max_lines = 3 },
+        keys = {
+          {
+            "<leader>Ttc",
+            function()
+              local tsc = require "treesitter-context"
+              tsc.toggle()
+            end,
+            desc = "Toggle context",
+          },
+        },
+      },
     },
     build = function()
       local ts_update = require("nvim-treesitter.install").update { with_sync = true }

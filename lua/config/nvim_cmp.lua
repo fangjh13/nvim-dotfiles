@@ -77,17 +77,7 @@ function M.setup()
 
       -- Accept currently selected item.
       ["<CR>"] = cmp.mapping {
-        i = function(fallback)
-          if cmp.visible() then
-            if luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
-            else
-              cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true } -- Set `select` to `false` to only confirm explicitly selected items.
-            end
-          else
-            fallback()
-          end
-        end,
+        i = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       },
     },
 

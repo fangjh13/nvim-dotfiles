@@ -10,7 +10,7 @@ return {
     event = "BufReadPre",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
-      require("gitsigns").setup()
+      require("config.gitsigns").setup()
     end,
   }, -- gitgutter
   {

@@ -13,8 +13,20 @@ map("n", "]t", ":tabnext <CR>", { silent = true, desc = "tab next" })
 map("n", "[T", ":tabfirst <CR>", { silent = true, desc = "tab first" })
 map("n", "]T", ":tablast <CR>", { silent = true, desc = "tab last" })
 -- map quickfix list
-map("n", "[c", ":cprevious <CR>", { silent = true, desc = "quickfix previous" })
-map("n", "]c", ":cnext <CR>", { silent = true, desc = "quickfix next" })
+map("n", "[c", function()
+  if vim.wo.diff then
+    vim.cmd.normal { "[c", band = true }
+  else
+    vim.cmd [[:cprevious]]
+  end
+end, { silent = true, desc = "quickfix previous" })
+map("n", "]c", function()
+  if vim.wo.diff then
+    vim.cmd.normal { "]c", bang = true }
+  else
+    vim.cmd [[:cnext]]
+  end
+end, { silent = true, desc = "quickfix next" })
 map("n", "[C", ":cfirst <CR>", { silent = true, desc = "quickfix first" })
 map("n", "]C", ":clast <CR>", { silent = true, desc = "quickfix last" })
 map("n", "<leader>cc", ":cclose <CR>", { silent = true, desc = "quickfix close" })
