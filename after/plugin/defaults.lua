@@ -13,7 +13,6 @@ g.localleader = "\\"
 g.t_co = 256
 g.background = "dark"
 g.vimsyn_embed = "lPr" -- Syntax embedding for Lua, Python and Ruby
-g.python3_host_prog = "~/.pyenv/versions/sys311/bin/python" -- need pynvim installed
 
 -- [[ Context ]]
 o.colorcolumn = "80" -- str:  Show col for max line length
@@ -70,6 +69,7 @@ o.inccommand = "split" -- preview substitutions live, as you type
 
 -- [[ Theme ]]
 o.termguicolors = true -- bool: If term supports ui color then enable
+o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 -- [[ Spell Check ]]
 o.spell = false

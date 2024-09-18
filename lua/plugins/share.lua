@@ -1,6 +1,6 @@
 return {
   "krivahtoo/silicon.nvim",
-  build = "./install.sh",
+  build = "./install.sh build",
   config = function()
     require("silicon").setup {
       font = "Hack Nerd Font=26",
