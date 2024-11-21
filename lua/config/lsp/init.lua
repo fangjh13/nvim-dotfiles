@@ -169,8 +169,8 @@ local servers = {
 function M.on_attach(client, bufnr)
   local caps = client.server_capabilities
 
-  local function buf_set_option(...)
-    vim.api.nvim_buf_set_option(bufnr, ...)
+  local function buf_set_option(option, value)
+    vim.api.nvim_set_option_value(option, value, { buf = bufnr })
   end
 
   -- Enable completion triggered by <C-X><C-O>
