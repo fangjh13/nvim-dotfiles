@@ -52,9 +52,6 @@ map("v", "<", "<gv", { noremap = true, silent = true })
 map("v", ">", ">gv", { noremap = true, silent = true })
 -- paste over currently selected text without yanking it
 map("v", "p", '"_dP', { noremap = true, silent = true })
--- nvim-tree
-map("n", "<leader>nf", [[:NvimTreeFindFile<cr>]])
-map("n", "<leader>zz", [[:NvimTreeToggle<cr>]])
 -- easier copy and paste
 map("v", "<C-c>", '"+y')
 map("v", "<C-v>", '"+p')

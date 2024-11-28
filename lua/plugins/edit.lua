@@ -43,16 +43,19 @@ return {
           end
           return "make install_jsregexp"
         end)(),
+        config = function()
+          require("config.luasnip").setup()
+        end,
         dependencies = {
           -- `friendly-snippets` contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            "rafamadriz/friendly-snippets",
+            config = function()
+              -- require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
         },
       },
       "saadparwaiz1/cmp_luasnip",
@@ -103,7 +106,7 @@ return {
     enabled = true,
     event = "InsertEnter",
     -- stylua: ignore
-    config = function ()
+    config = function()
       vim.g.codeium_disable_bindings = 1
       vim.keymap.set("i", "<C-f>", function() return vim.fn["codeium#Accept"]() end, { expr = true })
       vim.keymap.set("i", "<A-]>", function() return vim.fn["codeium#CycleCompletions"](1) end, { expr = true })
@@ -118,8 +121,5 @@ return {
     "numToStr/Comment.nvim",
     lazy = true,
     event = "BufEnter",
-    config = function()
-      require("Comment").setup {}
-    end,
   },
 }

@@ -1,16 +1,11 @@
 -- Utils libraries
 local utils = require "utils"
 
+-- open terminal in insert mode and enter terminal save file
 utils.create_augroup({
-  -- { 'BufWritePre', '*.go,*.lua,*.py', 'lua', 'vim.lsp.buf.format{ async=false }' },
-  { "BufWritePre", "*.go", "lua", [[ require("config.lsp").go_org_imports(1000) ]] },
-}, "lsp config")
-
--- open termnial in insert mode and enter termnial save file
-utils.create_augroup({
-  { "BufEnter", "term://*", "start" },
-  { "TermEnter", "*", "wall" },
-}, "open termnial auto cmd")
+  { "BufEnter",  "term://*", "start" },
+  { "TermEnter", "*",        "wall" },
+}, "open terminal auto cmd")
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   pattern = "*",
@@ -20,6 +15,12 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     local dir = vim.fn.fnamemodify(ctx.file, ":p:h")
     vim.fn.mkdir(dir, "p")
   end,
+})
+
+-- removes all trailing whitespace from lines before saving the file
+vim.api.nvim_create_autocmd("BufWritePre", {
+  command = [[%s/\s\+$//e]],
+  group = vim.api.nvim_create_augroup("auto_remove_trailing_whitespace", { clear = true }),
 })
 
 -- highlight yanked region, see `:h lua-highlight`
@@ -70,3 +71,26 @@ vim.api.nvim_create_autocmd("BufEnter", {
 
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd("FocusGained", { command = [[:checktime]] })
+
+-- use fcitx5-remote auto switching input method
+if vim.fn.executable "fcitx5-remote" == 1 then
+  local fcitx5_switch = function()
+    vim.fn.system "fcitx5-remote -c"
+  end
+  vim.api.nvim_create_autocmd({ "InsertLeave", "BufCreate", "BufEnter", "BufLeave" }, {
+    callback = fcitx5_switch,
+    desc = "Auto-switch input method with fcitx5-remote",
+  })
+end
+
+-- reopen the most recently closed buffer
+vim.cmd [[
+    augroup bufclosetrack
+      au!
+      autocmd WinLeave * let g:lastWinName = @%
+    augroup END
+    function! LastWindow()
+      exe "vsplit " . g:lastWinName
+    endfunction
+    command -nargs=0 LastWindow call LastWindow()
+]]

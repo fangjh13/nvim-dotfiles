@@ -1,7 +1,5 @@
 local M = {}
 
-local utils = require "utils"
-
 local vimspector_python = [[
 {
   "configurations": {
@@ -15,6 +13,7 @@ local vimspector_python = [[
         "stopOnEntry": true,
         "console": "externalTerminal",
         "debugOptions": [],
+        // change path to main python file or use `${file}` variable is the current opened file
         "program": "${file}"
       }
     }
@@ -46,18 +45,11 @@ local vimspector_go = [[
 }
 ]]
 
-local function debuggers()
-  vim.g.vimspector_install_gadgets = {
-    "debugpy", -- Python
-    "delve", -- Go
-  }
-end
-
 --- Generate debug profile. Currently for Python only
 function M.generate_debug_profile()
   -- Get current file type
   local buf = vim.api.nvim_get_current_buf()
-  local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+  local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
   local debugProfile = ""
 
   if ft == "python" then
@@ -76,7 +68,7 @@ function M.generate_debug_profile()
     vim.api.nvim_command("vsplit " .. vim.fn.fnameescape(file_name))
   else
     -- Generate debug profile in a new window
-    vim.api.nvim_exec("vsp", true)
+    vim.cmd [[vsp]]
     local win = vim.api.nvim_get_current_win()
     local bufNew = vim.api.nvim_create_buf(true, false)
     vim.api.nvim_buf_set_name(bufNew, file_name)
@@ -90,19 +82,15 @@ function M.generate_debug_profile()
   end
 end
 
-function M.toggle_human_mode()
-  if vim.g.vimspector_enable_mappings == nil then
-    vim.g.vimspector_enable_mappings = "HUMAN"
-    utils.info("Enabled HUMAN mappings", "Debug")
-  else
-    vim.g.vimspector_enable_mappings = nil
-    utils.info("Disabled HUMAN mappings", "Debug")
-  end
-end
-
 function M.setup()
-  vim.cmd [[packadd! vimspector]] -- Load vimspector
-  debuggers() -- Configure debuggers
+  vim.cmd [[
+      " add new command
+      command! VimspectorLaunch call vimspector#Launch()
+      " for normal mode - the word under the cursor
+      nmap <Leader>di <Plug>VimspectorBalloonEval
+      " for visual mode, the visually selected text
+      xmap <Leader>di <Plug>VimspectorBalloonEval
+  ]]
 end
 
 return M

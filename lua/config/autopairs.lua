@@ -3,7 +3,12 @@ local M = {}
 function M.setup()
   local npairs = require "nvim-autopairs"
   npairs.setup {
-    check_ts = true,
+    check_ts = true, -- use treesitter to check for a pair
+    ts_config = {
+      lua = { "string", "source" }, -- it will not add a pair on that treesitter node
+      javascript = { "string", "template_string" },
+      java = false, -- don't check treesitter on java
+    },
     fast_wrap = {
       map = "<C-d>",
       chars = { "{", "[", "(", '"', "'" },
@@ -16,7 +21,6 @@ function M.setup()
       highlight_grey = "Comment",
     },
   }
-  -- npairs.add_rules(require "nvim-autopairs.rules.endwise-lua")
 end
 
 return M

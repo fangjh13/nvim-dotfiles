@@ -10,10 +10,28 @@ return {
       "hiphish/rainbow-delimiters.nvim",
       -- Additional textobjects for treesitter
       "nvim-treesitter/nvim-treesitter-textobjects",
-      -- Autocreate/update html tags
-      "windwp/nvim-ts-autotag",
+      -- auto close and auto rename html tag
+      {
+        "windwp/nvim-ts-autotag",
+        config = function()
+          require("nvim-ts-autotag").setup {
+            opts = {
+              -- Defaults
+              enable_close = true,           -- Auto close tags
+              enable_rename = true,          -- Auto rename pairs of tags
+              enable_close_on_slash = false, -- Auto close on trailing </
+            },
+          }
+        end,
+      },
+      -- End wise
+      {
+        "RRethy/nvim-treesitter-endwise",
+        event = "InsertEnter",
+      },
       "andymass/vim-matchup",
       "RRethy/nvim-treesitter-endwise",
+      "JoosepAlviste/nvim-ts-context-commentstring",
       -- Show context of the current function
       {
         "nvim-treesitter/nvim-treesitter-context",
@@ -39,25 +57,7 @@ return {
       require("config.treesitter").setup()
     end,
   },
-  -- Auto tag
-  {
-    "windwp/nvim-ts-autotag",
-    config = function()
-      require("nvim-ts-autotag").setup {
-        opts = {
-          -- Defaults
-          enable_close = true, -- Auto close tags
-          enable_rename = true, -- Auto rename pairs of tags
-          enable_close_on_slash = false, -- Auto close on trailing </
-        },
-      }
-    end,
-  },
-  -- End wise
-  {
-    "RRethy/nvim-treesitter-endwise",
-    event = "InsertEnter",
-  },
+  -- commentstring
   {
     "JoosepAlviste/nvim-ts-context-commentstring",
     lazy = true,

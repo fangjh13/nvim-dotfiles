@@ -1,6 +1,6 @@
 return {
 
-  { "mhinz/vim-startify" }, -- start screen
+  { "mhinz/vim-startify" },                                         -- start screen
 
   { "DanilaMihailov/beacon.nvim", event = "BufRead", lazy = true }, -- cursor jump
 
@@ -31,6 +31,24 @@ return {
         input = { relative = "editor" },
         select = {
           backend = { "telescope", "fzf", "builtin" },
+        },
+      }
+    end,
+  },
+
+  -- [[ Colorizer ]]
+  {
+    "norcalli/nvim-colorizer.lua",
+    cmd = { "ColorizerToggle" },
+    ft = { "css", "javascript", "html" },
+    config = function()
+      -- Attach to certain Filetypes, add special configuration for `html`
+      -- Use `background` for everything else.
+      require("colorizer").setup {
+        "css",
+        "javascript",
+        html = {
+          mode = "foreground",
         },
       }
     end,
@@ -107,6 +125,15 @@ return {
     event = "VimEnter",
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = { signs = false },
+    config = function()
+      require("todo-comments").setup {
+        keywords = {
+          FIX = {
+            alt = { "fix", "fixme", "bug", "todo" }, -- a set of other keywords that all map to this FIX keywords
+          },
+        },
+      }
+    end,
   },
 
   -- [[ Better quickfix window ]]

@@ -36,6 +36,7 @@ end
 function M.setup()
   ls.config.set_config {
     history = true,
+    -- Update more often, :h events for more info.
     updateevents = "TextChanged,TextChangedI",
     enable_autosnippets = true,
 
@@ -49,10 +50,14 @@ function M.setup()
   }
 
   -- Load snippets
-  require("luasnip/loaders/from_vscode").lazy_load()
+  require("luasnip.loaders.from_vscode").lazy_load() -- friendly-snippets
   require("luasnip.loaders.from_snipmate").lazy_load()
 
-  ls.filetype_extend("all", { "_" })
+  -- extend html snippets to react files
+  require("luasnip").filetype_extend("javascriptreact", { "html" })
+  require("luasnip").filetype_extend("typescriptreact", { "html" })
+
+  require("luasnip").filetype_extend("all", { "_" })
 
   -- Create new snippets
   create_snippets()

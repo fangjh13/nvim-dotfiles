@@ -16,10 +16,6 @@ local swap_next, swap_prev = (function()
   return n, p
 end)()
 
-local function ts_disable(_, bufnr)
-  return vim.api.nvim_buf_line_count(bufnr) > 5000
-end
-
 function M.setup()
   require("nvim-treesitter.configs").setup {
     modules = {},
@@ -76,6 +72,7 @@ function M.setup()
 
     highlight = {
       enable = true,
+      use_languagetree = true,
       -- disable slow treesitter highlight for large files
       disable = function(lang, buf)
         local max_filesize = 100 * 1024 -- 100 KB
@@ -107,8 +104,8 @@ function M.setup()
       enable = true,
       keymaps = {
         -- mappings for incremental selection (visual mappings)
-        init_selection = "tnn", -- maps in normal mode to init the node/scope selection
-        node_incremental = "v", -- increment to the upper named parent
+        init_selection = "tnn",    -- maps in normal mode to init the node/scope selection
+        node_incremental = "v",    -- increment to the upper named parent
         node_decremental = "<BS>", -- decrement to the previous node
         scope_incremental = "tsi", -- increment to the upper scope
       },
@@ -174,7 +171,7 @@ function M.setup()
         -- mapping query_strings to modes.
         selection_modes = {
           ["@parameter.outer"] = "v", -- charwise
-          ["@function.outer"] = "V", -- linewise
+          ["@function.outer"] = "V",  -- linewise
           ["@class.outer"] = "<c-v>", -- blockwise
         },
       },
@@ -214,7 +211,7 @@ function M.setup()
       },
     },
 
-    -- endwise need RRethy/nvim-treesitter-endwise installed
+    -- endwise need [RRethy/nvim-treesitter-endwise](https://github.com/RRethy/nvim-treesitter-endwise) installed
     endwise = {
       enable = true,
     },

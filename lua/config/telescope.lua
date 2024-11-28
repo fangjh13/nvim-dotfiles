@@ -1,4 +1,5 @@
 local M = {}
+local actions = require "telescope.actions"
 
 function M.setup()
   -- Enable Telescope extensions if they are installed
@@ -68,20 +69,22 @@ function M.default()
   require("telescope").setup {
     defaults = {
       -- Default configuration for telescope goes here:
-      -- config_key = value,
       mappings = {
         n = {
-          ["<c-d>"] = require("telescope.actions").delete_buffer,
+          ["q"] = actions.smart_add_to_qflist + actions.open_qflist,
+          ["v"] = actions.file_vsplit,
+          ["s"] = actions.file_split,
+          ["<c-d>"] = actions.delete_buffer,
         }, -- n
         i = {
           ["<C-h>"] = "which_key",
-          ["<c-d>"] = require("telescope.actions").delete_buffer,
+          ["<c-d>"] = actions.delete_buffer,
         }, -- i
-      }, -- mappings
-    }, -- defaults
-    extensions = {
-      ["ui-select"] = {
-        require("telescope.themes").get_dropdown(),
+      },   -- mappings
+    },     -- defaults
+    pickers = {
+      buffers = {
+        sort_mru = true,
       },
     },
   } -- telescope setup

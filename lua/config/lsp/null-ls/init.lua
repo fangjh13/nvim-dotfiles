@@ -7,21 +7,28 @@ local b = nls.builtins
 local sources = {
   -- formatting
   b.formatting.prettierd, -- markdown
-  b.formatting.shfmt, -- shell script
-  b.formatting.black.with {
-    extra_args = { "--fast", "--line-length", "79", "--preview" },
-  },
-  b.formatting.isort, -- python sort imports
+  b.formatting.shfmt,     -- shell script
+
+  -- b.formatting.black.with {
+  --   extra_args = { "--fast", "--line-length", "79", "--preview" },
+  -- }, -- python Code Formatter
+  -- b.formatting.usort, -- minimal import sorting for Python projects
   -- lua
   b.formatting.stylua.with {
     extra_args = { "--indent-type", "Spaces", "--indent-width", "2" },
   },
 
   -- diagnostics
-  b.diagnostics.write_good,
-  -- b.diagnostics.selene, -- lua
-  b.diagnostics.buf, -- Protocol Buffers
-  b.diagnostics.yamllint, -- YAML files
+  b.diagnostics.write_good,    -- English prose linter
+  -- b.diagnostics.selene,        -- Command line tool designed to help write correct and idiomatic Lua code
+  b.diagnostics.buf,           -- Protocol Buffers
+  b.diagnostics.yamllint,      -- YAML files
+  b.diagnostics.dotenv_linter, -- Lightning-fast linter for .env files
+  b.diagnostics.markdownlint,  -- Markdown style and syntax checker
+  b.diagnostics.checkmake,     -- make linter
+  b.diagnostics.codespell,     -- Codespell finds common misspellings in text files
+  b.diagnostics.deadnix,       -- Scan Nix files for dead code
+  b.diagnostics.statix,        -- Lints and suggestions for the Nix programming language
 
   -- code actions
   b.code_actions.gitsigns,
@@ -29,7 +36,7 @@ local sources = {
   b.code_actions.gomodifytags,
 
   -- hover
-  b.hover.dictionary,
+  b.hover.dictionary, -- Shows the first available definition for the current word under the cursor
 }
 
 function M.setup(opts)

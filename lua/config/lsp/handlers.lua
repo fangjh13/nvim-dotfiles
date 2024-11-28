@@ -3,14 +3,26 @@ local M = {}
 local icons = require "config.icons"
 
 function M.setup()
-  local signs = {
-    { name = "DiagnosticSignError", text = icons.diagnostics.Error },
-    { name = "DiagnosticSignWarn", text = icons.diagnostics.Warning },
-    { name = "DiagnosticSignHint", text = icons.diagnostics.Hint },
-    { name = "DiagnosticSignInfo", text = icons.diagnostics.Info },
-  }
-  for _, sign in ipairs(signs) do
-    vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
+  local function format_diagnostic(diagnostic)
+    local icon = icons.error
+    if diagnostic.severity == vim.diagnostic.severity.WARN then
+      icon = icons.diagnostics.Warning
+    elseif diagnostic.severity == vim.diagnostic.severity.INFO then
+      icon = icons.diagnostics.Info
+    elseif diagnostic.severity == vim.diagnostic.severity.HINT then
+      icon = icons.diagnostics.Hint
+    elseif diagnostic.severity == vim.diagnostic.severity.ERROR then
+      icon = icons.diagnostics.Error
+    end
+
+    local message = string.format("%s %s", icon, diagnostic.message)
+    if diagnostic.code and diagnostic.source then
+      message = string.format("%s [%s][%s] %s", icon, diagnostic.source, diagnostic.code, diagnostic.message)
+    elseif diagnostic.code or diagnostic.source then
+      message = string.format("%s [%s] %s", icon, diagnostic.code or diagnostic.source, diagnostic.message)
+    end
+
+    return message .. " "
   end
 
   -- LSP handlers configuration
@@ -22,28 +34,42 @@ function M.setup()
     },
 
     diagnostic = {
-      -- virtual_text = false,
-      -- virtual_text = { spacing = 4, prefix = "●" },
       virtual_text = {
+        prefix = "",
+        spacing = 2,
+        source = false,
         severity = {
-          min = vim.diagnostic.severity.ERROR,
+          min = vim.diagnostic.severity.HINT,
         },
+        format = format_diagnostic,
       },
+
       signs = {
-        active = signs,
+        text = {
+          [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error .. " ",
+          [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint .. " ",
+          [vim.diagnostic.severity.INFO] = icons.diagnostics.Info .. " ",
+          [vim.diagnostic.severity.WARN] = icons.diagnostics.Warning .. " ",
+        },
+        numhl = {
+          [vim.diagnostic.severity.ERROR] = "ErrorMsg",
+          [vim.diagnostic.severity.HINT] = "DiagnosticsSignHint",
+          [vim.diagnostic.severity.INFO] = "DiagnosticsSignInfo",
+          [vim.diagnostic.severity.WARN] = "WarningMsg",
+        },
       },
       underline = true,
       update_in_insert = false,
       severity_sort = true,
       float = {
-        focusable = true,
-        style = "minimal",
         border = "rounded",
-        source = "always",
-        header = "",
-        prefix = "",
+        focusable = false,
+        header = { icons.diagnostics.Debug .. " Diagnostics:", "DiagnosticInfo" },
+        scope = "line",
+        suffix = "",
+        source = false,
+        format = format_diagnostic,
       },
-      -- virtual_lines = true,
     },
   }
 

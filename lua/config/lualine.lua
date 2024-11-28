@@ -1,27 +1,12 @@
+local icons = require "config.icons"
+
 local M = {}
-
--- Color table for highlights
-local colors = {
-  bg = "#202328",
-  fg = "#bbc2cf",
-  yellow = "#ECBE7B",
-  cyan = "#008080",
-  darkblue = "#081633",
-  green = "#98be65",
-  orange = "#FF8800",
-  violet = "#a9a1e1",
-  magenta = "#c678dd",
-  blue = "#51afef",
-  red = "#ec5f67",
-}
-
-local function separator()
-  return "%="
-end
 
 local function lsp_client(msg)
   msg = msg or ""
-  local buf_clients = vim.lsp.get_clients()
+  local buf_clients = vim.lsp.get_clients {
+    bufnr = vim.api.nvim_get_current_buf(),
+  }
   if next(buf_clients) == nil then
     if type(msg) == "boolean" or #msg == 0 then
       return ""
@@ -57,61 +42,107 @@ local function lsp_client(msg)
   return "[" .. table.concat(buf_client_names, ", ") .. "]"
 end
 
-local function lsp_progress(_, is_active)
-  if not is_active then
-    return
-  end
-  local messages = vim.lsp.util.get_progress_messages()
-  if #messages == 0 then
-    return ""
-  end
-  local status = {}
-  for _, msg in pairs(messages) do
-    local title = ""
-    if msg.title then
-      title = msg.title
+local function python_venv()
+  local venv = require("venv-selector").venv()
+  if venv ~= nil then
+    local name = nil
+    for word in string.gmatch(venv, "[^/]+") do
+      name = word
     end
-    table.insert(status, (msg.percentage or 0) .. "%% " .. title)
+    if name ~= nil then
+      venv = name
+    end
+    return "🐍 " .. venv
   end
-  local spinners = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-  local ms = vim.loop.hrtime() / 1000000
-  local frame = math.floor(ms / 120) % #spinners
-  return table.concat(status, "  ") .. " " .. spinners[frame + 1]
+  return "🐍 " .. "System"
 end
 
+local function diff_source()
+  local gitsigns = vim.b.gitsigns_status_dict
+  if gitsigns then
+    return {
+      added = gitsigns.added,
+      modified = gitsigns.changed,
+      removed = gitsigns.removed,
+    }
+  end
+end
+
+local custom_sections = {
+  filetype = {
+    "filetype",
+    icon_only = true,
+    padding = {
+      left = 1,
+      right = 0,
+    },
+    separator = "",
+  },
+  filename = {
+    "filename",
+    path = 0,
+    padding = {
+      left = 0,
+      right = 1,
+    },
+    symbols = {
+      modified = icons.git.Mod,
+    },
+  },
+  diff = {
+    "diff",
+    source = diff_source(),
+    symbols = {
+      added = icons.git.Add .. " ",
+      modified = icons.git.Mod .. " ",
+      removed = icons.git.Remove .. " ",
+    },
+  },
+}
+
 function M.setup()
+  local options = {
+    icons_enabled = true,
+    theme = "auto",
+    component_separators = { left = "", right = "" },
+    section_separators = { left = "", right = "" },
+  }
   local sections = {
-    lualine_y = {},
+    lualine_b = { "branch" },
+    lualine_c = { custom_sections.filetype, custom_sections.filename, custom_sections.diff },
+    lualine_x = { "diagnostics" },
+    lualine_y = { { lsp_client, icon = " ", color = { gui = "bold" } } },
     lualine_z = {
-      -- { lsp_progress },
-      { lsp_client, icon = " ", color = { gui = "bold" } },
       { "location", icon = " " },
+      { "progress" },
     },
   }
-  table.insert(sections.lualine_y, {
-    function()
-      local venv = require("venv-selector").venv()
-      if venv ~= nil then
-        local name = nil
-        for word in string.gmatch(venv, "[^/]+") do
-          name = word
-        end
-        if name ~= nil then
-          venv = name
-        end
-        return " " .. venv
-      end
-      return " " .. "System"
-    end,
+  -- show python virtual env
+  table.insert(sections.lualine_x, {
+    python_venv,
     cond = function()
       return vim.bo.filetype == "python"
     end,
   })
-  require("lualine").setup {
-    sections = sections,
-    options = {
-      theme = "auto",
+  local inactive_sections = {
+    lualine_a = {},
+    lualine_b = {
+      custom_sections.filetype,
+      custom_sections.filename,
     },
+    lualine_c = {
+      custom_sections.diff,
+    },
+    lualine_x = { "diagnostics" },
+    lualine_y = { "location", "progress" },
+    lualine_z = {},
+  }
+  require("lualine").setup {
+    options = options,
+    sections = sections,
+    inactive_sections = inactive_sections,
+    -- change statusline appearance for a window/buffer with specified filetypes
+    extensions = { "quickfix", "fugitive", "nvim-tree" },
   }
 end
 

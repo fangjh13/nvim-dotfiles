@@ -12,12 +12,13 @@ return {
     },
   },
   { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+
   {
     "neovim/nvim-lspconfig",
     dependencies = {
       "cmp-nvim-lsp",
       "vim-illuminate",
-      "nvimtools/none-ls.nvim",
+      "nvimtools/none-ls.nvim", -- Formatting/linting
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",

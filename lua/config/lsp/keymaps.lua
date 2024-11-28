@@ -1,5 +1,15 @@
 local M = {}
 
+function M.toggle_inlay_hints(client, bufnr)
+  if bufnr == nil then
+    bufnr = vim.api.nvim_get_current_buf()
+  end
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled {
+    bufnr = bufnr,
+    desc = "LSP: [T]oggle Inlay [H]ints",
+  })
+end
+
 local function keymappings(client, bufnr)
   local function buf_set_keymap(...)
     vim.api.nvim_buf_set_keymap(bufnr, ...)
@@ -29,17 +39,16 @@ local function keymappings(client, bufnr)
 
   -- Set some keybinds conditional on server capabilities
   if client.server_capabilities.documentFormattingProvider then
-    buf_set_keymap("n", "fmt", "<cmd>lua vim.lsp.buf.format()<CR>", opts)
+    buf_set_keymap("n", "fmt", "<cmd>lua require('config.lsp.null-ls.utils').buf_format()<CR>", opts)
   end
 
   -- Toggle inlay hints in your
   -- code, if the language server you are using supports them
   if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
     vim.keymap.set("n", "<leader>th", function()
-      vim.lsp.inlay_hint.enable(
-        not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr, desc = "LSP: [T]oggle Inlay [H]ints" }
-      )
+      M.toggle_inlay_hints(client, bufnr)
     end)
+    vim.cmd "command! LspInlayHitsToggle lua require('config.lsp.keymaps').toggle_inlay_hints()"
   end
 
   -- Register Whichkey

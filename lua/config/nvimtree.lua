@@ -1,5 +1,7 @@
 local M = {}
 
+local icons = require "config.icons"
+
 function M.setup()
   require("nvim-tree").setup {
     disable_netrw = false,
@@ -20,6 +22,19 @@ function M.setup()
       update_cwd = true,
     },
     respect_buf_cwd = false,
+    diagnostics = {
+      enable = true,
+      show_on_dirs = true,
+      icons = {
+        hint = icons.diagnostics.Hint,
+        info = icons.diagnostics.Info,
+        warning = icons.diagnostics.Warning,
+        error = icons.diagnostics.Error,
+      },
+    },
+    renderer = {
+      highlight_git = true,
+    },
   }
 end
 

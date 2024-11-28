@@ -6,7 +6,6 @@ local keymap = require "cmp.utils.keymap"
 local compare = require "cmp.config.compare"
 local lspkind = require "lspkind"
 local luasnip = require "luasnip"
-luasnip.config.setup {}
 
 -- Set up nvim-cmp.
 function M.setup()
@@ -16,6 +15,19 @@ function M.setup()
   end
 
   cmp.setup {
+    enabled = function()
+      local context = require "cmp.config.context"
+      if vim.api.nvim_get_mode().mode == "c" then
+        return true
+      elseif vim.api.nvim_get_option_value("buftype", { buf = 0 }) == "prompt" then
+        -- disable completion in prompt mode
+        return false
+      else
+        -- disable completion in comments
+        return not context.in_treesitter_capture "comment" and not context.in_syntax_group "Comment"
+      end
+    end,
+
     completion = {
       completeopt = "menu,menuone,noselect",
       keyword_length = 1,
@@ -30,23 +42,13 @@ function M.setup()
       -- completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
     },
-    ---@diagnostic disable: missing-fields
-    formatting = {
-      format = lspkind.cmp_format {
-        mode = "symbol_text", -- show symbol and text annotations
-        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-        ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-        show_labelDetails = true, -- show labelDetails in menu. Disabled by default
-        symbol_map = {
-          Copilot = "",
-          Codeium = "",
-        },
-      },
+    experimental = {
+      ghost_text = true,
     },
     mapping = {
       -- Scroll the documentation window [b]ack / [f]orward
-      -- ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
-      -- ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+      ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+      ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
 
       -- Select the [p]revious item
       ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
@@ -80,22 +82,33 @@ function M.setup()
         i = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       },
     },
-
     sources = cmp.config.sources {
       {
         name = "lazydev",
-        -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
-        group_index = 0,
+        group_index = 0, -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
       },
-      { name = "nvim_lsp", max_item_count = 15 },
+      { name = "nvim_lsp",                max_item_count = 15 },
       { name = "nvim_lsp_signature_help", max_item_count = 5 },
-      { name = "luasnip", max_item_count = 5 },
-      { name = "treesitter", max_item_count = 5 },
-      { name = "buffer", max_item_count = 5 },
+      { name = "luasnip",                 max_item_count = 5 },
+      { name = "treesitter",              max_item_count = 5 },
+      { name = "buffer",                  max_item_count = 5 },
       { name = "nvim_lua" },
       { name = "path" },
       -- { name = "copilot" }, -- github copilot
-      { name = "codeium", group_index = 1 }, -- ai coding codeium
+      { name = "codeium",                 group_index = 1 }, -- ai coding codeium
+    },
+    ---@diagnostic disable: missing-fields
+    formatting = {
+      format = lspkind.cmp_format {
+        mode = "symbol_text",     -- show symbol and text annotations
+        maxwidth = 50,            -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        ellipsis_char = "...",    -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+        show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+        symbol_map = {
+          Copilot = "",
+          Codeium = "",
+        },
+      },
     },
 
     preselect = cmp.PreselectMode.None,
