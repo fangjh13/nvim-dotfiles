@@ -28,6 +28,18 @@ local M = {
       })
     end
   end,
+  gopls = function(client, bufnr)
+    if n_utils.can_client_format_on_save(client) then
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        group = n_formatters.augroup,
+        callback = function()
+          require("config.lsp.null-ls.formatters").go_org_imports()
+          vim.wait(100)
+        end,
+      })
+    end
+  end,
 }
 
 return M
