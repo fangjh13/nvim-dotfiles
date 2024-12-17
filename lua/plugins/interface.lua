@@ -129,7 +129,7 @@ return {
       require("todo-comments").setup {
         keywords = {
           FIX = {
-            alt = { "fix", "fixme", "bug", "todo" }, -- a set of other keywords that all map to this FIX keywords
+            alt = { "fix", "FIX", "fixme", "FIXME", "bug", "BUG", "todo", "TODO" }, -- a set of other keywords that all map to this FIX keywords
           },
         },
       }
