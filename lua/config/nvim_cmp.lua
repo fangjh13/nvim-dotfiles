@@ -42,9 +42,9 @@ function M.setup()
       -- completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
     },
-    experimental = {
-      ghost_text = true,
-    },
+    -- experimental = {
+    --   ghost_text = true,
+    -- },
     mapping = {
       -- Scroll the documentation window [b]ack / [f]orward
       ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
