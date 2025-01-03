@@ -1,8 +1,12 @@
 return {
 
-  { "mhinz/vim-startify" },                                         -- start screen
+  { "mhinz/vim-startify" }, -- start screen
 
-  { "DanilaMihailov/beacon.nvim", event = "BufRead", lazy = true }, -- cursor jump
+  {
+    "DanilaMihailov/beacon.nvim",
+    event = "VeryLazy",
+    lazy = true,
+  }, -- cursor jump
 
   {
     "kyazdani42/nvim-web-devicons", -- filesystem icons
