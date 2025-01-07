@@ -27,8 +27,6 @@ local sources = {
   b.diagnostics.markdownlint,  -- Markdown style and syntax checker
   b.diagnostics.checkmake,     -- make linter
   b.diagnostics.codespell,     -- Codespell finds common misspellings in text files
-  b.diagnostics.deadnix,       -- Scan Nix files for dead code
-  b.diagnostics.statix,        -- Lints and suggestions for the Nix programming language
 
   -- code actions
   b.code_actions.gitsigns,

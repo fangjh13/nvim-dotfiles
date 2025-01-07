@@ -138,6 +138,31 @@ local servers = {
   --   },
   -- },
   -- },
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#nixd
+  nixd = {
+    settings = {
+      nixd = {
+        nixpkgs = {
+          expr = 'import (builtins.getFlake ("git+file://" + toString ./.)).inputs.nixpkgs { }',
+        },
+        formatting = {
+          command = { "nixfmt" },
+        },
+        options = {
+          nixos = {
+            expr = '(builtins.getFlake ("git+file://" + toString ./.)).nixosConfigurations.deskmini.options',
+          },
+          home_manager = {
+            expr = '(builtins.getFlake ("git+file://" + toString ./.)).homeConfigurations."fython@deskmini".options',
+          },
+          flake_parts = {
+            expr =
+            'let flake = builtins.getFlake ("git+file://" + toString ./.); in flake.debug.options // flake.currentSystem.options',
+          },
+        },
+      },
+    },
+  },
 }
 
 return servers

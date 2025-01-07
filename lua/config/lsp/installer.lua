@@ -24,6 +24,16 @@ function M.setup(servers, server_options)
     run_on_start = true,
   }
 
+  -- NOTE: Mason not support nixd, setup manually
+  for name, _ in pairs(servers) do
+    if name == "nixd" then
+      local opts = vim.tbl_deep_extend("force", server_options, servers[name])
+      lspconfig.nixd.setup(opts)
+      -- nixd install with nixos system not need install
+      servers["nixd"] = nil
+    end
+  end
+
   require("mason-lspconfig").setup {
     -- A list of servers to automatically install if they're not already installed. Example: { "rust_analyzer@nightly", "lua_ls" }
     -- This setting has no relation with the `automatic_installation` setting.

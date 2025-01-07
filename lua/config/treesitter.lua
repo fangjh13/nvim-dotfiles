@@ -52,7 +52,6 @@ function M.setup()
       "dockerfile",
       "sql",
       "ssh_config",
-      "nix",
       "typescript",
       "gitcommit",
       "gitignore",

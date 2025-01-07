@@ -66,8 +66,10 @@ function M.on_attach(client, bufnr)
   end
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- Add additional capabilities supported by nvim-cmp
+-- nvim hasn't added foldingRange to default capabilities, users must add it manually
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.foldingRange = {
   dynamicRegistration = false,
   lineFoldingOnly = true,
@@ -98,6 +100,7 @@ local opts = {
   },
 }
 
+-- Main function
 function M.setup()
   vim.lsp.set_log_level "error"
 
