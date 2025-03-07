@@ -92,8 +92,8 @@ return {
           },
         },
       }
-      -- use this colorscheme
-      -- vim.cmd [[colorscheme nightfox]]
+      -- use this colorscheme nightfox/dayfox/dawnfox/duskfox/nordfox/terafox/carbonfox
+      vim.cmd [[colorscheme carbonfox]]
     end,
   },
 
@@ -119,7 +119,7 @@ return {
       -- Load the colorscheme
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme "tokyonight-night"
+      -- vim.cmd.colorscheme "tokyonight-night"
     end,
   },
 

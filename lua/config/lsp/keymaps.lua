@@ -53,44 +53,47 @@ local function keymappings(client, bufnr)
 
   -- Register Whichkey
   local keymap_l = {
-    l = {
-      name = "LSP",
-      a = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action [ga]" },
-      i = { "<cmd>LspInfo<CR>", "Lsp Info" },
-      n = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename [rn]" },
-      r = { "<cmd>lua require('telescope.builtin').lsp_references()<CR>", "References [gr]" },
-      s = { "<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>", "Document Symbols" },
-      L = { "<cmd>lua vim.lsp.codelens.refresh()<CR>", "Refresh CodeLens" },
-      l = { "<cmd>lua vim.lsp.codelens.run()<CR>", "Run CodeLens" },
-      x = { "<cmd>lua require('telescope.builtin').diagnostics()<CR>", "Diagnostics" },
-      X = { "<cmd>lua require('config.lsp').toggle_diagnostics()<CR>", "Toggle Inline Diagnostics" },
-      d = { "<Cmd>lua vim.lsp.buf.definition()<CR>", "Definition [gd]" },
-      D = { "<Cmd>lua vim.lsp.buf.declaration()<CR>", "Declaration [gD]" },
-      p = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Implementation [gi]" },
-      h = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help [<C-k>]" },
-      I = { "<cmd>Telescope lsp_implementations<CR>", "Goto Implementation" },
-      b = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Goto Type Definition" },
-      q = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Open diagnostic [Q]uickfix list" },
+    { "<leader>?l",  group = "[L]SP" },
+    { "<leader>?la", "<cmd>lua vim.lsp.buf.code_action()<CR>",                           desc = "Code Action [ga]" },
+    { "<leader>?li", "<cmd>LspInfo<CR>",                                                 desc = "Lsp Info" },
+    { "<leader>?ln", "<cmd>lua vim.lsp.buf.rename()<CR>",                                desc = "Rename [rn]" },
+    { "<leader>?lr", "<cmd>lua require('telescope.builtin').lsp_references()<CR>",       desc = "References [gr]" },
+    { "<leader>?ls", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>", desc = "Document Symbols" },
+    { "<leader>?lL", "<cmd>lua vim.lsp.codelens.refresh()<CR>",                          desc = "Refresh CodeLens" },
+    { "<leader>?ll", "<cmd>lua vim.lsp.codelens.run()<CR>",                              desc = "Run CodeLens" },
+    { "<leader>?lx", "<cmd>lua require('telescope.builtin').diagnostics()<CR>",          desc = "Diagnostics" },
+    {
+      "<leader>?lX",
+      "<cmd>lua require('config.lsp').toggle_diagnostics()<CR>",
+      desc = "Toggle Inline Diagnostics",
+    },
+    { "<leader>?ld", "<Cmd>lua vim.lsp.buf.definition()<CR>",     desc = "Definition [gd]" },
+    { "<leader>?lD", "<Cmd>lua vim.lsp.buf.declaration()<CR>",    desc = "Declaration [gD]" },
+    { "<leader>?lp", "<cmd>lua vim.lsp.buf.implementation()<CR>", desc = "Implementation [gi]" },
+    {
+      "<leader>?lh",
+      "<cmd>lua vim.lsp.buf.signature_help()<CR>",
+      desc = "Signature Help [<C-k>]",
+    },
+    { "<leader>?lI", "<cmd>Telescope lsp_implementations<CR>",     desc = "Goto Implementation" },
+    { "<leader>?lb", "<cmd>lua vim.lsp.buf.type_definition()<CR>", desc = "Goto Type Definition" },
+    {
+      "<leader>?lq",
+      "<cmd>lua vim.diagnostic.setloclist()<CR>",
+      desc = "Open diagnostic [Q]uickfix list",
     },
   }
+
   if client.server_capabilities.documentFormattingProvider then
-    keymap_l.l.F = { "<cmd>lua vim.lsp.buf.format({async = true})<CR>", "Format Document" }
+    table.insert(
+      keymap_l,
+      { "<leader>?lF", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", desc = "Format Document" }
+    )
   end
 
   local whichkey = prequire "which-key"
   if whichkey then
-    local keymap_v_l = {
-      l = {
-        name = "LSP",
-        a = { "<cmd>'<,'>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
-      },
-    }
-
-    local o = { buffer = bufnr, prefix = " " }
-    whichkey.register(keymap_l, o)
-
-    o = { mode = "v", buffer = bufnr, prefix = " " }
-    whichkey.register(keymap_v_l, o)
+    whichkey.add(keymap_l)
   end
 end
 
