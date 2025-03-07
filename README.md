@@ -2,6 +2,10 @@
 
 Linux/macOS soft link to home config folder `~/.config/nvim`.
 
+```shell
+ln -sf $PWD ~/.config/nvim
+```
+
 ## Debug
 
 - [vimspector](https://github.com/puremourning/vimspector)
