@@ -46,22 +46,28 @@ local servers = {
       python = {
         analysis = {
           autoImportCompletions = true,
-          typeCheckingMode = "off",
+          -- https://microsoft.github.io/pyright/#/configuration?id=diagnostic-settings-defaults
+          typeCheckingMode = "off", -- "off", "basic", "standard",  "strict"
           autoSearchPaths = true,
           useLibraryCodeForTypes = true,
-          diagnosticMode = "workspace",
-          -- diagnosticMode = "openFilesOnly",
+          diagnosticMode = "openFilesOnly",
           -- stubPath = vim.fn.stdpath "data" .. "/lazy/python-type-stubs/stubs",
         },
       },
     },
   },
+  -- Python linter and code formatter
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#ruff
   ruff = {
     cmd_env = { RUFF_TRACE = "messages" },
     init_options = {
       settings = {
         logLevel = "debug",
+        lint = {
+          ignore = {
+            "E402", -- [E402] Module level import not at top of file
+          },
+        },
       },
     },
   },

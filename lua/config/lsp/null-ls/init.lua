@@ -8,12 +8,6 @@ local sources = {
   -- formatting
   b.formatting.prettierd, -- markdown
   b.formatting.shfmt,     -- shell script
-
-  -- b.formatting.black.with {
-  --   extra_args = { "--fast", "--line-length", "79", "--preview" },
-  -- }, -- python Code Formatter
-  -- b.formatting.usort, -- minimal import sorting for Python projects
-  -- lua
   b.formatting.stylua.with {
     extra_args = { "--indent-type", "Spaces", "--indent-width", "2" },
   },

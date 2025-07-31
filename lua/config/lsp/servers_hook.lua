@@ -27,6 +27,9 @@ local M = {
         end,
       })
     end
+
+    -- Disable hover in favor of Pyright
+    client.server_capabilities.hoverProvider = false
   end,
   gopls = function(client, bufnr)
     if n_utils.can_client_format_on_save(client) then

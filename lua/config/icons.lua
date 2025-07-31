@@ -31,7 +31,8 @@ return {
   diagnostics = {
     -- Error = "",
     Error = "",
-    Hint = "",
+    -- Hint = "",
+    Hint = "",
     Info = "",
     Question = "",
     -- Warning = "",
