@@ -13,7 +13,6 @@ local sources = {
   },
 
   -- diagnostics
-  b.diagnostics.write_good,    -- English prose linter
   -- b.diagnostics.selene,        -- Command line tool designed to help write correct and idiomatic Lua code
   b.diagnostics.buf,           -- Protocol Buffers
   b.diagnostics.yamllint,      -- YAML files
