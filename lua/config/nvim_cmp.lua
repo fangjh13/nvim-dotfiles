@@ -51,14 +51,48 @@ function M.setup()
       ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
 
       -- Select the [p]revious item
-      ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
+      ["<C-p>"] = cmp.mapping {
+        c = function()
+          if cmp.visible() then
+            cmp.select_prev_item() -- change inputted text
+          else
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Up>", true, true, true), "n", true)
+          end
+        end,
+        i = function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item { behavior = cmp.SelectBehavior.Select }
+          else
+            fallback()
+          end
+        end,
+      },
       -- Select the [n]ext item
-      ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
+      ["<C-n>"] = cmp.mapping {
+        c = function()
+          if cmp.visible() then
+            cmp.select_next_item()
+          else
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Down>", true, true, true), "n", true)
+          end
+        end,
+        i = function(fallback)
+          if cmp.visible() then
+            cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
+          else
+            fallback()
+          end
+        end,
+      },
       ["<C-e>"] = cmp.mapping(cmp.mapping.abort(), { "i", "c" }),
 
       ["<Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
-          cmp.select_next_item()
+          if vim.api.nvim_get_mode().mode == "i" then
+            cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
+          else
+            cmp.select_next_item()
+          end
         elseif luasnip.expand_or_jumpable() then
           luasnip.expand_or_jump()
         elseif has_words_before() then
@@ -69,7 +103,11 @@ function M.setup()
       end, { "i", "s", "c" }),
       ["<S-Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
-          cmp.select_prev_item()
+          if vim.api.nvim_get_mode().mode == "i" then
+            cmp.select_prev_item { behavior = cmp.SelectBehavior.Select }
+          else
+            cmp.select_prev_item {}
+          end
         elseif luasnip.jumpable(-1) then
           luasnip.jump(-1)
         else
@@ -79,7 +117,7 @@ function M.setup()
 
       -- Accept currently selected item.
       ["<CR>"] = cmp.mapping {
-        i = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        i = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       },
     },
     sources = cmp.config.sources {
