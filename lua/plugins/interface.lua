@@ -1,7 +1,5 @@
 return {
 
-  { "mhinz/vim-startify" }, -- start screen
-
   {
     "DanilaMihailov/beacon.nvim",
     event = "VeryLazy",
@@ -75,9 +73,9 @@ return {
   {
     "Mofiqul/dracula.nvim",
     -- use this colorscheme
-    -- config = function()
-    --   vim.cmd [[colorscheme dracula]]
-    -- end,
+    config = function()
+      vim.cmd [[colorscheme dracula]]
+    end,
   },
 
   {
@@ -93,7 +91,7 @@ return {
         },
       }
       -- use this colorscheme nightfox/dayfox/dawnfox/duskfox/nordfox/terafox/carbonfox
-      vim.cmd [[colorscheme carbonfox]]
+      -- vim.cmd [[colorscheme carbonfox]]
     end,
   },
 

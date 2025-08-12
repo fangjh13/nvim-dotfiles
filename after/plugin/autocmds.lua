@@ -33,20 +33,6 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
   end,
 })
 
--- smart number
-vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {
-  pattern = "*",
-  group = vim.api.nvim_create_augroup("smart_number", { clear = true }),
-  desc = "smart number",
-  callback = function(arg)
-    if vim.bo.filetype == "qf" then
-      vim.opt.relativenumber = false
-      return
-    end
-    vim.opt.relativenumber = arg.event == "InsertLeave"
-  end,
-})
-
 -- go to last location of buffer
 vim.api.nvim_create_autocmd("BufReadPost", {
   command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]],
