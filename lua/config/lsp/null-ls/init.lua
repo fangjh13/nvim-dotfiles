@@ -17,7 +17,6 @@ local sources = {
   b.diagnostics.buf,           -- Protocol Buffers
   b.diagnostics.yamllint,      -- YAML files
   b.diagnostics.dotenv_linter, -- Lightning-fast linter for .env files
-  b.diagnostics.markdownlint,  -- Markdown style and syntax checker
   b.diagnostics.checkmake,     -- make linter
   b.diagnostics.codespell,     -- Codespell finds common misspellings in text files
 
