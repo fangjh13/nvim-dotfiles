@@ -59,12 +59,12 @@ map({ "i", "c" }, "<C-v>", "<C-r>+")
 -- close all buffers and open last buffer
 map("n", "<leader>bd", ":%bd|e# <CR>")
 
--- map %% expand current direcotry
-map("c", "%%", "getcmdtype() == ':' ? expand('%:h').'/' : '%%'", { expr = true, desc = "expand current direcotry" })
+-- map %% expand current directory
+map("c", "%%", "getcmdtype() == ':' ? expand('%:h').'/' : '%%'", { expr = true, desc = "expand current directory" })
 -- map @% expand current file name
 map("c", "@%", "getcmdtype() == ':' ? expand('%') : '@%'", { expr = true, desc = "expand current file name" })
 
--- cursor movement like termnial in command mode
+-- cursor movement like terminal in command mode
 keymap.set("c", "<C-a>", function()
   return "<Home>"
 end, { expr = true, desc = "cursor move to start" })

@@ -68,15 +68,3 @@ if vim.fn.executable "fcitx5-remote" == 1 then
     desc = "Auto-switch input method with fcitx5-remote",
   })
 end
-
--- reopen the most recently closed buffer
-vim.cmd [[
-    augroup bufclosetrack
-      au!
-      autocmd WinLeave * let g:lastWinName = @%
-    augroup END
-    function! LastWindow()
-      exe "vsplit " . g:lastWinName
-    endfunction
-    command -nargs=0 LastWindow call LastWindow()
-]]
