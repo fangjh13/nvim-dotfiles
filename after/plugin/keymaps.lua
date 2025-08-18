@@ -15,18 +15,21 @@ map("n", "]T", ":tablast <CR>", { silent = true, desc = "tab last" })
 -- map quickfix list
 map("n", "[c", function()
   if vim.wo.diff then
-    vim.cmd.normal { "[c", band = true }
+    -- In diff mode, just pass the keypress through
+    vim.cmd.normal { "[c", bang = true }
   else
-    vim.cmd [[:cprevious]]
+    -- use pcall to avoid error
+    pcall(vim.cmd.cprevious)
   end
-end, { silent = true, desc = "quickfix previous" })
+end, { silent = true, desc = "Quickfix Previous" })
+
 map("n", "]c", function()
   if vim.wo.diff then
     vim.cmd.normal { "]c", bang = true }
   else
-    vim.cmd [[:cnext]]
+    pcall(vim.cmd.cnext)
   end
-end, { silent = true, desc = "quickfix next" })
+end, { silent = true, desc = "Quickfix Next" })
 map("n", "[C", ":cfirst <CR>", { silent = true, desc = "quickfix first" })
 map("n", "]C", ":clast <CR>", { silent = true, desc = "quickfix last" })
 map("n", "<leader>cc", ":cclose <CR>", { silent = true, desc = "quickfix close" })
