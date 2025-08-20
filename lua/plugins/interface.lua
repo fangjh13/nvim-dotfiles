@@ -146,4 +146,44 @@ return {
       require("bqf").setup()
     end,
   },
+
+  -- [[ Improved UI and workflow for the Neovim quickfix ]]
+  {
+    "stevearc/quicker.nvim",
+    event = "FileType qf",
+    config = function()
+      vim.keymap.set("n", "<leader>ct", function()
+        require("quicker").toggle()
+      end, {
+        desc = "Toggle quickfix",
+      })
+      vim.keymap.set("n", "<leader>lt", function()
+        require("quicker").toggle { loclist = true }
+      end, {
+        desc = "Toggle loclist",
+      })
+      require("quicker").setup(
+      ---@module "quicker"
+      ---@type quicker.SetupOptions
+        {
+          keys = {
+            {
+              ">",
+              function()
+                require("quicker").expand { before = 2, after = 2, add_to_existing = true }
+              end,
+              desc = "Expand quickfix context",
+            },
+            {
+              "<",
+              function()
+                require("quicker").collapse()
+              end,
+              desc = "Collapse quickfix context",
+            },
+          },
+        }
+      )
+    end,
+  },
 }
