@@ -14,8 +14,10 @@ local sources = {
 
   -- diagnostics
   -- b.diagnostics.selene,        -- Command line tool designed to help write correct and idiomatic Lua code
-  b.diagnostics.buf,           -- Protocol Buffers
-  b.diagnostics.yamllint,      -- YAML files
+  b.diagnostics.buf, -- Protocol Buffers
+  b.diagnostics.yamllint.with {
+    extra_args = { "-d", "{extends: relaxed, rules: {line-length: disable}}" },
+  },                           -- YAML files
   b.diagnostics.dotenv_linter, -- Lightning-fast linter for .env files
   b.diagnostics.checkmake,     -- make linter
   b.diagnostics.codespell,     -- Codespell finds common misspellings in text files
