@@ -3,7 +3,8 @@ return {
   lazy = true,
   cmd = { "Outline", "OutlineOpen" },
   keys = { -- Example mapping to toggle outline
-    { "<leader>o", "<cmd>Outline<CR>", desc = "Toggle outline" },
+    { "<leader>o", "<cmd>Outline<CR>",      desc = "Toggle outline" },
+    { "<leader>i", "<cmd>OutlineFocus<CR>", desc = "Toggle focus between outline and code/source window" },
   },
   -- config = function()
   --   require("outline").setup {

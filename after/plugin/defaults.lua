@@ -34,7 +34,7 @@ o.wildignorecase = true -- bool: Ignore case in search file names and directorie
 o.wildignore:append "**/.git/*"
 o.smartcase = true      -- bool: Override ignorecase if search contains capitals
 o.incsearch = true      -- bool: Use incremental search
-o.hlsearch = false      -- bool: Highlight search matches
+o.hlsearch = true       -- bool: Highlight search matches
 
 -- [[ Better search ]]
 o.path:remove "/usr/include"
