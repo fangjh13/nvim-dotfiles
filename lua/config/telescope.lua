@@ -73,12 +73,28 @@ function M.default()
         n = {
           ["q"] = actions.smart_add_to_qflist + actions.open_qflist,
           ["v"] = actions.file_vsplit,
-          ["s"] = actions.file_split,
-          ["<c-d>"] = actions.delete_buffer,
+          ["x"] = actions.file_split,
+          ["<C-d>"] = actions.results_scrolling_down,
+          ["<C-u>"] = actions.results_scrolling_up,
+          ["<C-f>"] = actions.results_scrolling_left,
+          ["<C-b>"] = actions.results_scrolling_right,
+          ["<PageUp>"] = actions.preview_scrolling_up,
+          ["<PageDown>"] = actions.preview_scrolling_down,
+          ["<M-f>"] = actions.preview_scrolling_right,
+          ["<M-b>"] = actions.preview_scrolling_left,
+          ["D"] = actions.delete_buffer,
         }, -- n
         i = {
           ["<C-h>"] = "which_key",
-          ["<c-d>"] = actions.delete_buffer,
+          ["<C-d>"] = actions.results_scrolling_down,
+          ["<C-u>"] = actions.results_scrolling_up,
+          ["<C-f>"] = actions.results_scrolling_left,
+          ["<C-b>"] = actions.results_scrolling_right,
+          ["<PageUp>"] = actions.preview_scrolling_up,
+          ["<PageDown>"] = actions.preview_scrolling_down,
+          ["<M-f>"] = actions.preview_scrolling_right,
+          ["<M-b>"] = actions.preview_scrolling_left,
+          ["D"] = actions.delete_buffer,
         }, -- i
       },   -- mappings
     },     -- defaults
