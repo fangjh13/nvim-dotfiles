@@ -4,8 +4,7 @@ local n_formatters = require "config.lsp.null-ls.formatters"
 local M = {
   pyright = function(client, bufnr)
     -- Add keybinds
-    local utils = require "utils"
-    utils.map_buf(
+    require("utils").map_buf(
       "n",
       "<leader>lo",
       "<cmd>PyrightOrganizeImports<cr>",

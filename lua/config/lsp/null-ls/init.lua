@@ -19,7 +19,7 @@ local sources = {
     extra_args = { "-d", "{extends: relaxed, rules: {line-length: disable}}" },
   },                           -- YAML files
   b.diagnostics.dotenv_linter, -- Lightning-fast linter for .env files
-  b.diagnostics.checkmake,     -- make linter
+  -- b.diagnostics.checkmake,     -- make linter
   b.diagnostics.codespell,     -- Codespell finds common misspellings in text files
 
   -- code actions

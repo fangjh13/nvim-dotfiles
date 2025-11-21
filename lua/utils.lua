@@ -21,15 +21,22 @@ function M.map(mode, keys, action, options)
   if options then
     opts = vim.tbl_extend("force", opts, options)
   end
-  -- vim.api.nvim_set_keymap(mode, keys, action, opts)
   vim.keymap.set(mode, keys, action, opts)
 end
 
-function M.map_lua(mode, keys, action, options)
+function M.map_lua_str(mode, keys, action, options)
   if options == nil then
     options = {}
   end
   vim.api.nvim_set_keymap(mode, keys, "<cmd>lua " .. action .. "<cr>", options)
+end
+
+function M.map_buf_lua_str(mode, keys, action, options, buf_nr)
+  if options == nil then
+    options = {}
+  end
+  local buf = buf_nr or 0
+  vim.api.nvim_buf_set_keymap(buf, mode, keys, "<cmd>lua " .. action .. "<cr>", options)
 end
 
 function M.map_buf(mode, keys, action, options, buf_nr)
@@ -44,8 +51,9 @@ function M.map_lua_buf(mode, keys, action, options, buf_nr)
   if options == nil then
     options = {}
   end
-  local buf = buf_nr or 0
-  vim.api.nvim_buf_set_keymap(buf, mode, keys, "<cmd>lua " .. action .. "<cr>", options)
+  options = vim.tbl_extend("force", { buffer = buf_nr }, options)
+
+  vim.keymap.set(mode, keys, action, options)
 end
 
 -- helper functions print table

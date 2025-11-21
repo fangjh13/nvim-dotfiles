@@ -27,11 +27,6 @@ function M.setup()
 
   -- LSP handlers configuration
   local config = {
-    float = {
-      focusable = true,
-      style = "minimal",
-      border = "rounded",
-    },
 
     diagnostic = {
       virtual_text = {
@@ -75,12 +70,6 @@ function M.setup()
 
   -- Diagnostic configuration
   vim.diagnostic.config(config.diagnostic)
-
-  -- Hover configuration
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, config.float)
-
-  -- Signature help configuration
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, config.float)
 end
 
 return M

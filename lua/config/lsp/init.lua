@@ -17,9 +17,11 @@ function M.on_attach(client, bufnr)
   end
 
   -- Enable Inlay Hints or use `:LspInlayHitsToggle` command enable
-  -- if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-  --   vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-  -- end
+  if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+    if client.name == "rust_analyzer" then
+      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    end
+  end
 
   -- Use LSP as the handler for formatexpr.
   -- See `:help formatexpr` for more information.

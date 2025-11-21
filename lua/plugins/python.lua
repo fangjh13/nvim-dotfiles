@@ -1,15 +1,11 @@
 return {
   "linux-cultist/venv-selector.nvim",
-  lazy = true,
-  cmd = "VenvSelect",
-  branch = "regexp", -- This is the regexp branch, use this for the new version
-  config = function()
-    require("venv-selector").setup()
-  end,
+  ft = "python", -- Load when opening Python files
   keys = {
-    -- Keymap to open VenvSelector to pick a venv.
-    { "<leader>vs", "<cmd>VenvSelect<cr>" },
-    -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
-    { "<leader>vc", "<cmd>VenvSelectCached<cr>" },
+    { "<leader>vs", "<cmd>VenvSelect<cr>" }, -- Open picker on keymap
+  },
+  opts = { -- this can be an empty lua table - just showing below for clarity.
+    search = {}, -- if you add your own searches, they go here.
+    options = {}, -- if you add plugin options, they go here.
   },
 }

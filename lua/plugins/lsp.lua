@@ -19,10 +19,9 @@ return {
       "cmp-nvim-lsp",
       "vim-illuminate",
       "nvimtools/none-ls.nvim", -- Formatting/linting
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      "WhoIsSethDaniel/mason-tool-installer.nvim",
-      "jayp0521/mason-null-ls.nvim",
+      "mason-org/mason.nvim",
+      "jay-babu/mason-null-ls.nvim",
+      "mason-org/mason-lspconfig.nvim",
       "RRethy/vim-illuminate",
       "b0o/schemastore.nvim",
       {

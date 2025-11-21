@@ -162,9 +162,37 @@ local servers = {
             expr = '(builtins.getFlake ("git+file://" + toString ./.)).homeConfigurations."fython@deskmini".options',
           },
           flake_parts = {
-            expr =
-            'let flake = builtins.getFlake ("git+file://" + toString ./.); in flake.debug.options // flake.currentSystem.options',
+            expr = 'let flake = builtins.getFlake ("git+file://" + toString ./.); in flake.debug.options // flake.currentSystem.options',
           },
+        },
+      },
+    },
+  },
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#rust_analyzer
+  rust_analyzer = {
+    settings = {
+      ["rust-analyzer"] = {
+        diagnostics = {
+          enable = true,
+        },
+        files = {
+          excludeDirs = {
+            ".direnv",
+            ".git",
+            "target",
+          },
+        },
+        check = {
+          command = "clippy",
+          extraArgs = {
+            "--no-deps",
+          },
+        },
+        -- Make the rust-analyzer use its own profile,
+        -- so you can run cargo build without that being blocked while rust-analyzer runs
+        cargo = {
+          extraEnv = { CARGO_PROFILE_RUST_ANALYZER_INHERITS = "dev" },
+          extraArgs = { "--profile", "rust-analyzer" },
         },
       },
     },
