@@ -5,9 +5,12 @@ local nls_utils = require "null-ls.utils"
 local b = nls.builtins
 
 local sources = {
-  -- formatting
-  b.formatting.prettierd, -- markdown
-  b.formatting.shfmt,     -- shell script
+  -- code formatter, prettier as a daemon, for ludicrous formatting speed.
+  -- https://github.com/nvimtools/none-ls.nvim/blob/main/doc/BUILTINS.md#prettierd
+  b.formatting.prettierd. with{
+        disabled_filetypes = { "jsonc" },
+    },
+  b.formatting.shfmt, -- shell script
   b.formatting.stylua.with {
     extra_args = { "--indent-type", "Spaces", "--indent-width", "2" },
   },
@@ -17,10 +20,10 @@ local sources = {
   b.diagnostics.buf, -- Protocol Buffers
   b.diagnostics.yamllint.with {
     extra_args = { "-d", "{extends: relaxed, rules: {line-length: disable}}" },
-  },                           -- YAML files
+  }, -- YAML files
   b.diagnostics.dotenv_linter, -- Lightning-fast linter for .env files
-  -- b.diagnostics.checkmake,     -- make linter
-  b.diagnostics.codespell,     -- Codespell finds common misspellings in text files
+  -- b.diagnostics.checkmake,     -- make linter NOTE: unsupported in arm
+  b.diagnostics.codespell, -- Codespell finds common misspellings in text files
 
   -- code actions
   b.code_actions.gitsigns,
