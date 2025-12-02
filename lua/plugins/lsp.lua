@@ -1,33 +1,36 @@
 -- [[ LSP ]]
 return {
+  -- Configures LuaLS to support auto-completion and type checking
+  -- while editing your Neovim configuration.
   {
     "folke/lazydev.nvim",
     ft = "lua", -- only load on lua files
-    opts = {
-      library = {
-        -- See the configuration section for more details
-        -- Load luvit types when the `vim.uv` word is found
-        { path = "luvit-meta/library", words = { "vim%.uv" } },
-      },
-    },
+    cmd = "LazyDev",
   },
-  { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
 
+  -- yaml/json schema support
+  {
+    "b0o/SchemaStore.nvim",
+    lazy = true,
+    version = false, -- last release is way too old
+  },
+
+  -- Mason Installer
+  { import = "config.mason" },
+
+  {
+    "j-hui/fidget.nvim", -- display the LSP progress
+    opts = {},
+  },
+
+  -- Formatter
+  { import = "config.conform" },
+
+  -- Main LSP config
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "cmp-nvim-lsp",
-      "vim-illuminate",
-      "nvimtools/none-ls.nvim", -- Formatting/linting
-      "mason-org/mason.nvim",
-      "jay-babu/mason-null-ls.nvim",
       "mason-org/mason-lspconfig.nvim",
-      "RRethy/vim-illuminate",
-      "b0o/schemastore.nvim",
-      {
-        "j-hui/fidget.nvim", -- display the LSP progress
-        opts = {},
-      },
     },
     config = function()
       require("config.lsp").setup()

@@ -3,6 +3,28 @@ local M = {}
 local servers = require "config.lsp.servers"
 local servers_hook = require "config.lsp.servers_hook"
 
+-- Add additional capabilities supported by nvim-cmp
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+capabilities = vim.lsp.protocol.make_client_capabilities()
+
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    "documentation",
+    "detail",
+    "additionalTextEdits",
+  },
+}
+
+-- NOTE: https://github.com/neovim/neovim/issues/23291
+capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
+
+-- for nvim-cmp
+M.capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+
+-- config LSP diagnostic
+require("config.lsp.diagnostic").setup()
+
+-- On attach function
 function M.on_attach(client, bufnr)
   local caps = client.server_capabilities
 
@@ -16,49 +38,25 @@ function M.on_attach(client, bufnr)
     buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
   end
 
-  -- Enable Inlay Hints or use `:LspInlayHitsToggle` command enable
-  if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-    if client.name == "rust_analyzer" then
-      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-    end
-  end
-
-  -- Use LSP as the handler for formatexpr.
-  -- See `:help formatexpr` for more information.
-  if caps.documentFormattingProvider then
-    buf_set_option("formatexpr", "v:lua.vim.lsp.formatexpr()")
-  end
-
-  -- Configure key mappings
-  require("config.lsp.keymaps").setup(client, bufnr)
-
-  -- Configure highlighting
-  require("config.lsp.highlighter").setup(client, bufnr)
-
-  -- Configure formatting
-  require("config.lsp.null-ls.formatters").setup(client, bufnr)
-
   -- tagfunc
   if caps.definitionProvider then
     buf_set_option("tagfunc", "v:lua.vim.lsp.tagfunc")
   end
 
-  -- display diagnostic in floating window on CursorHold
-  vim.api.nvim_create_autocmd("CursorHold", {
-    buffer = bufnr,
-    callback = function()
-      local opts = {
-        focusable = false,
-        close_events = { "CursorMoved", "InsertEnter" },
-        border = "rounded",
-        source = "always",
-        prefix = " ",
-        scope = "cursor",
-      }
-      vim.diagnostic.open_float(nil, opts)
-    end,
-    desc = "Display diagnostic window on CursorHold",
-  })
+  -- Configure key mappings
+  require("config.lsp.keymaps").setup(client, bufnr)
+
+  -- Configure folds
+  require("config.lsp.folds").setup(client, bufnr)
+
+  -- Configure Code Lens
+  require("config.lsp.code_lens").setup(client, bufnr)
+
+  -- Configure formatting
+  require("config.lsp.format").setup(client, bufnr)
+
+  -- register diagnostic cursor autocmd
+  require("config.lsp.diagnostic").autocmd(client, bufnr)
 
   -- additional config
   for name, callback in pairs(servers_hook) do
@@ -67,29 +65,6 @@ function M.on_attach(client, bufnr)
     end
   end
 end
-
--- Add additional capabilities supported by nvim-cmp
--- nvim hasn't added foldingRange to default capabilities, users must add it manually
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
-capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.foldingRange = {
-  dynamicRegistration = false,
-  lineFoldingOnly = true,
-}
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    "documentation",
-    "detail",
-    "additionalTextEdits",
-  },
-}
--- NOTE: https://github.com/neovim/neovim/issues/23291
-capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
--- for nvim-cmp
-M.capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
-
--- Setup LSP handlers
-require("config.lsp.handlers").setup()
 
 local opts = {
   on_attach = M.on_attach,
@@ -106,22 +81,8 @@ local opts = {
 function M.setup()
   vim.lsp.set_log_level "error"
 
-  -- null-ls
-  require("config.lsp.null-ls").setup(opts)
-
   -- Install dependencies and set up servers via lspconfig
-  require("config.lsp.installer").setup(servers, opts)
-end
-
-local diagnostics_active = true
-
-function M.toggle_diagnostics()
-  diagnostics_active = not diagnostics_active
-  if diagnostics_active then
-    vim.diagnostic.show()
-  else
-    vim.diagnostic.hide()
-  end
+  require("config.lsp.config").setup(servers, opts)
 end
 
 return M

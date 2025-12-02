@@ -1,16 +1,6 @@
 local utils = require "utils"
 local M = {}
 
-function M.toggle_inlay_hints(client, bufnr)
-  if bufnr == nil then
-    bufnr = vim.api.nvim_get_current_buf()
-  end
-  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled {
-    bufnr = bufnr,
-    desc = "LSP: [T]oggle Inlay [H]ints",
-  })
-end
-
 local function keymappings(client, bufnr)
   local float = {
     focusable = true,
@@ -47,20 +37,6 @@ local function keymappings(client, bufnr)
   utils.map_buf_lua_str("n", "]d", "vim.diagnostic.goto_next()", opts, bufnr)
   utils.map_buf_lua_str("n", "<space>q", "vim.diagnostic.setloclist()", opts, bufnr)
 
-  -- Set some keybinds conditional on server capabilities
-  if client.server_capabilities.documentFormattingProvider then
-    utils.map_buf_lua_str("n", "fmt", "require('config.lsp.null-ls.utils').buf_format()", opts, bufnr)
-  end
-
-  -- Toggle inlay hints in your
-  -- code, if the language server you are using supports them
-  if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-    vim.keymap.set("n", "<leader>th", function()
-      M.toggle_inlay_hints(client, bufnr)
-    end)
-    vim.cmd "command! LspInlayHitsToggle lua require('config.lsp.keymaps').toggle_inlay_hints()"
-  end
-
   -- Register Whichkey
   local keymap_l = {
     { "<leader>?l", group = "[L]SP" },
@@ -74,8 +50,8 @@ local function keymappings(client, bufnr)
     { "<leader>?lx", "<cmd>lua require('telescope.builtin').diagnostics()<CR>", desc = "Diagnostics" },
     {
       "<leader>?lX",
-      "<cmd>lua require('config.lsp').toggle_diagnostics()<CR>",
-      desc = "Toggle Inline Diagnostics",
+      "<cmd>lua require('config.lsp.diagnostic').toggle_diagnostics()<CR>",
+      desc = "Toggle Diagnostics",
     },
     { "<leader>?ld", "<Cmd>lua vim.lsp.buf.definition()<CR>", desc = "Definition [gd]" },
     { "<leader>?lD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", desc = "Declaration [gD]" },
@@ -93,11 +69,29 @@ local function keymappings(client, bufnr)
       desc = "Open diagnostic [Q]uickfix list",
     },
   }
-
+  -- Set some keybinds conditional on server capabilities
   if client.server_capabilities.documentFormattingProvider then
+    utils.map_buf_lua_str("n", "fmt", "require('config.lsp.format').buf_format()", opts, bufnr)
     table.insert(
       keymap_l,
-      { "<leader>?lF", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", desc = "Format Document" }
+      { "<leader>?lF", "<cmd>lua require('config.lsp.format').buf_format()<CR>", desc = "Format Document" }
+    )
+  end
+
+  -- Toggle inlay hints in your
+  -- code, if the language server you are using supports them
+  if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+    vim.keymap.set("n", "<leader>th", function()
+      require("config.lsp.inlay_hints").toggle_inlay_hints(client, bufnr)
+    end)
+    vim.cmd "command! LspInlayHitsToggle lua require('config.lsp.inlay_hints').toggle_inlay_hints()"
+    table.insert(
+      keymap_l,
+      {
+        "<leader>?ly",
+        "<cmd>lua require('config.lsp.inlay_hints').toggle_inlay_hints()<CR>",
+        desc = "Toggle Inlay Hints",
+      }
     )
   end
 

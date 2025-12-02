@@ -2,6 +2,17 @@ local M = {}
 
 local icons = require "config.icons"
 
+local diagnostics_active = true
+
+function M.toggle_diagnostics()
+  diagnostics_active = not diagnostics_active
+  if diagnostics_active then
+    vim.diagnostic.show()
+  else
+    vim.diagnostic.hide()
+  end
+end
+
 function M.setup()
   local function format_diagnostic(diagnostic)
     local icon = icons.error
@@ -15,23 +26,15 @@ function M.setup()
       icon = icons.diagnostics.Error
     end
 
-    local message = string.format("%s %s", icon, diagnostic.message)
-    if diagnostic.code and diagnostic.source then
-      message = string.format("%s [%s][%s] %s", icon, diagnostic.source, diagnostic.code, diagnostic.message)
-    elseif diagnostic.code or diagnostic.source then
-      message = string.format("%s [%s] %s", icon, diagnostic.code or diagnostic.source, diagnostic.message)
-    end
-
+    local message = string.format("%s  %s", icon, diagnostic.message)
     return message .. " "
   end
 
-  -- LSP handlers configuration
   local config = {
-
     diagnostic = {
       virtual_text = {
         prefix = "",
-        spacing = 2,
+        spacing = 4,
         source = false,
         severity = {
           min = vim.diagnostic.severity.HINT,
@@ -62,14 +65,32 @@ function M.setup()
         header = { icons.diagnostics.Debug .. " Diagnostics:", "DiagnosticInfo" },
         scope = "line",
         suffix = "",
-        source = false,
-        format = format_diagnostic,
+        source = "if_many",
       },
     },
   }
 
   -- Diagnostic configuration
   vim.diagnostic.config(config.diagnostic)
+end
+
+function M.autocmd(client, bufnr)
+  -- display diagnostic in floating window on CursorHold
+  vim.api.nvim_create_autocmd("CursorHold", {
+    buffer = bufnr,
+    callback = function()
+      local opts = {
+        focusable = false,
+        close_events = { "CursorMoved", "InsertEnter" },
+        border = "rounded",
+        source = "always",
+        prefix = " ",
+        scope = "cursor",
+      }
+      vim.diagnostic.open_float(nil, opts)
+    end,
+    desc = "Display diagnostic window on CursorHold",
+  })
 end
 
 return M

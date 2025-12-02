@@ -14,13 +14,23 @@ return {
     end,
   },
 
-  --[[ Indent Blankline ]]
+  --[[ Highlights Under Cursor ]]
   {
-    "lukas-reineke/indent-blankline.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = { "hiphish/rainbow-delimiters.nvim" },
-    config = function()
-      require("config.indent_blankline").setup()
+    "RRethy/vim-illuminate",
+    event = "VeryLazy",
+    opts = {
+      delay = 200,
+      large_file_cutoff = 2000,
+      large_file_overrides = {
+        -- providers: provider used to get references in the buffer, ordered by priority
+        providers = {
+          "lsp",
+          "treesitter",
+        },
+      },
+    },
+    config = function(_, opts)
+      require("illuminate").configure(opts)
     end,
   },
 
@@ -73,9 +83,9 @@ return {
   {
     "Mofiqul/dracula.nvim",
     -- use this colorscheme
-    config = function()
-      vim.cmd [[colorscheme dracula]]
-    end,
+    -- config = function()
+    --   vim.cmd [[colorscheme dracula]]
+    -- end,
   },
 
   {
@@ -113,11 +123,12 @@ return {
   {
     "folke/tokyonight.nvim",
     priority = 1000, -- Make sure to load this before all the other start plugins.
+    opts = { style = "moon" },
     init = function()
       -- Load the colorscheme
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      -- vim.cmd.colorscheme "tokyonight-night"
+      vim.cmd.colorscheme "tokyonight"
     end,
   },
 
@@ -163,8 +174,8 @@ return {
         desc = "Toggle loclist",
       })
       require("quicker").setup(
-      ---@module "quicker"
-      ---@type quicker.SetupOptions
+        ---@module "quicker"
+        ---@type quicker.SetupOptions
         {
           keys = {
             {

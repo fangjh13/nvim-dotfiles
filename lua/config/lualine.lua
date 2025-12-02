@@ -19,25 +19,15 @@ local function lsp_client(msg)
 
   -- add client
   for _, client in pairs(buf_clients) do
-    if client.name ~= "null-ls" then
-      table.insert(buf_client_names, client.name)
-    end
+    table.insert(buf_client_names, client.name)
   end
 
   -- add formatter
-  local formatters = require "config.lsp.null-ls.formatters"
-  local supported_formatters = formatters.list_registered(buf_ft)
-  vim.list_extend(buf_client_names, supported_formatters)
-
-  -- add linter
-  local linters = require "config.lsp.null-ls.linters"
-  local supported_linters = linters.list_registered(buf_ft)
-  vim.list_extend(buf_client_names, supported_linters)
-
-  -- add hover
-  local hovers = require "config.lsp.null-ls.hovers"
-  local supported_hovers = hovers.list_registered(buf_ft)
-  vim.list_extend(buf_client_names, supported_hovers)
+  -- for _, fmt in pairs(require("conform").list_formatters_to_run()) do
+  --   if not vim.tbl_contains(buf_client_names, fmt.name) then
+  --     table.insert(buf_client_names, fmt.name)
+  --   end
+  -- end
 
   return "[" .. table.concat(buf_client_names, ", ") .. "]"
 end
@@ -102,6 +92,7 @@ local custom_sections = {
 
 function M.setup()
   local options = {
+    globalstatus = true,
     icons_enabled = true,
     theme = "auto",
     component_separators = { left = "", right = "" },

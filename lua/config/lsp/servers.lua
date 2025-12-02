@@ -78,72 +78,81 @@ local servers = {
         completion = {
           callSnippet = "Replace",
         },
-        runtime = {
-          -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-          version = "LuaJIT",
-          -- Setup your lua path
-          path = vim.split(package.path, ";"),
-        },
+        -- runtime = {
+        --   -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        --   version = "LuaJIT",
+        --   -- Setup your lua path
+        --   path = vim.split(package.path, ";"),
+        -- },
         hint = {
           enable = true,
-          paramName = "Literal",
-          setType = true,
+          setType = false,
+          paramType = true,
+          paramName = "Disable",
+          semicolon = "Disable",
+          arrayIndex = "Disable",
         },
-        diagnostics = {
-          -- Get the language server to recognize the `vim` global
-          -- globals = { "vim", "describe", "it", "before_each", "after_each", "packer_plugins", "MiniTest" },
-          globals = { "vim", "string" },
-          -- ignore Lua_LS's diagnostics
-          -- disable = { "missing-fields", "lowercase-global", "undefined-global", "unused-local", "unused-vararg", "trailing-space" },
+        -- diagnostics = {
+        --   -- Get the language server to recognize the `vim` global
+        --   -- globals = { "vim", "describe", "it", "before_each", "after_each", "packer_plugins", "MiniTest" },
+        --   globals = { "vim", "string" },
+        --   -- ignore Lua_LS's diagnostics
+        --   -- disable = { "missing-fields", "lowercase-global", "undefined-global", "unused-local", "unused-vararg", "trailing-space" },
+        -- },
+        -- workspace = {
+        --   checkThirdParty = false,
+        --   -- Make the server aware of Neovim runtime files
+        --   library = {
+        --     vim.env.VIMRUNTIME,
+        --     --[[ "${3rd}/busted/library", ]]
+        --     "${3rd}/luv/library",
+        --   },
+        -- },
+        codeLens = {
+          enable = true,
         },
-        workspace = {
-          checkThirdParty = false,
-          -- Make the server aware of Neovim runtime files
-          library = {
-            vim.env.VIMRUNTIME,
-            --[[ "${3rd}/busted/library", ]]
-            "${3rd}/luv/library",
-          },
+        doc = {
+          privateName = { "^_" },
         },
       },
     },
   },
   vimls = {},
   yamlls = {
-    schemastore = {
-      enable = true,
+    capabilities = {
+      textDocument = {
+        foldingRange = {
+          dynamicRegistration = false,
+          lineFoldingOnly = true,
+        },
+      },
     },
+    -- lazy-load schemastore when needed
+    before_init = function(_, new_config)
+      new_config.settings.yaml.schemas =
+        vim.tbl_deep_extend("force", new_config.settings.yaml.schemas or {}, require("schemastore").yaml.schemas())
+    end,
     settings = {
+      redhat = { telemetry = { enabled = false } },
       yaml = {
-        hover = true,
-        completion = true,
+        keyOrdering = false,
+        format = {
+          enable = true,
+        },
         validate = true,
         schemaStore = {
-          -- You must disable built-in schemaStore support if you want to use
-          -- this plugin and its advanced options like `ignore`.
+          -- Must disable built-in schemaStore support to use
+          -- schemas from SchemaStore.nvim plugin
           enable = false,
           -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
           url = "",
         },
-        schemas = require("schemastore").yaml.schemas(),
       },
     },
   },
   sqlls = {},
   dockerls = {},
   bashls = {},
-  -- sqls = {
-  -- settings = {
-  --   sqls = {
-  --     connections = {
-  --       {
-  --         driver = "sqlite3",
-  --         dataSourceName = os.getenv "HOME" .. "/workspace/db/chinook.db",
-  --       },
-  --     },
-  --   },
-  -- },
-  -- },
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#nixd
   nixd = {
     settings = {
