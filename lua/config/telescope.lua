@@ -1,5 +1,6 @@
 local M = {}
 local actions = require "telescope.actions"
+local utils = require "utils"
 
 function M.setup()
   -- Enable Telescope extensions if they are installed
@@ -11,6 +12,8 @@ function M.setup()
   vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
   vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
   vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
+  vim.keymap.set("n", "<leader>ss", require("telescope.builtin").lsp_document_symbols)
+  vim.keymap.set("n", "<leader>sS", require("telescope.builtin").lsp_workspace_symbols)
 
   vim.keymap.set("n", "<leader>/", function()
     -- You can pass additional configuration to Telescope to change the theme, layout, etc.
@@ -96,8 +99,8 @@ function M.default()
           ["<M-b>"] = actions.preview_scrolling_left,
           ["D"] = actions.delete_buffer,
         }, -- i
-      },   -- mappings
-    },     -- defaults
+      }, -- mappings
+    }, -- defaults
     pickers = {
       buffers = {
         sort_mru = true,

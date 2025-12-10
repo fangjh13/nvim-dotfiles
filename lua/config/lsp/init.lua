@@ -15,9 +15,6 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
   },
 }
 
--- NOTE: https://github.com/neovim/neovim/issues/23291
-capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
-
 -- for nvim-cmp
 M.capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 

@@ -100,6 +100,43 @@ function M.is_file_exists(path)
   return vim.fn.filereadable(path) == 1
 end
 
+-- Only show file name
+function M.my_tabline()
+  local s = ""
+  for i = 1, vim.fn.tabpagenr "$" do
+    -- Highlight the active tab differently
+    if i == vim.fn.tabpagenr() then
+      s = s .. "%#TabLineSel#"
+    else
+      s = s .. "%#TabLine#"
+    end
+
+    -- Set the tab page number (for mouse clicks)
+    s = s .. "%" .. i .. "T"
+
+    -- Get the buffer number of the active window in this tab
+    local winnr = vim.fn.tabpagewinnr(i)
+    local buflist = vim.fn.tabpagebuflist(i)
+    local bufnr = buflist[winnr]
+    local bufname = vim.fn.bufname(bufnr)
+
+    -- Get only the filename (tail) using fnamemodify
+    local label = ""
+    if bufname == "" then
+      label = "[No Name]"
+    else
+      label = vim.fn.fnamemodify(bufname, ":t")
+    end
+
+    -- Add the label to the string
+    s = s .. " " .. label .. " "
+  end
+
+  -- Fill the rest of the line
+  s = s .. "%#TabLineFill#%T"
+  return s
+end
+
 -- Global Access
 _G.utils = M
 

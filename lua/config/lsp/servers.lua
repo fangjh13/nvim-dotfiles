@@ -71,19 +71,13 @@ local servers = {
       },
     },
   },
-  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls
   lua_ls = {
     settings = {
       Lua = {
         completion = {
           callSnippet = "Replace",
         },
-        -- runtime = {
-        --   -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        --   version = "LuaJIT",
-        --   -- Setup your lua path
-        --   path = vim.split(package.path, ";"),
-        -- },
         hint = {
           enable = true,
           setType = false,
@@ -99,15 +93,6 @@ local servers = {
         --   -- ignore Lua_LS's diagnostics
         --   -- disable = { "missing-fields", "lowercase-global", "undefined-global", "unused-local", "unused-vararg", "trailing-space" },
         -- },
-        -- workspace = {
-        --   checkThirdParty = false,
-        --   -- Make the server aware of Neovim runtime files
-        --   library = {
-        --     vim.env.VIMRUNTIME,
-        --     --[[ "${3rd}/busted/library", ]]
-        --     "${3rd}/luv/library",
-        --   },
-        -- },
         codeLens = {
           enable = true,
         },
@@ -117,7 +102,8 @@ local servers = {
       },
     },
   },
-  vimls = {},
+  -- TOML https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#taplo
+  taplo = {},
   yamlls = {
     capabilities = {
       textDocument = {

@@ -3,7 +3,8 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    lazy = true,
+    branch = "master",
+    lazy = false,
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       -- Rainbow parentheses by using tree-sitter
@@ -17,8 +18,8 @@ return {
           require("nvim-ts-autotag").setup {
             opts = {
               -- Defaults
-              enable_close = true,           -- Auto close tags
-              enable_rename = true,          -- Auto rename pairs of tags
+              enable_close = true, -- Auto close tags
+              enable_rename = true, -- Auto rename pairs of tags
               enable_close_on_slash = false, -- Auto close on trailing </
             },
           }
@@ -49,10 +50,7 @@ return {
         },
       },
     },
-    build = function()
-      local ts_update = require("nvim-treesitter.install").update { with_sync = true }
-      ts_update()
-    end,
+    build = ":TSUpdate",
     config = function()
       require("config.treesitter").setup()
     end,

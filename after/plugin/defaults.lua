@@ -87,3 +87,6 @@ o.timeoutlen = 900
 -- Set the fold level to a high number to open all folds by default
 o.foldlevel = 99
 o.foldlevelstart = 99
+
+-- Use custom tabline
+o.tabline = "%!v:lua.utils.my_tabline()"

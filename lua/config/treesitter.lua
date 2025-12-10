@@ -28,6 +28,8 @@ function M.setup()
       "lua",
       "vim",
       "vimdoc",
+      "rust",
+      "ron",
       "query",
       "make",
       "perl",
@@ -103,8 +105,8 @@ function M.setup()
       enable = true,
       keymaps = {
         -- mappings for incremental selection (visual mappings)
-        init_selection = "tnn",    -- maps in normal mode to init the node/scope selection
-        node_incremental = "v",    -- increment to the upper named parent
+        init_selection = "tnn", -- maps in normal mode to init the node/scope selection
+        node_incremental = "v", -- increment to the upper named parent
         node_decremental = "<BS>", -- decrement to the previous node
         scope_incremental = "tsi", -- increment to the upper scope
       },
@@ -142,21 +144,22 @@ function M.setup()
           --     java = '(method_declaration) @function',
           -- },
           -- or you use the queries from supported languages with textobjects.scm
-          ["af"] = "@function.outer",
-          ["if"] = "@function.inner",
-          ["ac"] = "@class.outer",
-          ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-          ["aC"] = "@conditional.outer",
-          ["iC"] = "@conditional.inner",
+          ["am"] = "@function.outer",
+          ["im"] = "@function.inner",
+          ["aC"] = "@class.outer",
+          ["iC"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+          ["ac"] = "@conditional.outer",
+          ["ic"] = "@conditional.inner",
           ["ae"] = "@block.outer",
           ["ie"] = "@block.inner",
           ["al"] = "@loop.outer",
           ["il"] = "@loop.inner",
-          ["is"] = "@statement.inner",
-          ["as"] = "@statement.outer",
+          ["as"] = "@statement.inner",
+          ["is"] = "@statement.outer",
+          ["id"] = "@comment.inner",
           ["ad"] = "@comment.outer",
-          ["am"] = "@call.outer",
-          ["im"] = "@call.inner",
+          ["af"] = "@call.outer",
+          ["if"] = "@call.inner",
           ["aa"] = "@parameter.outer",
           ["ia"] = "@parameter.inner",
         },
@@ -170,7 +173,7 @@ function M.setup()
         -- mapping query_strings to modes.
         selection_modes = {
           ["@parameter.outer"] = "v", -- charwise
-          ["@function.outer"] = "V",  -- linewise
+          ["@function.outer"] = "V", -- linewise
           ["@class.outer"] = "<c-v>", -- blockwise
         },
       },

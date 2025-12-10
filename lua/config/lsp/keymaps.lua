@@ -13,23 +13,25 @@ local function keymappings(client, bufnr)
   local opts = { noremap = true, silent = true }
   utils.map_buf_lua_str("n", "gD", "vim.lsp.buf.declaration()", opts, bufnr)
   utils.map_buf_lua_str("n", "gd", "vim.lsp.buf.definition()", opts, bufnr)
+  utils.map_buf_lua_str("n", "gy", "vim.lsp.buf.type_definition()", opts, bufnr)
   utils.map_buf_lua_str("n", "ga", "vim.lsp.buf.code_action()", opts, bufnr)
   -- Hover configuration
   utils.map_lua_buf("n", "K", function()
     vim.lsp.buf.hover(float)
   end, opts, bufnr)
   -- Signature help configuration
-  utils.map_lua_buf("i", "<C-s>", function()
+  utils.map_lua_buf("n", "gK", function()
+    vim.lsp.buf.signature_help(float)
+  end, opts, bufnr)
+  utils.map_lua_buf("i", "<C-k>", function()
     vim.lsp.buf.signature_help(float)
   end, opts, bufnr)
   utils.map_buf_lua_str("n", "gi", "vim.lsp.buf.implementation()", opts, bufnr)
-  utils.map_buf_lua_str("n", "<C-k>", "vim.lsp.buf.signature_help()", opts, bufnr)
+  utils.map_buf_lua_str("n", "gr", "vim.lsp.buf.references()", opts, bufnr)
   utils.map_buf_lua_str("n", "<space>wa", "vim.lsp.buf.add_workspace_folder()", opts, bufnr)
   utils.map_buf_lua_str("n", "<space>wr", "vim.lsp.buf.remove_workspace_folder()", opts, bufnr)
   utils.map_buf_lua_str("n", "<space>wl", "print(vim.inspect(vim.lsp.buf.list_workspace_folders()))", opts, bufnr)
-  utils.map_buf_lua_str("n", "<space>D", "vim.lsp.buf.type_definition()", opts, bufnr)
-  utils.map_buf_lua_str("n", "<space>rn", "vim.lsp.buf.rename()", opts, bufnr)
-  utils.map_buf_lua_str("n", "gr", "vim.lsp.buf.references()", opts, bufnr)
+  utils.map_buf_lua_str("n", "<space>rn", "nim.lsp.buf.rename()", opts, bufnr)
   -- Mapping: DIAGNOSTICS
   -- See `:help vim.diagnostic.*` for documentation on any of the below functions
   utils.map_buf_lua_str("n", "<space>e", "vim.diagnostic.open_float()", opts, bufnr)
@@ -59,10 +61,10 @@ local function keymappings(client, bufnr)
     {
       "<leader>?lh",
       "<cmd>lua vim.lsp.buf.signature_help()<CR>",
-      desc = "Signature Help [<C-k>]",
+      desc = "Signature Help",
     },
     { "<leader>?lI", "<cmd>Telescope lsp_implementations<CR>", desc = "Goto Implementation" },
-    { "<leader>?lb", "<cmd>lua vim.lsp.buf.type_definition()<CR>", desc = "Goto Type Definition" },
+    { "<leader>?lb", "<cmd>lua vim.lsp.buf.type_definition()<CR>", desc = "Goto T[y]pe Definition" },
     {
       "<leader>?lq",
       "<cmd>lua vim.diagnostic.setloclist()<CR>",
@@ -85,14 +87,11 @@ local function keymappings(client, bufnr)
       require("config.lsp.inlay_hints").toggle_inlay_hints(client, bufnr)
     end)
     vim.cmd "command! LspInlayHitsToggle lua require('config.lsp.inlay_hints').toggle_inlay_hints()"
-    table.insert(
-      keymap_l,
-      {
-        "<leader>?ly",
-        "<cmd>lua require('config.lsp.inlay_hints').toggle_inlay_hints()<CR>",
-        desc = "Toggle Inlay Hints",
-      }
-    )
+    table.insert(keymap_l, {
+      "<leader>?ly",
+      "<cmd>lua require('config.lsp.inlay_hints').toggle_inlay_hints()<CR>",
+      desc = "Toggle Inlay Hints",
+    })
   end
 
   local whichkey = prequire "which-key"
