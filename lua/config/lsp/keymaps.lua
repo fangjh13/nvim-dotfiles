@@ -31,7 +31,7 @@ local function keymappings(client, bufnr)
   utils.map_buf_lua_str("n", "<space>wa", "vim.lsp.buf.add_workspace_folder()", opts, bufnr)
   utils.map_buf_lua_str("n", "<space>wr", "vim.lsp.buf.remove_workspace_folder()", opts, bufnr)
   utils.map_buf_lua_str("n", "<space>wl", "print(vim.inspect(vim.lsp.buf.list_workspace_folders()))", opts, bufnr)
-  utils.map_buf_lua_str("n", "<space>rn", "nim.lsp.buf.rename()", opts, bufnr)
+  utils.map_buf_lua_str("n", "<space>rn", "vim.lsp.buf.rename()", opts, bufnr)
   -- Mapping: DIAGNOSTICS
   -- See `:help vim.diagnostic.*` for documentation on any of the below functions
   utils.map_buf_lua_str("n", "<space>e", "vim.diagnostic.open_float()", opts, bufnr)

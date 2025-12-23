@@ -104,7 +104,11 @@ return {
               -- Set to true if you never want completions to be shown automatically.
               manual = false,
               -- A mapping of filetype to true or false, to enable virtual text.
-              filetypes = {},
+              -- Disable for command-line windows (empty filetype) and Telescope prompts.
+              filetypes = {
+                [""] = false,
+                TelescopePrompt = false,
+              },
               -- Whether to enable virtual text of not for filetypes not specifically listed above.
               default_filetype_enabled = true,
               -- How long to wait (in ms) before requesting completions after typing stops.
