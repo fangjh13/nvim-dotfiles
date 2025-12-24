@@ -6,10 +6,11 @@ function M.setup(servers, server_options)
   for name, _ in pairs(servers) do
     local opts = vim.tbl_deep_extend("force", server_options, servers[name] or {})
     if name == "nixd" then
-      lspconfig("nixd", opts)
       -- NOTE: Mason not support nixd, setup manually
       -- nixd install with nixos system not need install
       servers["nixd"] = nil
+      lspconfig("nixd", opts)
+      vim.lsp.enable "nixd"
     elseif name == "rust_analyzer" then
       -- NOTE: do not set init_options
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#rust_analyzer
