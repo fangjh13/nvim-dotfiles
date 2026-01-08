@@ -4,18 +4,7 @@ local servers = require "config.lsp.servers"
 local servers_hook = require "config.lsp.servers_hook"
 
 -- Add additional capabilities supported by nvim-cmp
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
-capabilities = vim.lsp.protocol.make_client_capabilities()
-
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    "documentation",
-    "detail",
-    "additionalTextEdits",
-  },
-}
-
--- for nvim-cmp
+local capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
 -- config LSP diagnostic
@@ -76,8 +65,6 @@ local opts = {
 
 -- Main function
 function M.setup()
-  vim.lsp.set_log_level "error"
-
   -- Install dependencies and set up servers via lspconfig
   require("config.lsp.config").setup(servers, opts)
 end

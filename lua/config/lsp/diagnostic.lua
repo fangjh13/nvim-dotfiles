@@ -41,6 +41,10 @@ function M.setup()
         },
         format = format_diagnostic,
       },
+      -- virtual_lines = {
+      --   -- Only show virtual line diagnostics for the current cursor line
+      --   current_line = true,
+      -- },
 
       signs = {
         text = {

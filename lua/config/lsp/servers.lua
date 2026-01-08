@@ -3,8 +3,10 @@ local servers = {
   gopls = {
     settings = {
       gopls = {
+        experimentalPostfixCompletions = true,
         analyses = {
           unusedparams = true,
+          shadow = true,
         },
         hints = {
           assignVariableTypes = true,
@@ -189,6 +191,14 @@ local servers = {
           extraEnv = { CARGO_PROFILE_RUST_ANALYZER_INHERITS = "dev" },
           extraArgs = { "--profile", "rust-analyzer" },
         },
+      },
+    },
+  },
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#copilot
+  copilot = {
+    settings = {
+      telemetry = {
+        telemetryLevel = "off",
       },
     },
   },

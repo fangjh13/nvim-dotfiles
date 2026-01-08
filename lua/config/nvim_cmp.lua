@@ -125,22 +125,21 @@ function M.setup()
         name = "lazydev",
         group_index = 0, -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
       },
-      { name = "nvim_lsp",                max_item_count = 15 },
+      { name = "nvim_lsp", max_item_count = 15 },
       { name = "nvim_lsp_signature_help", max_item_count = 5 },
-      { name = "luasnip",                 max_item_count = 5 },
-      { name = "treesitter",              max_item_count = 5 },
-      { name = "buffer",                  max_item_count = 5 },
+      { name = "luasnip", max_item_count = 5 },
+      { name = "treesitter", max_item_count = 5 },
+      { name = "buffer", max_item_count = 5 },
       { name = "nvim_lua" },
       { name = "path" },
-      -- { name = "copilot" }, -- github copilot
-      { name = "codeium",                 group_index = 1 }, -- ai coding codeium
+      -- { name = "codeium",                 group_index = 1 }, -- ai coding codeium
     },
     ---@diagnostic disable: missing-fields
     formatting = {
       format = lspkind.cmp_format {
-        mode = "symbol_text",     -- show symbol and text annotations
-        maxwidth = 50,            -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-        ellipsis_char = "...",    -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+        mode = "symbol_text", -- show symbol and text annotations
+        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
         show_labelDetails = true, -- show labelDetails in menu. Disabled by default
         symbol_map = {
           Copilot = "",

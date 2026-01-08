@@ -82,7 +82,7 @@ local function keymappings(client, bufnr)
 
   -- Toggle inlay hints in your
   -- code, if the language server you are using supports them
-  if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+  if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
     vim.keymap.set("n", "<leader>th", function()
       require("config.lsp.inlay_hints").toggle_inlay_hints(client, bufnr)
     end)

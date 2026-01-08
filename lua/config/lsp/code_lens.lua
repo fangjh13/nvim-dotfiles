@@ -16,7 +16,7 @@ function M.toggle()
 end
 
 function M.setup(client, bufnr)
-  if client.supports_method(vim.lsp.protocol.Methods.textDocument_codeLens) then
+  if client:supports_method(vim.lsp.protocol.Methods.textDocument_codeLens) then
     if M.codelens_enabled then
       vim.lsp.codelens.refresh()
     end

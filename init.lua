@@ -1,7 +1,7 @@
 -- [[ init.lua ]]
 
-if vim.fn.has "nvim-0.10" == 0 then
-  error "Need Neovim v0.10+ to run!"
+if vim.fn.has "nvim-0.12" == 0 then
+  error "Need Neovim v0.12+ to run!"
 end
 
 -- Make sure to setup `mapleader` and `maplocalleader` before
