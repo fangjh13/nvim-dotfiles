@@ -36,4 +36,9 @@ return {
       require("config.lsp").setup()
     end,
   },
+
+  {
+    "p00f/clangd_extensions.nvim",
+    lazy = true,
+  },
 }

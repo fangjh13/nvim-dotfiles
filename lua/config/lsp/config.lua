@@ -16,6 +16,11 @@ function M.setup(servers, server_options)
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#rust_analyzer
       opts.init_options = nil
       lspconfig("rust_analyzer", opts)
+    elseif name == "clangd" and vim.loop.os_uname().machine == "aarch64" then
+      -- NOTE: Mason not support arm clangd, setup manually
+      servers["clangd"] = nil
+      lspconfig("clangd", opts)
+      vim.lsp.enable "clangd"
     elseif name == "lua_ls" then
       lspconfig("lua_ls", opts)
       -- setup lazydev

@@ -66,6 +66,11 @@ local M = {
       end,
     })
   end,
+
+  clangd = function(client, bufnr)
+    -- Enable clangd extensions
+    require("clangd_extensions").setup {}
+  end,
 }
 
 return M

@@ -25,6 +25,7 @@ function M.setup()
       "bash",
       "regex",
       "c",
+      "cpp",
       "lua",
       "vim",
       "vimdoc",

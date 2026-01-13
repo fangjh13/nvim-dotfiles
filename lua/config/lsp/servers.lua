@@ -25,13 +25,11 @@ local servers = {
   html = {},
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#jsonls
   jsonls = {
-    settings = {
-      json = {
-        -- Uses the schemastore plugin to fetch predefined JSON schemas
-        schemas = require("schemastore").json.schemas(),
-        validate = { enable = true },
-      },
-    },
+    -- lazy-load schemastore when needed
+    before_init = function(_, new_config)
+      new_config.settings.json.schemas = new_config.settings.json.schemas or {}
+      vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
+    end,
     setup = {
       commands = {
         Format = {
@@ -39,6 +37,13 @@ local servers = {
             vim.lsp.buf.range_formatting({}, { 0, 0 }, { vim.fn.line "$", 0 })
           end,
         },
+      },
+    },
+    settings = {
+      json = {
+        -- Uses the schemastore plugin to fetch predefined JSON schemas
+        schemas = require("schemastore").json.schemas(),
+        validate = { enable = true },
       },
     },
   },
@@ -200,6 +205,47 @@ local servers = {
       telemetry = {
         telemetryLevel = "off",
       },
+    },
+  },
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#clangd
+  clangd = {
+    capabilities = {
+      offsetEncoding = { "utf-8", "utf-16" },
+      textDocument = {
+        completion = {
+          editsNearCursor = true,
+        },
+      },
+    },
+    root_markers = {
+      ".clangd",
+      ".clang-tidy",
+      ".clang-format",
+      "compile_commands.json",
+      "compile_flags.txt",
+      "configure.ac", -- AutoTools
+      "Makefile",
+      "configure.ac",
+      "configure.in",
+      "config.h.in",
+      "meson.build",
+      "meson_options.txt",
+      "build.ninja",
+      ".git",
+    },
+    cmd = {
+      "clangd",
+      "--background-index",
+      "--clang-tidy",
+      "--header-insertion=iwyu",
+      "--completion-style=detailed",
+      "--function-arg-placeholders",
+      "--fallback-style=llvm",
+    },
+    init_options = {
+      usePlaceholders = true,
+      completeUnimported = true,
+      clangdFileStatus = true,
     },
   },
 }
