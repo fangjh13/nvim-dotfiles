@@ -4,6 +4,9 @@ return {
   lazy = false,
 
   config = function()
+    ---enables autocomplete for opts
+    ---@module "auto-session"
+    ---@type AutoSession.Config
     require("auto-session").setup {
       log_level = "error",
       -- Close NvimTree before saving session
