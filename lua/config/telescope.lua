@@ -97,7 +97,6 @@ function M.default()
           ["<PageDown>"] = actions.preview_scrolling_down,
           ["<M-f>"] = actions.preview_scrolling_right,
           ["<M-b>"] = actions.preview_scrolling_left,
-          ["D"] = actions.delete_buffer,
         }, -- i
       }, -- mappings
     }, -- defaults
