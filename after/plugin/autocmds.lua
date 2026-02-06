@@ -3,8 +3,8 @@ local utils = require "utils"
 
 -- open terminal in insert mode and enter terminal save file
 utils.create_augroup({
-  { "BufEnter",  "term://*", "start" },
-  { "TermEnter", "*",        "wall" },
+  { "BufEnter", "term://*", "start" },
+  { "TermEnter", "*", "wall" },
 }, "open terminal auto cmd")
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
@@ -29,7 +29,7 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
   pattern = "*",
   group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
   callback = function()
-    vim.highlight.on_yank { timeout = 300, on_visual = true }
+    vim.hl.on_yank { timeout = 300, on_visual = true }
   end,
 })
 

@@ -6,11 +6,11 @@ M.codelens_enabled = true
 function M.toggle()
   if M.codelens_enabled then
     M.codelens_enabled = false
-    vim.lsp.codelens.clear()
+    vim.lsp.codelens.enable(false)
     utils.info "CodeLens disabled"
   else
     M.codelens_enabled = true
-    vim.lsp.codelens.refresh()
+    vim.lsp.codelens.enable(true)
     utils.info "CodeLens enabled"
   end
 end
@@ -18,13 +18,13 @@ end
 function M.setup(client, bufnr)
   if client:supports_method(vim.lsp.protocol.Methods.textDocument_codeLens) then
     if M.codelens_enabled then
-      vim.lsp.codelens.refresh()
+      vim.lsp.codelens.enable(true)
     end
     vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
       buffer = bufnr,
       callback = function()
         if M.codelens_enabled then
-          vim.lsp.codelens.refresh()
+          vim.lsp.codelens.enable(true)
         end
       end,
     })

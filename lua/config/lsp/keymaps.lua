@@ -47,7 +47,7 @@ local function keymappings(client, bufnr)
     { "<leader>?ln", "<cmd>lua vim.lsp.buf.rename()<CR>", desc = "Rename [rn]" },
     { "<leader>?lr", "<cmd>lua require('telescope.builtin').lsp_references()<CR>", desc = "References [gr]" },
     { "<leader>?ls", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>", desc = "Document Symbols" },
-    { "<leader>?lL", "<cmd>lua vim.lsp.codelens.refresh()<CR>", desc = "Refresh CodeLens" },
+    { "<leader>?lL", "<cmd>lua vim.lsp.codelens.enable(true, { bufnr = 0 })<CR>", desc = "Refresh CodeLens" },
     { "<leader>?ll", "<cmd>lua vim.lsp.codelens.run()<CR>", desc = "Run CodeLens" },
     { "<leader>?lx", "<cmd>lua require('telescope.builtin').diagnostics()<CR>", desc = "Diagnostics" },
     {
