@@ -26,7 +26,9 @@ o.listchars = "eol:⏎,tab:␉·,trail:␠,nbsp:⎵,extends:»,precedes:«"
 
 -- [[ Filetypes ]]
 o.encoding = "utf8" -- str:  String encoding to use
-o.fileencoding = "utf8" -- str:  File encoding to use
+if vim.bo.modifiable then
+  o.fileencoding = "utf8" -- str:  File encoding to use
+end
 
 -- [[ Search ]]
 o.ignorecase = true -- bool: Ignore case in search patterns
