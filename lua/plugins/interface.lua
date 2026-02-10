@@ -1,11 +1,5 @@
 return {
   {
-    "DanilaMihailov/beacon.nvim",
-    event = "VeryLazy",
-    lazy = true,
-  }, -- cursor jump
-
-  {
     "kyazdani42/nvim-web-devicons", -- filesystem icons
     lazy = true,
     config = function()
