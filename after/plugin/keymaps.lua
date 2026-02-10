@@ -58,7 +58,7 @@ map("v", "p", '"_dP', { noremap = true, silent = true })
 -- easier copy and paste
 map("v", "<C-c>", '"+y')
 map("v", "<C-v>", '"+p')
-map({ "i", "c" }, "<C-v>", "<C-r>+")
+map({ "i", "c" }, "<C-S-v>", "<C-r>+")
 -- close all buffers and open last buffer
 map("n", "<leader>bd", ":%bd|e# <CR>")
 
