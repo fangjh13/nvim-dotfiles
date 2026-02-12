@@ -12,6 +12,7 @@ return {
       sh = { "shfmt" },
       python = { "ruff_organize_imports", "ruff_format", "ruff_fix" },
       go = { "goimports", "gofmt" },
+      sql = { "sqlfluff" },
     },
     -- The options you set here will be merged with the builtin formatters.
     -- You can also define any custom formatters here.
@@ -27,6 +28,13 @@ return {
       -- shfmt = {
       --   prepend_args = { "-i", "2", "-ci" },
       -- },
+      sqlfluff = {
+        require_cwd = true,
+        cwd = function(self, ctx)
+          return require("conform.util").root_file({ ".sqlfluff", "pyproject.toml", ".git" })(self, ctx)
+        end,
+        args = { "format", "--dialect=ansi", "-" },
+      },
     },
   },
   dependencies = {
@@ -37,6 +45,7 @@ return {
           "stylua",
           "shfmt",
           "goimports",
+          "sqlfluff",
         },
       },
     },

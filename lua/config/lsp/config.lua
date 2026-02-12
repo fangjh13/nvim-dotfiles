@@ -18,6 +18,7 @@ function M.setup(servers, server_options)
       lspconfig("rust_analyzer", opts)
     elseif name == "clangd" and vim.loop.os_uname().machine == "aarch64" then
       -- NOTE: Mason not support arm clangd, setup manually
+      -- https://github.com/mason-org/mason.nvim/issues/1578
       servers["clangd"] = nil
       lspconfig("clangd", opts)
       vim.lsp.enable "clangd"
