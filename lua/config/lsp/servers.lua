@@ -171,6 +171,12 @@ local servers = {
   },
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#rust_analyzer
   rust_analyzer = {
+    capabilities = {
+      commands = {
+        commands = { "rust-analyzer.showReferences", "rust-analyzer.runSingle", "rust-analyzer.debugSingle" },
+      },
+      serverStatusNotification = true,
+    },
     settings = {
       ["rust-analyzer"] = {
         diagnostics = {
@@ -189,9 +195,11 @@ local servers = {
             "--no-deps",
           },
         },
-        -- Make the rust-analyzer use its own profile,
-        -- so you can run cargo build without that being blocked while rust-analyzer runs
+        procMacro = {
+          enable = true,
+        },
         cargo = {
+          allFeatures = true,
           extraEnv = { CARGO_PROFILE_RUST_ANALYZER_INHERITS = "dev" },
           extraArgs = { "--profile", "rust-analyzer" },
         },

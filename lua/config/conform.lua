@@ -31,7 +31,7 @@ return {
       sqlfluff = {
         require_cwd = true,
         cwd = function(self, ctx)
-          return require("conform.util").root_file({ ".sqlfluff", "pyproject.toml", ".git" })(self, ctx)
+          return require("conform.util").root_file { ".sqlfluff", "pyproject.toml", ".git" }(self, ctx)
         end,
         args = { "format", "--dialect=ansi", "-" },
       },

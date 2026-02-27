@@ -15,7 +15,15 @@ function M.setup(servers, server_options)
       -- NOTE: do not set init_options
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#rust_analyzer
       opts.init_options = nil
-      lspconfig("rust_analyzer", opts)
+      -- in nixos, rust-analyzer is installed by nixpkgs for support macro expansion
+      local is_nixos = vim.fn.filereadable "/etc/NIXOS" == 1
+      if is_nixos then
+        servers["rust_analyzer"] = nil
+        lspconfig("rust_analyzer", opts)
+        vim.lsp.enable "rust_analyzer"
+      else
+        lspconfig("rust_analyzer", opts)
+      end
     elseif name == "clangd" and vim.loop.os_uname().machine == "aarch64" then
       -- NOTE: Mason not support arm clangd, setup manually
       -- https://github.com/mason-org/mason.nvim/issues/1578
