@@ -58,6 +58,64 @@ vim.api.nvim_create_autocmd("BufEnter", {
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd("FocusGained", { command = [[:checktime]] })
 
+local api = vim.api
+
+-- Detect binary files and handle them appropriately
+api.nvim_create_autocmd("BufReadPost", {
+  pattern = "*",
+  callback = function()
+    if vim.bo.binary then
+      return
+    end
+
+    local filepath = api.nvim_buf_get_name(0)
+    if filepath == "" then
+      return
+    end
+
+    local f = io.open(filepath, "rb")
+    if not f then
+      return
+    end
+
+    local chunk_size = 1024
+    local chunk = f:read(chunk_size)
+
+    -- check for null byte (a common indicator of binary files)
+    if chunk and chunk:find "\0" then
+      local size = f:seek "end"
+      f:close()
+
+      -- 10 MiB
+      local limit = 10 * 1024 * 1024
+
+      if size <= limit then
+        vim.bo.filetype = "xxd" -- set a fake filetype to prevent LSP from starting
+        vim.cmd ":%!xxd" -- convert to Hex view
+        vim.bo.modified = false
+        vim.bo.readonly = true
+        vim.notify("Binary file detected. Switched to Hex view (Read-Only).", vim.log.levels.INFO)
+      else
+        vim.bo.syntax = "OFF"
+        vim.bo.filetype = "binary_large"
+        vim.bo.buftype = "nowrite"
+        vim.bo.readonly = true
+        vim.bo.swapfile = false
+
+        local size_mb = string.format("%.2f", size / (1024 * 1024))
+        vim.notify(
+          "⚠️ Binary file detected ("
+            .. size_mb
+            .. " MiB). Too large to convert to Hex view. Opened in Read-Only mode.",
+          vim.log.levels.WARN
+        )
+      end
+    else
+      f:close()
+    end
+  end,
+})
+
 -- use fcitx5-remote auto switching input method
 if vim.fn.executable "fcitx5-remote" == 1 then
   local fcitx5_switch = function()
