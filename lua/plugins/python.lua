@@ -6,6 +6,10 @@ return {
   },
   opts = { -- this can be an empty lua table - just showing below for clarity.
     search = {}, -- if you add your own searches, they go here.
-    options = {}, -- if you add plugin options, they go here.
+    options = {
+      --enable VenvSelectLog command
+      -- debug = true,
+      -- log_level = "TRACE",
+    }, -- if you add plugin options, they go here.
   },
 }
