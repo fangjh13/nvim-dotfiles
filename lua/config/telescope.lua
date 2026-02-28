@@ -1,5 +1,6 @@
 local M = {}
 local actions = require "telescope.actions"
+local action_state = require "telescope.actions.state"
 local utils = require "utils"
 
 function M.setup()
@@ -103,6 +104,33 @@ function M.default()
     pickers = {
       buffers = {
         sort_mru = true,
+      },
+      -- add keybindings `ctrl-g` to switch between find_files and live_grep
+      find_files = {
+        mappings = {
+          i = {
+            ["<C-g>"] = function(prompt_bufnr)
+              local current_input = action_state.get_current_line()
+              vim.schedule(function()
+                require("telescope.builtin").live_grep()
+                vim.fn.feedkeys(current_input, "n")
+              end)
+            end,
+          },
+        },
+      },
+      live_grep = {
+        mappings = {
+          i = {
+            ["<C-g>"] = function(prompt_bufnr)
+              local current_input = action_state.get_current_line()
+              vim.schedule(function()
+                require("telescope.builtin").find_files()
+                vim.fn.feedkeys(current_input, "n")
+              end)
+            end,
+          },
+        },
       },
     },
   } -- telescope setup
