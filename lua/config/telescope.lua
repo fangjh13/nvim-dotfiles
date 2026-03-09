@@ -80,24 +80,40 @@ function M.default()
           ["x"] = actions.file_split,
           ["<C-d>"] = actions.results_scrolling_down,
           ["<C-u>"] = actions.results_scrolling_up,
-          ["<C-f>"] = actions.results_scrolling_right,
-          ["<C-b>"] = actions.results_scrolling_left,
+          ["<M-f>"] = actions.results_scrolling_right,
+          ["<M-b>"] = actions.results_scrolling_left,
           ["<PageUp>"] = actions.preview_scrolling_up,
           ["<PageDown>"] = actions.preview_scrolling_down,
-          ["<M-f>"] = actions.preview_scrolling_right,
-          ["<M-b>"] = actions.preview_scrolling_left,
+          ["<Right>"] = actions.preview_scrolling_right,
+          ["<Left>"] = actions.preview_scrolling_left,
           ["D"] = actions.delete_buffer,
         }, -- n
         i = {
           ["<C-h>"] = "which_key",
           ["<C-d>"] = actions.results_scrolling_down,
           ["<C-u>"] = actions.results_scrolling_up,
-          ["<C-f>"] = actions.results_scrolling_right,
-          ["<C-b>"] = actions.results_scrolling_left,
+          ["<M-f>"] = actions.results_scrolling_right,
+          ["<M-b>"] = actions.results_scrolling_left,
           ["<PageUp>"] = actions.preview_scrolling_up,
           ["<PageDown>"] = actions.preview_scrolling_down,
-          ["<M-f>"] = actions.preview_scrolling_right,
-          ["<M-b>"] = actions.preview_scrolling_left,
+          ["<Right>"] = actions.preview_scrolling_right,
+          ["<Left>"] = actions.preview_scrolling_left,
+          -- Emacs-style cursor movement
+          ["<C-a>"] = function()
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Home>", true, false, true), "n", true)
+          end,
+          ["<C-e>"] = function()
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<End>", true, false, true), "n", true)
+          end,
+          ["<C-f>"] = function()
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Right>", true, false, true), "n", true)
+          end,
+          ["<C-b>"] = function()
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Left>", true, false, true), "n", true)
+          end,
+          ["<C-k>"] = function()
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-o>D", true, false, true), "n", true)
+          end,
         }, -- i
       }, -- mappings
     }, -- defaults
