@@ -181,6 +181,9 @@ local servers = {
       ["rust-analyzer"] = {
         diagnostics = {
           enable = true,
+          styleLints = {
+            enable = true,
+          },
         },
         files = {
           excludeDirs = {
