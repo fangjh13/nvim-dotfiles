@@ -9,7 +9,8 @@ return {
     },
     formatters_by_ft = {
       lua = { "stylua" },
-      sh = { "shfmt" },
+      sh = { "shfmt", "shellcheck" },
+      bash = { "shfmt", "shellcheck" },
       python = { "ruff_organize_imports", "ruff_format", "ruff_fix" },
       go = { "goimports", "gofmt" },
       sql = { "sqlfluff" },
@@ -44,6 +45,7 @@ return {
         ensure_installed = {
           "stylua",
           "shfmt",
+          "shellcheck",
           "goimports",
           "sqlfluff",
         },
