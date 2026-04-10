@@ -4,3 +4,4 @@ plugin/packer_compiled.lua
 snippets.backup
 install.sh
 lua/config/lsp-backup
+AGENTS.md

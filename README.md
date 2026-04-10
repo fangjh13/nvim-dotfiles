@@ -28,31 +28,36 @@ The following programming languages that I use are mainly supported and can be a
 
 ### Lua
 
-[lua_ls](https://github.com/luals/lua-language-server)
-[lazydev.nvim](https://github.com/folke/lazydev.nvim)
+- [lua_ls](https://github.com/luals/lua-language-server)
+- [lazydev.nvim](https://github.com/folke/lazydev.nvim)
 
 ### Go
 
-[gopls](https://github.com/golang/tools/tree/master/gopls)
+- [gopls](https://github.com/golang/tools/tree/master/gopls)
 
 ### Python
 
-[pyright](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#pyright) + [ruff](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#ruff)
-
-virtual environment use [venv-selector](https://github.com/linux-cultist/venv-selector.nvim)
+- [pyright](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#pyright)
+- [ruff](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#ruff)
+- [venv-selector](https://github.com/linux-cultist/venv-selector.nvim) virtual environment selector
 
 ### Nix
 
-[nixd](https://github.com/nix-community/nixd)
+- [nixd](https://github.com/nix-community/nixd)
 
 NOTE: nixd need manual install
 
 ### Rust
 
-[rust_analyzer](https://github.com/rust-lang/rust-analyzer)
+- [rust_analyzer](https://github.com/rust-lang/rust-analyzer)
 
 ### C/C++
 
-[clangd](https://clangd.llvm.org/installation.html)
+- [clangd](https://clangd.llvm.org/installation.html)
 
 NOTE: clangd need manual install in aarch64 platform, mason not support it yet.
+
+### Bash
+
+- [bashls](https://github.com/bash-lsp/bash-language-server)
+- [shellcheck](https://github.com/koalaman/shellcheck)
