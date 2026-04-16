@@ -3,14 +3,12 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    branch = "master",
+    branch = "main",
+    build = ":TSUpdate",
     lazy = false,
-    event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       -- Rainbow parentheses by using tree-sitter
       "hiphish/rainbow-delimiters.nvim",
-      -- Additional textobjects for treesitter
-      "nvim-treesitter/nvim-treesitter-textobjects",
       -- auto close and auto rename html tag
       {
         "windwp/nvim-ts-autotag",
@@ -25,14 +23,7 @@ return {
           }
         end,
       },
-      -- End wise
-      {
-        "RRethy/nvim-treesitter-endwise",
-        event = "InsertEnter",
-      },
       "andymass/vim-matchup",
-      "RRethy/nvim-treesitter-endwise",
-      "JoosepAlviste/nvim-ts-context-commentstring",
       -- Show context of the current function
       {
         "nvim-treesitter/nvim-treesitter-context",
@@ -50,10 +41,24 @@ return {
         },
       },
     },
-    build = ":TSUpdate",
     config = function()
       require("config.treesitter").setup()
     end,
+  },
+  -- Additional textobjects for treesitter (independent plugin, new API)
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "main",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("config.treesitter").setup_textobjects()
+    end,
+  },
+  -- End wise
+  {
+    "RRethy/nvim-treesitter-endwise",
+    event = "InsertEnter",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
   },
   -- commentstring
   {
