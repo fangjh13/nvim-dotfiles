@@ -6,6 +6,7 @@ local parsers = {
   "regex",
   "c",
   "cpp",
+  "cmake",
   "lua",
   "vim",
   "vimdoc",

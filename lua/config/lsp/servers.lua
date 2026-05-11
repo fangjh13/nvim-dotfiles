@@ -245,17 +245,38 @@ local servers = {
     },
     cmd = {
       "clangd",
-      "--background-index",
-      "--clang-tidy",
-      "--header-insertion=iwyu",
+      "--background-index", -- Background indexing for faster autocomplete
+      "--clang-tidy", -- Enable code review (supports the .clang-tidy file)
+      "--header-insertion=iwyu", -- Include What You Use, Insert #include for code completion
       "--completion-style=detailed",
       "--function-arg-placeholders",
-      "--fallback-style=llvm",
+      "--fallback-style=llvm", --  Default formatting style (if no .clang-format file is present)
     },
     init_options = {
       usePlaceholders = true,
       completeUnimported = true,
       clangdFileStatus = true,
+    },
+  },
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#neocmake
+  neocmake = {
+    capabilities = {
+      textDocument = {
+        completion = {
+          completionItem = {
+            snippetSupport = true,
+          },
+        },
+      },
+    },
+    init_options = {
+      format = {
+        enable = false, -- Use conform.nvim for formatting
+      },
+      lint = {
+        enable = true, -- Enable static syntax checking
+      },
+      scan_cmake_in_package = true, -- Thoroughly examine the packages found by `find_package`
     },
   },
 }

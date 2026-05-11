@@ -54,6 +54,7 @@ NOTE: nixd need manual install
 ### C/C++
 
 - [clangd](https://clangd.llvm.org/installation.html)
+- [neocmake](https://github.com/neocmakelsp/neocmakelsp)
 
 NOTE: clangd need manual install in aarch64 platform, mason not support it yet.
 

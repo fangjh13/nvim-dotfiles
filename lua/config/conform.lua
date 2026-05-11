@@ -14,6 +14,7 @@ return {
       python = { "ruff_organize_imports", "ruff_format", "ruff_fix" },
       go = { "goimports", "gofmt" },
       sql = { "sqlfluff" },
+      cmake = { "cmake_format" },
     },
     -- The options you set here will be merged with the builtin formatters.
     -- You can also define any custom formatters here.
@@ -36,6 +37,9 @@ return {
         end,
         args = { "format", "--dialect=ansi", "-" },
       },
+      cmake_format = {
+        prepend_args = { "--tab-size", "4" },
+      },
     },
   },
   dependencies = {
@@ -48,6 +52,7 @@ return {
           "shellcheck",
           "goimports",
           "sqlfluff",
+          "cmakelang",
         },
       },
     },
