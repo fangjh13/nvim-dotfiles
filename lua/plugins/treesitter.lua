@@ -2,41 +2,15 @@
 
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
-    branch = "main",
-    build = ":TSUpdate",
+    "romus204/tree-sitter-manager.nvim",
     lazy = false,
     dependencies = {
-      -- Rainbow parentheses by using tree-sitter
-      "hiphish/rainbow-delimiters.nvim",
-      -- auto close and auto rename html tag
+      -- Install tree-sitter-cli parsers using mason.nvim
       {
-        "windwp/nvim-ts-autotag",
-        config = function()
-          require("nvim-ts-autotag").setup {
-            opts = {
-              -- Defaults
-              enable_close = true, -- Auto close tags
-              enable_rename = true, -- Auto rename pairs of tags
-              enable_close_on_slash = false, -- Auto close on trailing </
-            },
-          }
-        end,
-      },
-      "andymass/vim-matchup",
-      -- Show context of the current function
-      {
-        "nvim-treesitter/nvim-treesitter-context",
-        enabled = true,
-        opts = { enable = { "lua" }, mode = "cursor", max_lines = 3 },
-        keys = {
-          {
-            "<leader>Ttc",
-            function()
-              local tsc = require "treesitter-context"
-              tsc.toggle()
-            end,
-            desc = "Toggle context",
+        "mason-org/mason.nvim",
+        opts = {
+          ensure_installed = {
+            "tree-sitter-cli",
           },
         },
       },
@@ -45,20 +19,54 @@ return {
       require("config.treesitter").setup()
     end,
   },
+  -- Show context of the current function
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    enabled = true,
+    opts = { enable = { "lua" }, mode = "cursor", max_lines = 3 },
+    keys = {
+      {
+        "<leader>Ttc",
+        function()
+          local tsc = require "treesitter-context"
+          tsc.toggle()
+        end,
+        desc = "Toggle context",
+      },
+    },
+  },
   -- Additional textobjects for treesitter (independent plugin, new API)
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
     branch = "main",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    dependencies = { "romus204/tree-sitter-manager.nvim" },
     config = function()
       require("config.treesitter").setup_textobjects()
     end,
+  },
+  -- auto close and auto rename html tag
+  {
+    "windwp/nvim-ts-autotag",
+    config = function()
+      require("nvim-ts-autotag").setup {
+        opts = {
+          -- Defaults
+          enable_close = true, -- Auto close tags
+          enable_rename = true, -- Auto rename pairs of tags
+          enable_close_on_slash = false, -- Auto close on trailing </
+        },
+      }
+    end,
+  },
+  -- Rainbow parentheses by using tree-sitter
+  {
+    "hiphish/rainbow-delimiters.nvim",
   },
   -- End wise
   {
     "RRethy/nvim-treesitter-endwise",
     event = "InsertEnter",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    dependencies = { "romus204/tree-sitter-manager.nvim" },
   },
   -- commentstring
   {
@@ -71,4 +79,5 @@ return {
       vim.g.skip_ts_context_commentstring_module = true
     end,
   },
+  { "andymass/vim-matchup" },
 }

@@ -46,26 +46,14 @@ local parsers = {
 -- Languages to disable treesitter indent for
 local indent_disabled = { python = true, java = true, rust = true, lua = true, go = true }
 
--- Max file size for treesitter highlighting (100 KB)
-local max_filesize = 100 * 1024
-
 function M.setup()
-  -- Install parsers (async, no-op if already installed)
-  require("nvim-treesitter").install(parsers)
-
-  -- Enable treesitter-based highlighting
-  vim.api.nvim_create_autocmd("FileType", {
-    group = vim.api.nvim_create_augroup("TreesitterHighlight", { clear = true }),
-    callback = function(args)
-      local buf = args.buf
-      -- Disable for large files
-      local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
-      if ok and stats and stats.size > max_filesize then
-        return
-      end
-      pcall(vim.treesitter.start, buf)
-    end,
-  })
+  -- Setup tree-sitter-manager (handles parser installation and highlighting)
+  require("tree-sitter-manager").setup {
+    ensure_installed = parsers,
+    highlight = true,
+    border = "rounded",
+    auto_install = true,
+  }
 
   -- Enable treesitter-based indentation (experimental, skipped for some languages)
   vim.api.nvim_create_autocmd("FileType", {
@@ -75,7 +63,7 @@ function M.setup()
       if indent_disabled[ft] then
         return
       end
-      vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      vim.bo[args.buf].indentexpr = "v:lua.vim.treesitter.indentexpr()"
     end,
   })
 
@@ -92,8 +80,16 @@ function M.setup()
   })
 
   -- Incremental selection using core treesitter API
-  -- Replaces the removed nvim-treesitter incremental_selection module
   local node_stack = {}
+
+  -- Clear node_stack when leaving visual mode (Esc, <C-c>, etc.)
+  vim.api.nvim_create_autocmd("ModeChanged", {
+    group = vim.api.nvim_create_augroup("TreesitterSelectionReset", { clear = true }),
+    pattern = { "v:*", "V:*", "\x16:*" },
+    callback = function()
+      node_stack = {}
+    end,
+  })
 
   local function select_node(node)
     local buf = vim.api.nvim_get_current_buf()

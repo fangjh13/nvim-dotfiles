@@ -52,7 +52,7 @@ return {
         -- in 'words' write words that trigger loading a lazydev path (optionally).
         { path = "lazy.nvim", mods = { "lazy" } },
         { path = "nvim-cmp", mods = { "cmp" } },
-        { path = "nvim-treesitter", mods = { "nvim-treesitter" } },
+        { path = "tree-sitter-manager.nvim", mods = { "tree-sitter-manager" } },
         { path = "telescope.nvim", mods = { "telescope" } },
         { path = "nvim-lint.nvim", word = { "lint" } },
         -- Only load the lazyvim library when the `LazyVim` global is found
