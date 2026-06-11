@@ -35,8 +35,8 @@ local function keymappings(client, bufnr)
   -- Mapping: DIAGNOSTICS
   -- See `:help vim.diagnostic.*` for documentation on any of the below functions
   utils.map_buf_lua_str("n", "<space>e", "vim.diagnostic.open_float()", opts, bufnr)
-  utils.map_buf_lua_str("n", "[d", "vim.diagnostic.goto_prev()", opts, bufnr)
-  utils.map_buf_lua_str("n", "]d", "vim.diagnostic.goto_next()", opts, bufnr)
+  utils.map_buf_lua_str("n", "[d", "vim.diagnostic.jump({ count = -1, float = true })", opts, bufnr)
+  utils.map_buf_lua_str("n", "]d", "vim.diagnostic.jump({ count = 1, float = true })", opts, bufnr)
   utils.map_buf_lua_str("n", "<space>q", "vim.diagnostic.setloclist()", opts, bufnr)
 
   -- Register Whichkey
