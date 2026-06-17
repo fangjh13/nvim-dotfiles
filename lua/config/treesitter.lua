@@ -37,6 +37,7 @@ local parsers = {
   "sql",
   "ssh_config",
   "typescript",
+  "tsx",
   "gitcommit",
   "gitignore",
   "git_config",

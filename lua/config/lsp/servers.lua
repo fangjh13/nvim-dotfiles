@@ -22,7 +22,6 @@ local servers = {
       },
     },
   },
-  html = {},
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#jsonls
   jsonls = {
     -- lazy-load schemastore when needed
@@ -277,6 +276,50 @@ local servers = {
         enable = true, -- Enable static syntax checking
       },
       scan_cmake_in_package = true, -- Thoroughly examine the packages found by `find_package`
+    },
+  },
+  -- HTML Language Server & Validator
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#superhtml
+  superhtml = {},
+  -- TypeScript/JavaScript
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#ts_ls
+  ts_ls = {
+    init_options = {
+      hostInfo = "neovim",
+    },
+    settings = {
+      typescript = {
+        inlayHints = {
+          includeInlayParameterNameHints = "all",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayEnumMemberValueHints = true,
+        },
+      },
+      javascript = {
+        inlayHints = {
+          includeInlayParameterNameHints = "all",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayEnumMemberValueHints = true,
+        },
+      },
+    },
+  },
+  -- ESLint
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#eslint
+  eslint = {
+    settings = {
+      -- Auto-detect flat config
+      experimental = {},
     },
   },
 }

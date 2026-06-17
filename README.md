@@ -2,15 +2,15 @@
 
 My personal Neovim configuration.
 
-| module | name |
-| --- | --- |
-| Plugin Manager | [lazy.nvim](https://github.com/folke/lazy.nvim) |
-| LSP | [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) |
-| Package Manager | [mason](https://github.com/mason-org/mason.nvim) |
-| Formatter | [conform.nvim](https://github.com/stevearc/conform.nvim) |
-| Linter | [nvim-lint](https://github.com/mfussenegger/nvim-lint) |
-| AI Assistant | [copilot](https://www.npmjs.com/package/@github/copilot-language-server) |
-| Debugger | [vimspector](https://github.com/puremourning/vimspector) |
+| module          | name                                                                     |
+| --------------- | ------------------------------------------------------------------------ |
+| Plugin Manager  | [lazy.nvim](https://github.com/folke/lazy.nvim)                          |
+| LSP             | [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)               |
+| Package Manager | [mason](https://github.com/mason-org/mason.nvim)                         |
+| Formatter       | [conform.nvim](https://github.com/stevearc/conform.nvim)                 |
+| Linter          | [nvim-lint](https://github.com/mfussenegger/nvim-lint)                   |
+| AI Assistant    | [copilot](https://www.npmjs.com/package/@github/copilot-language-server) |
+| Debugger        | [vimspector](https://github.com/puremourning/vimspector)                 |
 
 ## Usage
 
@@ -62,3 +62,14 @@ NOTE: clangd need manual install in aarch64 platform, mason not support it yet.
 
 - [bashls](https://github.com/bash-lsp/bash-language-server)
 - [shellcheck](https://github.com/koalaman/shellcheck)
+
+### HTML
+
+- [superhtml](https://github.com/kristoff-it/superhtml) HTML5 validator, formatter, and LSP
+- [prettierd](https://github.com/fsouza/prettierd) / [prettier](https://prettier.io/) formatter
+
+### TypeScript / JavaScript
+
+- [ts_ls](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#ts_ls) TypeScript Language Server (LSP, completions, inlay hints)
+- [eslint](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#eslint) linter with auto-fix on save
+- [prettierd](https://github.com/fsouza/prettierd) / [prettier](https://prettier.io/) formatter
