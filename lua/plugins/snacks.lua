@@ -28,6 +28,7 @@ return {
       },
       sections = {
         { section = "header", padding = 1 },
+        { icon = " ", desc = "New File", action = ":ene | startinsert", align = "center" },
         { title = "MRU", padding = 1 },
         { section = "recent_files", limit = 8, padding = 1 },
         { title = "MRU ", file = vim.fn.fnamemodify(".", ":~"), padding = 1 },
