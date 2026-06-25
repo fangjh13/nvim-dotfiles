@@ -132,7 +132,6 @@ function M.setup()
       { name = "buffer", max_item_count = 5 },
       { name = "nvim_lua" },
       { name = "path" },
-      -- { name = "codeium",                 group_index = 1 }, -- ai coding codeium
     },
     ---@diagnostic disable: missing-fields
     formatting = {
@@ -143,7 +142,6 @@ function M.setup()
         show_labelDetails = true, -- show labelDetails in menu. Disabled by default
         symbol_map = {
           Copilot = "",
-          Codeium = "",
         },
       },
     },
