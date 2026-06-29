@@ -81,19 +81,59 @@ return {
       "onsails/lspkind-nvim",
       "windwp/nvim-autopairs",
       "ray-x/cmp-treesitter",
-      -- AI
-      {
-        "zbirenbaum/copilot.lua",
-        -- event = "InsertEnter",
-        config = function()
-          require("copilot").setup {
-            suggestion = { enabled = false },
-            panel = { enabled = false },
-          }
-        end,
-        enabled = false,
-      },
     },
+  },
+
+  -- [[ AI Coding Assistant ]]
+  {
+    -- Code Compeletion from self provider like OpenAI, Gemini
+    "milanglacier/minuet-ai.nvim",
+    enabled = false,
+    config = function()
+      require("minuet").setup {
+        provider = "gemini",
+        request_timeout = 2.5,
+        throttle = 1500,
+        debounce = 600,
+        n_completions = 1,
+        provider_options = {
+          gemini = {
+            api_key = "GEMINI_API_KEY", -- NOTE: Need to manually be set in environment variable
+            model = "gemini-3.5-flash",
+            optional = {
+              generationConfig = {
+                maxOutputTokens = 256,
+                thinkingConfig = {
+                  -- Disable thinking for gemini 3.x models
+                  thinkingLevel = "minimal",
+                },
+              },
+            },
+          },
+        },
+        virtualtext = {
+          auto_trigger_ft = { "*" },
+          auto_trigger_ignore_ft = {
+            "TelescopePrompt",
+            "neo-tree",
+            "help",
+            "lazy",
+            "mason",
+            "notify",
+          },
+          keymap = {
+            accept = "<C-F>",
+            next = "<M-]>",
+            prev = "<M-[>",
+            dismiss = "<C-e>",
+          },
+          show_on_completion_menu = true,
+        },
+        -- Control notification display for request status
+        -- value use = false / "debug" /  "verbose" / "warn" / "error"
+        notify = "warn",
+      }
+    end,
   },
 
   -- [[ Comment ]]

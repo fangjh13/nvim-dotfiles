@@ -5,3 +5,4 @@ snippets.backup
 install.sh
 lua/config/lsp-backup
 AGENTS.md
+.envrc

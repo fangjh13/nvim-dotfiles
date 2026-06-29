@@ -5,7 +5,7 @@
 local pyright_base_on_attach = vim.lsp.config.pyright and vim.lsp.config.pyright.on_attach
 
 -- copilot default on_attach
--- https://github.com/neovim/nvim-lspconfig/blob/v2.5.0/lsp/copilot.lua
+-- https://github.com/neovim/nvim-lspconfig/blob/v2.10.0/lsp/copilot.lua
 local copilot_base_on_attach = vim.lsp.config.copilot and vim.lsp.config.copilot.on_attach
 
 -- eslint default on_attach
