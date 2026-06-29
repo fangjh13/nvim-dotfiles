@@ -86,7 +86,36 @@ return {
 
   -- [[ AI Coding Assistant ]]
   {
-    -- Code Compeletion from self provider like OpenAI, Gemini
+    -- GitHub Copilot
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    opts = {
+      panel = {
+        enabled = false,
+      },
+      suggestion = {
+        enabled = true,
+        auto_trigger = true,
+        keymap = {
+          accept = "<C-F>",
+          next = "<M-]>",
+          prev = "<M-[>",
+          dismiss = "<C-e>",
+        },
+      },
+      server_opts_overrides = {
+        settings = {
+          telemetry = {
+            telemetryLevel = "off",
+          },
+        },
+      },
+    },
+  },
+
+  {
+    -- Code Compeletion from self provider like OpenAI, Gemini, self-hosted LLMs, etc.
     "milanglacier/minuet-ai.nvim",
     enabled = false,
     config = function()

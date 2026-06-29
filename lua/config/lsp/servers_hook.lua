@@ -4,10 +4,6 @@
 -- https://github.com/neovim/nvim-lspconfig/blob/v2.5.0/lsp/pyright.lua
 local pyright_base_on_attach = vim.lsp.config.pyright and vim.lsp.config.pyright.on_attach
 
--- copilot default on_attach
--- https://github.com/neovim/nvim-lspconfig/blob/v2.10.0/lsp/copilot.lua
-local copilot_base_on_attach = vim.lsp.config.copilot and vim.lsp.config.copilot.on_attach
-
 -- eslint default on_attach
 -- https://github.com/neovim/nvim-lspconfig/blob/v2.5.0/lsp/eslint.lua
 local eslint_base_on_attach = vim.lsp.config.eslint and vim.lsp.config.eslint.on_attach
@@ -36,32 +32,6 @@ local M = {
     -- Add `:LspCargoReload` command
     if rust_analyzer_base_on_attach then
       rust_analyzer_base_on_attach(client, bufnr)
-    end
-  end,
-
-  copilot = function(client, bufnr)
-    if copilot_base_on_attach then
-      -- Add `LspCopilotSignIn` and `LspCopilotSignOut` command
-      copilot_base_on_attach(client, bufnr)
-    end
-
-    if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion, bufnr) then
-      vim.lsp.inline_completion.enable(true, { bufnr = bufnr })
-
-      vim.keymap.set("i", "<C-F>", function()
-        -- Accept the current inline completion if available
-        if not vim.lsp.inline_completion.get() then
-          return "<C-F>"
-        end
-      end, { desc = "LSP: accept inline completion", buffer = bufnr, expr = true })
-
-      vim.keymap.set("i", "<M-]>", function()
-        vim.lsp.inline_completion.select { count = 1 }
-      end, { desc = "Next Copilot Suggestion", buffer = bufnr })
-
-      vim.keymap.set("i", "<M-[>", function()
-        vim.lsp.inline_completion.select { count = -1 }
-      end, { desc = "Prev Copilot Suggestion", buffer = bufnr })
     end
   end,
 

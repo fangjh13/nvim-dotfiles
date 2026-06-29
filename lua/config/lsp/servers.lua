@@ -208,14 +208,6 @@ local servers = {
       },
     },
   },
-  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#copilot
-  copilot = {
-    settings = {
-      telemetry = {
-        telemetryLevel = "off",
-      },
-    },
-  },
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#clangd
   clangd = {
     capabilities = {
