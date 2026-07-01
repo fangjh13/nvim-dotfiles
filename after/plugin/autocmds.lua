@@ -126,3 +126,21 @@ if vim.fn.executable "fcitx5-remote" == 1 then
     desc = "Auto-switch input method with fcitx5-remote",
   })
 end
+
+-- NOTE: Squirrel (鼠鬚管) must be set as the default input method and the
+-- shortcut Ctrl + Option + Shift + E must be configured to switch to the English input method in Squirrel's settings.
+if vim.fn.has "mac" == 1 then
+  -- listen for the event of leaving Insert mode (i.e., pressing ESC)
+  vim.api.nvim_create_autocmd("InsertLeave", {
+    pattern = "*",
+    callback = function()
+      -- Execute AppleScript asynchronously to simulate pressing Ctrl + Option + Shift + E;
+      -- using `jobstart` prevents blocking Neovim, ensuring that the Escape key remains instantly responsive.
+      vim.fn.jobstart {
+        "osascript",
+        "-e",
+        'tell application "System Events" to keystroke "e" using {control down, option down, shift down}',
+      }
+    end,
+  })
+end
